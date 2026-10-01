@@ -11,49 +11,6 @@ import WalletStore
 
 // swiftlint:disable:next type_body_length
 final class PersistentSessionManager: SessionManager {
-    static func make(
-        accessControlEncryptedSecureStoreMigrator: (any EncryptedSecureStorable & SessionBoundData)? = nil,
-        encryptedStore: (any SecureStorable & SessionBoundData)? = nil,
-        unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
-        localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
-        analyticsService: OneLoginAnalyticsService,
-        walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance,
-        walletSessionData: SessionBoundData = WalletSessionData(),
-        refreshTokenExchangeManager: TokenExchangeManaging,
-        serialTaskQueue: SerialTaskQueue,
-        analyticsPreferenceStore: any AnalyticsPreferenceStore & SessionBoundData
-    ) throws -> PersistentSessionManager {
-        let accessControlEncryptedSecureStoreMigrator
-            = try accessControlEncryptedSecureStoreMigrator ?? AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
-        
-        let encryptedSecureStoreMigrator = encryptedStore ?? EncryptedSecureStoreMigrator(analyticsService: analyticsService)
-        let manager = PersistentSessionManager(
-            accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
-            encryptedStore: encryptedSecureStoreMigrator,
-            storeKeyService: SecureTokenStore(
-                accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator
-            ),
-            unprotectedStore: unprotectedStore,
-            localAuthentication: localAuthentication,
-            analyticsService: analyticsService,
-            walletSDK: walletSDK,
-            tokenExchangeManager: refreshTokenExchangeManager,
-            serialTaskQueue: serialTaskQueue
-        )
-        
-        manager.registerSessionBoundData(
-            [
-                walletSessionData,
-                analyticsPreferenceStore,
-                accessControlEncryptedSecureStoreMigrator,
-                encryptedSecureStoreMigrator,
-                unprotectedStore
-            ]
-        )
-        
-        return manager
-    }
-    
     private let accessControlEncryptedStore: EncryptedSecureStorable
     private let encryptedStore: SecureStorable
     private let storeKeyService: TokenStore
@@ -515,4 +472,49 @@ extension PersistentSessionError {
 
 protocol SessionBoundData {
     func clearSessionData() async throws
+}
+
+extension PersistentSessionManager {
+    static func make(
+        accessControlEncryptedSecureStoreMigrator: (any EncryptedSecureStorable & SessionBoundData)? = nil,
+        encryptedStore: (any SecureStorable & SessionBoundData)? = nil,
+        unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
+        localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
+        analyticsService: OneLoginAnalyticsService,
+        walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance,
+        walletSessionData: SessionBoundData = WalletSessionData(),
+        refreshTokenExchangeManager: TokenExchangeManaging,
+        serialTaskQueue: SerialTaskQueue,
+        analyticsPreferenceStore: any AnalyticsPreferenceStore & SessionBoundData
+    ) throws -> PersistentSessionManager {
+        let accessControlEncryptedSecureStoreMigrator
+            = try accessControlEncryptedSecureStoreMigrator ?? AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
+
+        let encryptedSecureStoreMigrator = encryptedStore ?? EncryptedSecureStoreMigrator(analyticsService: analyticsService)
+        let manager = PersistentSessionManager(
+            accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator,
+            encryptedStore: encryptedSecureStoreMigrator,
+            storeKeyService: SecureTokenStore(
+                accessControlEncryptedStore: accessControlEncryptedSecureStoreMigrator
+            ),
+            unprotectedStore: unprotectedStore,
+            localAuthentication: localAuthentication,
+            analyticsService: analyticsService,
+            walletSDK: walletSDK,
+            tokenExchangeManager: refreshTokenExchangeManager,
+            serialTaskQueue: serialTaskQueue
+        )
+
+        manager.registerSessionBoundData(
+            [
+                walletSessionData,
+                analyticsPreferenceStore,
+                accessControlEncryptedSecureStoreMigrator,
+                encryptedSecureStoreMigrator,
+                unprotectedStore
+            ]
+        )
+
+        return manager
+    }
 }

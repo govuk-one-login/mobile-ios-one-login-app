@@ -265,10 +265,8 @@ struct AppQualifyingServiceTests {
         encryptedStore.readItemAsFunction = MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
 
         let analyticsService = MockAnalyticsService()
-        let sessionManager = try PersistentSessionManager.make(
-            mockEncryptedStore: encryptedStore,
-            mockUnprotectedStore: MockDefaultsStore.returningUser()
-        )
+        let sessionManager = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: encryptedStore,
+                                                                        mockUnprotectedStore: MockDefaultsStore.returningUser())
         
         let systemLogOutNotifications = NotificationCenter.default.notifications(named: .systemLogUserOut).makeAsyncIterator()
         
@@ -280,10 +278,8 @@ struct AppQualifyingServiceTests {
                 confirmation()
             })
             
-            let sut: AppQualifyingService = .make(
-                analyticsService: analyticsService,
-                sessionManager: sessionManager
-            )
+            let sut: AppQualifyingService = .make(analyticsService: analyticsService,
+                                                  sessionManager: sessionManager)
             
             sut.delegate = mockAppQualifyingServiceDelegate
             
@@ -320,13 +316,12 @@ struct AppQualifyingServiceTests {
         encryptedStore.readItemAsFunction = MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
 
         let analyticsService = MockAnalyticsService()
-        let sessionManager = try PersistentSessionManager.make(
-            mockEncryptedStore: encryptedStore,
-            mockUnprotectedStore: MockDefaultsStore.returningUser(),
-            walletSessionData: WalletSessionBoundDataStub(clearSessionDataAsFunction: {
-                throw WalletStoreError(.walletUnsafeState)
-            })
-        )
+        let walletSessionData = WalletSessionBoundDataStub(clearSessionDataAsFunction: {
+            throw WalletStoreError(.walletUnsafeState)
+        })
+        let sessionManager = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: encryptedStore,
+                                                                        mockUnprotectedStore: MockDefaultsStore.returningUser(),
+                                                                        mockWalletSessionData: walletSessionData)
         
         var expectedAppSessionState: AppSessionState?
         await confirmation { confirmation in
