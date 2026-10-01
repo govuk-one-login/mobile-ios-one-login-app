@@ -1,7 +1,7 @@
 import AppIntegrity
 import Foundation
 import MockNetworking
-@testable import Networking
+import Networking
 
 extension FirebaseAppIntegrityService {
     public static func makeWithMocks(
@@ -10,7 +10,7 @@ extension FirebaseAppIntegrityService {
                      attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
                      demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
                      attestationStore: AttestationStorage = MockAttestationStore(),
-                     networkClient: NetworkClient = NetworkClient.mock(),
+                     networkClient: any NetworkClientProtocol & AppIntegrityNetworkClient,
                      baseURL: URL = URL(string: "https://mobile.account.gov.uk")!
     ) -> FirebaseAppIntegrityService {
         return FirebaseAppIntegrityService(
@@ -21,14 +21,5 @@ extension FirebaseAppIntegrityService {
             attestationStore: attestationStore,
             networkClient: networkClient,
             baseURL: baseURL)
-    }
-}
-
-public extension NetworkClient {
-    static func mock() -> NetworkClient {
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        
-        return NetworkClient(configuration: configuration)
     }
 }

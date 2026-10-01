@@ -12,7 +12,8 @@ extension FirebaseAppIntegrityService {
     static func makeNonExpired(errorFromAttestationJWT: Error) -> FirebaseAppIntegrityService {
         let mockAttestationStore = MockAttestationStore(attestationExpired: false, errorFromAttestationJWT: errorFromAttestationJWT)
 
-        return makeWithMocks(attestationStore: mockAttestationStore)
+        return makeWithMocks(attestationStore: mockAttestationStore,
+                             networkClient: MockAppIntegrityNetworkClient.mock())
     }
 
     static func make(attestationStore: AttestationStorage = MockAttestationStore()) throws -> FirebaseAppIntegrityService {
@@ -30,7 +31,8 @@ extension FirebaseAppIntegrityService {
             attestationProofOfPossessionProvider: attestationProvider,
             attestationProofOfPossessionTokenGenerator: attestationPoPTokenGenerator,
             demonstratingProofOfPossessionTokenGenerator: demonstratingPoPTokenGenerator,
-            attestationStore: attestationStore
+            attestationStore: attestationStore,
+            networkClient: MockAppIntegrityNetworkClient.mock()
         )
     }
 }
@@ -205,5 +207,29 @@ final class MockAppCheckVendor: AppCheckVendor {
 
     func limitedUseToken() async throws -> AppCheckToken {
         return try await limitedUseTokenAsFunction()
+    }
+}
+
+final class MockAppIntegrityNetworkClient: AppIntegrityNetworkClient, NetworkClientProtocol {
+    static func mock() -> MockAppIntegrityNetworkClient {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let session = URLSession(configuration: configuration)
+
+        return MockAppIntegrityNetworkClient(session: session)
+    }
+
+    let session: URLSession
+
+    init(session: URLSession) {
+        self.session = session
+    }
+
+    func makeRequest(_ request: NetworkRequest) async throws -> Data {
+        return try await session.data(for: request.urlRequest).0
+    }
+
+    func request(_ request: URLRequest) -> RequestBuilder {
+        return RequestBuilder(client: self, request: request)
     }
 }
