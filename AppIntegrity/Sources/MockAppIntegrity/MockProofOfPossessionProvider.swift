@@ -1,10 +1,10 @@
 import AppIntegrity
 import Foundation
 
-final class MockProofOfPossessionProvider: ProofOfPossessionProvider {
-    var errorFromPublicKey: Error?
+public final class MockProofOfPossessionProvider: ProofOfPossessionProvider {
+    public var errorFromPublicKey: Error?
     
-    var publicKey: Data {
+    public var publicKey: Data {
         get throws {
             if let errorFromPublicKey {
                 throw errorFromPublicKey
@@ -22,6 +22,10 @@ final class MockProofOfPossessionProvider: ProofOfPossessionProvider {
                 """.utf8)
             }
         }
+    }
+    
+    public init(errorFromPublicKey: Error? = nil) {
+        self.errorFromPublicKey = errorFromPublicKey
     }
     
     func sign(data: Data) -> Data {

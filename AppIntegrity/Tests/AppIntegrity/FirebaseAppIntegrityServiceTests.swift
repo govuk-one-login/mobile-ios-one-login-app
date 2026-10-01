@@ -3,6 +3,7 @@
 import FirebaseAppCheck
 import FirebaseCore
 import Foundation
+import MockAppIntegrity
 import MockNetworking
 @testable import Networking
 import Testing
@@ -350,12 +351,13 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("Check that client attestation request returns a server error")
     func testFetchClientAttestationServerError() async throws {
+        let response = Data()
         MockURLProtocol.handler = {
-            (Data(), HTTPURLResponse(statusCode: 400))
+            (response, HTTPURLResponse(statusCode: 400))
         }
         
         await #expect(
-            throws: ServerError(endpoint: "client-attestation", errorCode: 400)
+            throws: Networking.ServerError(endpoint: "client-attestation", errorCode: 400, response: response)
         ) {
             try await sut
                 .fetchClientAttestation(appCheckToken: UUID().uuidString)
@@ -385,8 +387,10 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("Check that client attestation request public key error is caught")
     func testFetchClientAttestationPublicKey() async throws {
+        let mockAttestationProofOfPossessionProvider = MockProofOfPossessionProvider()
         mockAttestationProofOfPossessionProvider.errorFromPublicKey = NSError(domain: "test domain", code: 0)
-        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(attestationProofOfPossessionProvider: mockAttestationProofOfPossessionProvider)
+
         await #expect(
             throws: ProofOfPossessionError(
                 .cantGenerateAttestationPublicKeyJWK,

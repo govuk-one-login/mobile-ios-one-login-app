@@ -83,7 +83,7 @@ struct SecureAttestationStoreTests: ~Copyable {
     /// there is a chance the `secureStore` dependency will throw a
     /// `SecureStoreError(.cantDecryptData, originalError: NSError(domain: NSOSStatusErrorDomain, code: -50))`
     ///
-    /// This tests verifies that the `SecureAttestationStore` instanced return by `.make()` does not throw a `SecureStoreError(.cantDecryptData)`
+    /// This tests verifies that the `SecureAttestationStore` instanced return by `.makeWithMocks()` does not throw a `SecureStoreError(.cantDecryptData)`
     @Test
     func test_attestionJWT_doesNotThrowCantDecryptdataError() async throws {
         let errorFromAttestationJWT: SecureStoreError = SecureStoreError(.cantDecryptData,
