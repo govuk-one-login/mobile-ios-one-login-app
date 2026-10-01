@@ -7,7 +7,7 @@ public final class MockAttestationStore: AttestationStorage {
     public var attestationExpired: Bool
     public var attestationJWT: String
         
-    public init(mockStorage: [String : Any] = [String: Any](), attestationExpired: Bool = true, attestationJWT: String = "testSavedAttestation") {
+    public init(mockStorage: [String: Any] = [String: Any](), attestationExpired: Bool = true, attestationJWT: String = "testSavedAttestation") {
         self.mockStorage = mockStorage
         self.attestationExpired = attestationExpired
         self.attestationJWT = attestationJWT

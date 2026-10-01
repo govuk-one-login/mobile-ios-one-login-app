@@ -16,7 +16,7 @@ public final class MockProofOfPossessionTokenGenerator: ProofOfPossessionTokenGe
         }
     }
     
-    public init(header: [String : Any] = [String: Any](), payload: [String : Any] = [String: Any](), errorFromToken: Error? = nil) {
+    public init(header: [String: Any] = [String: Any](), payload: [String: Any] = [String: Any](), errorFromToken: Error? = nil) {
         self.header = header
         self.payload = payload
         self.errorFromToken = errorFromToken

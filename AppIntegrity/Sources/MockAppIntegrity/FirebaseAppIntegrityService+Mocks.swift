@@ -7,11 +7,11 @@ extension FirebaseAppIntegrityService {
     public static func makeWithMocks(
         mockVendor: AppCheckVendor = MockAppCheckVendor(),
         attestationProofOfPossessionProvider: ProofOfPossessionProvider = MockProofOfPossessionProvider(),
-                     attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
-                     demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
-                     attestationStore: AttestationStorage = MockAttestationStore(),
-                     networkClient: any NetworkClientProtocol & AppIntegrityNetworkClient,
-                     baseURL: URL = URL(string: "https://mobile.account.gov.uk")!
+        attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
+        demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
+        attestationStore: AttestationStorage = MockAttestationStore(),
+        networkClient: any NetworkClientProtocol & AppIntegrityNetworkClient,
+        baseURL: URL = URL(string: "https://mobile.account.gov.uk")!
     ) -> FirebaseAppIntegrityService {
         return FirebaseAppIntegrityService(
             vendor: mockVendor,

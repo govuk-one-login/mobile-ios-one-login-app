@@ -10,7 +10,8 @@ import TokenGeneration
 
 extension FirebaseAppIntegrityService {
     static func makeNonExpired(errorFromAttestationJWT: Error) -> FirebaseAppIntegrityService {
-        let mockAttestationStore = MockAttestationStore(attestationExpired: false, errorFromAttestationJWT: errorFromAttestationJWT)
+        let mockAttestationStore = MockAttestationStore(attestationExpired: false,
+                                                        errorFromAttestationJWT: errorFromAttestationJWT)
 
         return makeWithMocks(attestationStore: mockAttestationStore,
                              networkClient: MockAppIntegrityNetworkClient.mock())

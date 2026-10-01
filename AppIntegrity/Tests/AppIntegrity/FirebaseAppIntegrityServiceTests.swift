@@ -8,7 +8,6 @@ import MockNetworking
 @testable import Networking
 import Testing
 
-// swiftlint:disable type_body_length
 struct FirebaseAppIntegrityServiceTests {
     @Test("AppCheck provider is correctly configured in debug mode")
     func testConfigureAppCheckProvider() {
@@ -433,8 +432,6 @@ struct FirebaseAppIntegrityServiceNetworkingTests {
         }
     }
 }
-
-// swiftlint:enable type_body_length
 
 extension ServerError: @retroactive Equatable {
     public static func == (lhs: ServerError, rhs: ServerError) -> Bool {

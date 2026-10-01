@@ -8,7 +8,7 @@ let package = Package(
     platforms: [.iOS(.v15)],
     products: [
         .library(name: "AppIntegrity", targets: ["AppIntegrity"]),
-        .library(name: "MockAppIntegrity", targets: ["MockAppIntegrity"]),
+        .library(name: "MockAppIntegrity", targets: ["MockAppIntegrity"])
     ],
     dependencies: [
         .package(
