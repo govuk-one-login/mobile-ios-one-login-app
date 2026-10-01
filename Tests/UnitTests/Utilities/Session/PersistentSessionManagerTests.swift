@@ -392,7 +392,7 @@ struct PersistentSessionManagerTests {
         #expect(mockEncryptedStore.savedItems.isEmpty)
         #expect(mockUnprotectedStore.savedData.isEmpty)
         #expect(mockAnalyticsPrefernceStore.hasAcceptedAnalytics == nil)
-        #expect(await systemLogUserOutNotifications.next() != nil)
+        #expect(await systemLogUserOutNotifications.next() == Notification(name: .systemLogUserOut))
     }
     
     @MainActor
@@ -573,7 +573,7 @@ struct PersistentSessionManagerTests {
         )
         
         // THEN the user can be returned to where they left off
-        #expect(await enrolmentCompleteNotifications.next() != nil)
+        #expect(await enrolmentCompleteNotifications.next() == Notification(name: .enrolmentComplete))
         
         // AND my session data is updated in the store
         #expect(mockEncryptedStore.savedItems == [
@@ -1227,4 +1227,5 @@ struct PersistentSessionManagerTests {
         #expect(mockRefreshTokenExchangeManager.capturedRefreshTokens.count == 1)
     }
 }
+
 // swiftlint:enable type_body_length
