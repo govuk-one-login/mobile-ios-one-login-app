@@ -10,44 +10,7 @@ import Testing
 
 // swiftlint:disable type_body_length
 @Suite(.serialized)
-struct FirebaseAppIntegrityServiceTests: ~Copyable {
-    let mockVendor: MockAppCheckVendor
-    let mockAttestationProofOfPossessionProvider: MockProofOfPossessionProvider
-    let mockAttestationProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
-    let mockDemonstratingProofOfPossessionTokenGenerator: MockProofOfPossessionTokenGenerator
-    let mockAttestationStore: MockAttestationStore
-    let networkClient: AppIntegrityNetworkClient
-    let sut: FirebaseAppIntegrityService
-    
-    init() throws {
-        MockURLProtocol.clear()
-        let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = [
-            MockURLProtocol.self
-        ]
-        
-        mockVendor = MockAppCheckVendor()
-        mockAttestationProofOfPossessionProvider = MockProofOfPossessionProvider()
-        mockAttestationProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
-        mockDemonstratingProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
-        mockAttestationStore = MockAttestationStore()
-        networkClient = NetworkClient(configuration: configuration)
-        
-        sut = FirebaseAppIntegrityService(
-            vendor: mockVendor,
-            attestationProofOfPossessionProvider: mockAttestationProofOfPossessionProvider,
-            attestationProofOfPossessionTokenGenerator: mockAttestationProofOfPossessionTokenGenerator,
-            demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator,
-            attestationStore: mockAttestationStore,
-            networkClient: networkClient,
-            baseURL: try #require(URL(string: "https://mobile.build.account.gov.uk"))
-        )
-    }
-    
-    deinit {
-        MockURLProtocol.clear()
-    }
-    
+struct FirebaseAppIntegrityServiceTests: ~Copyable {    
     @Test("AppCheck provider is correctly configured in debug mode")
     func testConfigureAppCheckProvider() {
         FirebaseAppIntegrityService.configure(vendorType: MockAppCheckVendor.self)
@@ -56,14 +19,21 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("Check the saved attestation and proof token are returned if valid")
     func testSavedClientAssertion() async throws {
+        let mockAttestationProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockAttestationProofOfPossessionTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
         mockAttestationProofOfPossessionTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
         
+        let mockDemonstratingProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
+        let mockAttestationStore = MockAttestationStore()
         mockAttestationStore.attestationExpired = false
-        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(
+            attestationProofOfPossessionTokenGenerator: mockAttestationProofOfPossessionTokenGenerator,
+            demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator,
+            attestationStore: mockAttestationStore)
+
         let integrityResponse = try await sut.clientAssertions
         
         #expect(
@@ -93,12 +63,20 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
              HTTPURLResponse(statusCode: 200))
         }
         
+        let mockAttestationProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockAttestationProofOfPossessionTokenGenerator.header = ["mockPoPHeaderKey1": "mockPoPHeaderValue1"]
         mockAttestationProofOfPossessionTokenGenerator.payload = ["mockPoPPayloadKey1": "mockPoPPayloadValue1"]
         
+        let mockDemonstratingProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
+        let mockAttestationStore = MockAttestationStore()
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(
+            attestationProofOfPossessionTokenGenerator: mockAttestationProofOfPossessionTokenGenerator,
+            demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator,
+            attestationStore: mockAttestationStore)
+
         let integrityResponse = try await sut.clientAssertions
         
         #expect(
@@ -129,9 +107,12 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("Check that the dPoPAssertion returns correct dictionary")
     func testAssertDPoP() throws {
+        let mockDemonstratingProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
         
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator)
+
         let integrityResponse = try sut.dPoPAssertion
         
         #expect(
@@ -147,8 +128,10 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws unknown error from limitedUseToken")
     func testAppCheckUnknownError() async throws {
+        let mockVendor = MockAppCheckVendor()
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 0)
-        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(mockVendor: mockVendor)
+
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
         }
@@ -161,8 +144,10 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws network error from limitedUseToken")
     func testAppCheckNetworkError() async throws {
+        let mockVendor = MockAppCheckVendor()
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
-        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(mockVendor: mockVendor)
+
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
         }
@@ -175,8 +160,10 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws invalid configuration error from limitedUseToken")
     func testAppCheckInvalidconfigurationError() async throws {
+        let mockVendor = MockAppCheckVendor()
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
-        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(mockVendor: mockVendor)
+
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
         }
@@ -189,8 +176,10 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws keychain access error from limitedUseToken")
     func testAppCheckKeychainAccessError() async throws {
+        let mockVendor = MockAppCheckVendor()
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 3)
-        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(mockVendor: mockVendor)
+
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
         }
@@ -203,8 +192,10 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws not supported error from limitedUseToken")
     func testAppCheckNotSupportedError() async throws {
+        let mockVendor = MockAppCheckVendor()
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 4)
-        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(mockVendor: mockVendor)
+
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
         }
@@ -217,7 +208,9 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws generic error from limitedUseToken")
     func testAppCheckGenericError() async throws {
+        let mockVendor = MockAppCheckVendor()
         mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 5)
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(mockVendor: mockVendor)
         
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
@@ -235,6 +228,8 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             (Data(), HTTPURLResponse(statusCode: 400))
         }
         
+        let sut: FirebaseAppIntegrityService = .makeWithMocks()
+        
         let error = await #expect(throws: ClientAssertionError.self) {
             _ = try await sut.clientAssertions
         }
@@ -251,6 +246,8 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             (Data(), HTTPURLResponse(statusCode: 401))
         }
         
+        let sut: FirebaseAppIntegrityService = .makeWithMocks()
+        
         let error = await #expect(throws: ClientAssertionError.self) {
             _ = try await sut.clientAssertions
         }
@@ -266,6 +263,8 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         MockURLProtocol.handler = {
             (Data(), HTTPURLResponse(statusCode: 500))
         }
+        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks()
         
         let error = await #expect(throws: ClientAssertionError.self) {
             _ = try await sut.clientAssertions
@@ -289,8 +288,10 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
              HTTPURLResponse(statusCode: 200))
         }
         
+        let mockAttestationProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockAttestationProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
-        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(attestationProofOfPossessionTokenGenerator: mockAttestationProofOfPossessionTokenGenerator)
+
         let error = await #expect(throws: ProofOfPossessionError.self) {
             _ = try await sut.clientAssertions
         }
@@ -313,8 +314,10 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
              HTTPURLResponse(statusCode: 200))
         }
         
+        let mockDemonstratingProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockDemonstratingProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
-        
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator)
+
         let error = await #expect(throws: ProofOfPossessionError.self) {
             _ = try await sut.dPoPAssertion
         }
@@ -337,6 +340,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
              }
             """.utf8), HTTPURLResponse(statusCode: 200))
         }
+        let sut: FirebaseAppIntegrityService = .makeWithMocks()
         
         let initialDate = Date()
         let response = try await sut
@@ -355,6 +359,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         MockURLProtocol.handler = {
             (response, HTTPURLResponse(statusCode: 400))
         }
+        let sut: FirebaseAppIntegrityService = .makeWithMocks()
         
         await #expect(
             throws: Networking.ServerError(endpoint: "client-attestation", errorCode: 400, response: response)
@@ -375,6 +380,8 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
             """.utf8), HTTPURLResponse(statusCode: 200))
         }
         
+        let sut: FirebaseAppIntegrityService = .makeWithMocks()
+
         let error = await #expect(throws: ClientAssertionError.self) {
             _ = try await sut.clientAssertions
         }
