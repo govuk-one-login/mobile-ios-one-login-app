@@ -8,8 +8,8 @@ import MockNetworking
 import SecureStore
 import Security
 import Testing
+import UIKit
 import WalletStore
-import XCTest
 
 struct SessionBoundDataExpectation: SessionBoundData {
     let onClearSessionData: () -> Void
@@ -19,7 +19,7 @@ struct SessionBoundDataExpectation: SessionBoundData {
     }
 }
 
-class SessionBoundDataTest: SessionBoundData {
+class MockSessionBoundData: SessionBoundData {
     var didCall_deleteSessionBoundData = false
     
     func clearSessionData() {
@@ -97,7 +97,7 @@ struct PersistentSessionManagerTests {
 
 extension PersistentSessionManagerTests {
     @Test
-    func test_initialState() {
+    func test_initialState() throws {
         #expect(sut.expiryDate == nil)
         #expect(sut.isSessionValid == false)
         #expect(sut.isReturningUser == false)
@@ -264,7 +264,7 @@ extension PersistentSessionManagerTests {
     }
     
     @Test
-    func test_persistentID_nil() throws {
+    func test_persistentID_nil() {
         #expect(sut.persistentID == nil)
     }
     
@@ -278,7 +278,7 @@ extension PersistentSessionManagerTests {
     }
     
     @Test
-    func test_hasNotRemovedLocalAuth() throws {
+    func test_hasNotRemovedLocalAuth() {
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         mockUnprotectedStore.set(
             true,
@@ -288,7 +288,7 @@ extension PersistentSessionManagerTests {
     }
     
     @Test
-    func test_hasRemovedLocalAuth() throws {
+    func test_hasRemovedLocalAuth() {
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
         mockUnprotectedStore.set(
             true,
@@ -298,7 +298,7 @@ extension PersistentSessionManagerTests {
     }
     
     @Test
-    func test_hasRemovedLocalAuth_inverse() throws {
+    func test_hasRemovedLocalAuth_inverse() {
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         mockUnprotectedStore.set(
             false,
@@ -320,7 +320,7 @@ extension PersistentSessionManagerTests {
         // THEN a login screen is shown
         #expect(loginSession.didCallPerformLoginFlow)
         // AND no persistent session ID is provided
-        let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
+        let configuration = try #require(loginSession.sessionConfiguration)
         #expect(configuration.persistentSessionId == "123456789")
         #expect(sut.sessionState == .oneTime)
     }
@@ -359,7 +359,7 @@ extension PersistentSessionManagerTests {
             true,
             forKey: OLString.returningUser
         )
-        let sessionBoundDataTest = SessionBoundDataTest()
+        let sessionBoundDataTest = MockSessionBoundData()
         sut.registerSessionBoundData([
             sessionBoundDataTest,
             mockEncryptedStore,

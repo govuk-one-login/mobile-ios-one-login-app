@@ -1,4 +1,5 @@
 import Foundation
+import LocalAuthenticationWrapper
 import Logging
 @testable import OneLogin
 
