@@ -1,17 +1,38 @@
 import AppIntegrity
+import CryptoService
 import FirebaseAppCheck
 import Foundation
 import MockAppIntegrity
 import MockNetworking
 import Networking
 @testable import OneLogin
+import TokenGeneration
 
 extension FirebaseAppIntegrityService {
     static func makeNonExpired(errorFromAttestationJWT: Error) -> FirebaseAppIntegrityService {
         let mockAttestationStore = MockAttestationStore(attestationExpired: false, errorFromAttestationJWT: errorFromAttestationJWT)
 
         return makeWithMocks(attestationStore: mockAttestationStore)
-    }    
+    }
+
+    static func make(attestationStore: AttestationStorage = MockAttestationStore()) throws -> FirebaseAppIntegrityService {
+        let configuration = CryptoServiceConfiguration(
+            id: OLString.attestationStore,
+            accessControlLevel: .open
+        )
+        let attestationProvider = try CryptoSigningService(configuration: configuration)
+        let attestationPoPTokenGenerator = JWTGenerator(jwtRepresentation: AppIntegrityPoPJWT(),
+                                                        signingService: attestationProvider)
+        let demonstratingPoPTokenGenerator = JWTGenerator(jwtRepresentation: AppIntegrityDPoPJWT(jwk: try attestationProvider.jwkDictionary),
+                                                          signingService: attestationProvider)
+
+        return FirebaseAppIntegrityService.makeWithMocks(
+            attestationProofOfPossessionProvider: attestationProvider,
+            attestationProofOfPossessionTokenGenerator: attestationPoPTokenGenerator,
+            demonstratingProofOfPossessionTokenGenerator: demonstratingPoPTokenGenerator,
+            attestationStore: attestationStore
+        )
+    }
 }
 
 final class MockProofOfPossessionProvider: ProofOfPossessionProvider {
