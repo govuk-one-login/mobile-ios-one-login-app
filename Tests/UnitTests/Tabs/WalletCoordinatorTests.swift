@@ -4,8 +4,8 @@ import Networking
 @testable import OneLogin
 import SecureStore
 import Testing
-import Wallet
 import UIKit
+import Wallet
 
 @MainActor
 struct WalletCoordinatorTests {
@@ -37,6 +37,7 @@ struct WalletCoordinatorTests {
         #expect(sut.root.tabBarItem.tag == walletTab.tag)
     }
     
+    @Test
     func test_didBecomeSelected() {
         #expect(mockAnalyticsService.eventsLogged.count == 0)
         sut.didBecomeSelected()
@@ -44,10 +45,11 @@ struct WalletCoordinatorTests {
         #expect(mockAnalyticsService.eventsLogged.count == 1)
         #expect(mockAnalyticsService.eventsLogged == [event.name.name])
         #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
-        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String != nil)
-        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String != nil)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String == nil)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String == nil)
     }
     
+    @Test
     func test_walletInitFailed() throws {
         mockSessionManager.walletStoreID = nil
         sut.start()
