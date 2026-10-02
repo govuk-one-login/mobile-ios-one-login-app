@@ -1,32 +1,40 @@
 import AppIntegrity
+import CryptoService
 import FirebaseAppCheck
 import Foundation
+import MockAppIntegrity
 import MockNetworking
 import Networking
 @testable import OneLogin
+import TokenGeneration
 
 extension FirebaseAppIntegrityService {
     static func makeNonExpired(errorFromAttestationJWT: Error) -> FirebaseAppIntegrityService {
-        let mockAttestationStore = MockAttestationStore(attestationExpired: false, errorFromAttestationJWT: errorFromAttestationJWT)
+        let mockAttestationStore = MockAttestationStore(attestationExpired: false,
+                                                        errorFromAttestationJWT: errorFromAttestationJWT)
 
-        return make(attestationStore: mockAttestationStore)
+        return makeWithMocks(attestationStore: mockAttestationStore,
+                             networkClient: MockAppIntegrityNetworkClient.mock())
     }
-    
-    static func make(attestationProofOfPossessionProvider: ProofOfPossessionProvider = MockProofOfPossessionProvider(),
-                     attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
-                     demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
-                     attestationStore: AttestationStorage = MockAttestationStore(),
-                     networkClient: AppIntegrityNetworkClient = MockAppIntegrityNetworkClient.mock(),
-                     baseURL: URL = URL(string: "https://mobile.account.gov.uk")!
-    ) -> FirebaseAppIntegrityService {
-        return FirebaseAppIntegrityService(
-            vendor: MockAppCheckVendor(),
-            attestationProofOfPossessionProvider: attestationProofOfPossessionProvider,
-            attestationProofOfPossessionTokenGenerator: attestationProofOfPossessionTokenGenerator,
-            demonstratingProofOfPossessionTokenGenerator: demonstratingProofOfPossessionTokenGenerator,
+
+    static func make(attestationStore: AttestationStorage = MockAttestationStore()) throws -> FirebaseAppIntegrityService {
+        let configuration = CryptoServiceConfiguration(
+            id: OLString.attestationStore,
+            accessControlLevel: .open
+        )
+        let attestationProvider = try CryptoSigningService(configuration: configuration)
+        let attestationPoPTokenGenerator = JWTGenerator(jwtRepresentation: AppIntegrityPoPJWT(),
+                                                        signingService: attestationProvider)
+        let demonstratingPoPTokenGenerator = JWTGenerator(jwtRepresentation: AppIntegrityDPoPJWT(jwk: try attestationProvider.jwkDictionary),
+                                                          signingService: attestationProvider)
+
+        return FirebaseAppIntegrityService.makeWithMocks(
+            attestationProofOfPossessionProvider: attestationProvider,
+            attestationProofOfPossessionTokenGenerator: attestationPoPTokenGenerator,
+            demonstratingProofOfPossessionTokenGenerator: demonstratingPoPTokenGenerator,
             attestationStore: attestationStore,
-            networkClient: networkClient,
-            baseURL: baseURL)
+            networkClient: MockAppIntegrityNetworkClient.mock()
+        )
     }
 }
 
@@ -110,30 +118,6 @@ class MockProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator {
         get throws {
             return try tokenAsFunction()
         }
-    }
-}
-
-class MockAppIntegrityNetworkClient: AppIntegrityNetworkClient, NetworkClientProtocol {
-    static func mock() -> MockAppIntegrityNetworkClient {
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        let session = URLSession(configuration: configuration)
-        
-        return MockAppIntegrityNetworkClient(session: session)
-    }
-
-    let session: URLSession
-    
-    init(session: URLSession) {
-        self.session = session
-    }
-    
-    func makeRequest(_ request: NetworkRequest) async throws -> Data {
-        return try await session.data(for: request.urlRequest).0
-    }
-    
-    func request(_ request: URLRequest) -> RequestBuilder {
-        return RequestBuilder(client: self, request: request)
     }
 }
 
@@ -224,5 +208,29 @@ final class MockAppCheckVendor: AppCheckVendor {
 
     func limitedUseToken() async throws -> AppCheckToken {
         return try await limitedUseTokenAsFunction()
+    }
+}
+
+final class MockAppIntegrityNetworkClient: AppIntegrityNetworkClient, NetworkClientProtocol {
+    static func mock() -> MockAppIntegrityNetworkClient {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        let session = URLSession(configuration: configuration)
+
+        return MockAppIntegrityNetworkClient(session: session)
+    }
+
+    let session: URLSession
+
+    init(session: URLSession) {
+        self.session = session
+    }
+
+    func makeRequest(_ request: NetworkRequest) async throws -> Data {
+        return try await session.data(for: request.urlRequest).0
+    }
+
+    func request(_ request: URLRequest) -> RequestBuilder {
+        return RequestBuilder(client: self, request: request)
     }
 }

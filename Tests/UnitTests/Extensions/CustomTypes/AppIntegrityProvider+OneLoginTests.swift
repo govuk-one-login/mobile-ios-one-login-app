@@ -23,11 +23,9 @@ struct AppIntegrityProviderTests: ~Copyable {
             clientAttestation: "example.mock.jwt",
             attestationExpiry: .distantFuture
         )
-        FirebaseAppIntegrityService.configure()
-        GAnalytics.configure()
         
         // WHEN I take several moments to login
-        let appCheck = try FirebaseAppIntegrityService.firebaseAppCheck()
+        let appCheck = try FirebaseAppIntegrityService.make(attestationStore: attestationStore)
         let date = Date()
 
         try await Task.sleep(seconds: 1)

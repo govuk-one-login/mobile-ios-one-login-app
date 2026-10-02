@@ -7,7 +7,8 @@ let package = Package(
     name: "AppIntegrity",
     platforms: [.iOS(.v15)],
     products: [
-        .library(name: "AppIntegrity", targets: ["AppIntegrity"])
+        .library(name: "AppIntegrity", targets: ["AppIntegrity"]),
+        .library(name: "MockAppIntegrity", targets: ["MockAppIntegrity"])
     ],
     dependencies: [
         .package(
@@ -29,9 +30,19 @@ let package = Package(
             .product(name: "FirebaseAppCheck", package: "firebase-ios-sdk"),
             .product(name: "GDSUtilities", package: "mobile-ios-utilities")
         ]),
-        .testTarget(name: "AppIntegrityTests", dependencies: [
-            "AppIntegrity",
-            .product(name: "MockNetworking", package: "mobile-ios-networking")
+        .target(name: "MockAppIntegrity",
+                dependencies: [
+                    "AppIntegrity",
+                    .product(
+                        name: "MockNetworking",
+                        package: "mobile-ios-networking"
+                    )
+                ]),
+        .testTarget(name: "AppIntegrityTests",
+                    dependencies: [
+                        "AppIntegrity",
+                        "MockAppIntegrity",
+                        .product(name: "MockNetworking", package: "mobile-ios-networking")
         ])
     ]
 )
