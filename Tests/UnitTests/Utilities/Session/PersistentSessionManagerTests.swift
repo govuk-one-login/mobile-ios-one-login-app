@@ -8,8 +8,8 @@ import MockNetworking
 import SecureStore
 import Security
 import Testing
+import UIKit
 import WalletStore
-import XCTest
 
 struct SessionBoundDataExpectation: SessionBoundData {
     let onClearSessionData: () -> Void
@@ -19,7 +19,7 @@ struct SessionBoundDataExpectation: SessionBoundData {
     }
 }
 
-class SessionBoundDataTest: SessionBoundData {
+class MockSessionBoundData: SessionBoundData {
     var didCall_deleteSessionBoundData = false
     
     func clearSessionData() {
@@ -27,77 +27,11 @@ class SessionBoundDataTest: SessionBoundData {
     }
 }
 
-extension PersistentSessionManager {
-    /// Creates a `PersistentSessionManager` with the following conditions:
-    /// * `isEnrolling = false`
-    /// * `persistentID = nil` i.e. not stored in the `encryptedStore`
-    /// * `isReturningUser = false`
-    /// *  `walletSDK.isEmpty = true`
-    ///
-    /// A call to `startAuthSession(:using:)` assumes this is "a new user" with a `sessionState` that is `.nonePresent` due to a missing `expiryDate`.
-    static func make(mockAccessControlEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
-                     mockLocalAuthentication: MockLocalAuthManager = MockLocalAuthManager(),
-                     mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
-                     mockUnprotectedStore: MockDefaultsStore = MockDefaultsStore(),
-                     mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
-                     mockWalletSDK: MockWalletSDKWrapper = MockWalletSDKWrapper(),
-                     walletSessionData: SessionBoundData = WalletSessionData(),
-                     refreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
-                     analyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()) throws -> PersistentSessionManager {
-        return try .make(
-            accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
-            encryptedStore: mockEncryptedStore,
-            unprotectedStore: mockUnprotectedStore,
-            localAuthentication: mockLocalAuthentication,
-            analyticsService: mockAnalyticsService,
-            walletSDK: mockWalletSDK,
-            walletSessionData: walletSessionData,
-            refreshTokenExchangeManager: refreshTokenExchangeManager,
-            serialTaskQueue: SerialTaskQueue(),
-            analyticsPreferenceStore: analyticsPreferenceStore)
-    }
-}
-
+// swiftlint:disable type_body_length
 struct PersistentSessionManagerTests {
-    private var mockAccessControlEncryptedStore: MockSecureStoreService!
-    private var mockEncryptedStore: MockSecureStoreService!
-    private var mockUnprotectedStore: MockDefaultsStore!
-    private var mockLocalAuthentication: MockLocalAuthManager!
-    private var mockAnalyticsService: MockAnalyticsService!
-    private var mockRefreshTokenExchangeManager: MockRefreshTokenExchangeManager!
-    private var mockWalletSDK: MockWalletSDKWrapper!
-    private var sut: PersistentSessionManager!
-    
-    var hasNotRemovedLocalAuth: Bool {
-        mockLocalAuthentication.canUseAnyLocalAuth && sut.isReturningUser
-    }
-    
-    @MainActor
-    init() {
-        mockAccessControlEncryptedStore = MockSecureStoreService()
-        mockEncryptedStore = MockSecureStoreService()
-        mockUnprotectedStore = MockDefaultsStore()
-        mockLocalAuthentication = MockLocalAuthManager()
-        mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManager()
-        mockAnalyticsService = MockAnalyticsService()
-        mockWalletSDK = MockWalletSDKWrapper()
-        
-        sut = PersistentSessionManager(
-            accessControlEncryptedStore: mockAccessControlEncryptedStore,
-            encryptedStore: mockEncryptedStore,
-            storeKeyService: SecureTokenStore(accessControlEncryptedStore: mockAccessControlEncryptedStore),
-            unprotectedStore: mockUnprotectedStore,
-            localAuthentication: mockLocalAuthentication,
-            analyticsService: mockAnalyticsService,
-            walletSDK: mockWalletSDK,
-            tokenExchangeManager: mockRefreshTokenExchangeManager
-        )
-    }
-}
-
-extension PersistentSessionManagerTests {
     @Test
-    func test_initialState() {
+    func test_initialState() throws {
+        let sut: PersistentSessionManager = try .makeWithMocks()
         #expect(sut.expiryDate == nil)
         #expect(sut.isSessionValid == false)
         #expect(sut.isReturningUser == false)
@@ -107,6 +41,9 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_sessionExpiryDate_refreshToken() throws {
+        let mockEncryptedStore: MockSecureStoreService = MockSecureStoreService()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
+
         // GIVEN the encrypted store contains a refresh token expiry date
         let date = Date.distantFuture
         try mockEncryptedStore.saveItem(
@@ -119,6 +56,11 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_sessionExpiryDate_bothTokensSet() throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore)
+
         // GIVEN the encrypted store contains a refresh token expiry date
         let refreshTokenExpiryDate = Date.distantFuture
         try mockEncryptedStore.saveItem(
@@ -138,7 +80,10 @@ extension PersistentSessionManagerTests {
     }
     
     @Test
-    func test_sessionExpiryDate_accessToken() {
+    func test_sessionExpiryDate_accessToken() throws {
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
+
         // GIVEN the unprotected store contains an access token expiry date
         let date = Date()
         mockUnprotectedStore.set(
@@ -151,6 +96,11 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_sessionIsValid_refreshToken_notExpired() throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore)
+
         // GIVEN the unprotected store contains a refresh token expiry date in the future
         try mockEncryptedStore.saveItem(
             item: Date.distantFuture.timeIntervalSince1970.description,
@@ -163,7 +113,10 @@ extension PersistentSessionManagerTests {
     }
     
     @Test
-    func test_sessionIsValid_accessToken_notExpired() {
+    func test_sessionIsValid_accessToken_notExpired() throws {
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
+
         // GIVEN the unprotected store contains an access token expiry date in the future
         mockUnprotectedStore.set(
             Date.distantFuture,
@@ -176,6 +129,9 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_sessionIsInvalid_refreshToken_Expired() throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
+
         // GIVEN the unprotected store contains a refresh token expiry date in the past
         try mockEncryptedStore.saveItem(
             item: Date.distantPast.timeIntervalSince1970.description,
@@ -187,7 +143,10 @@ extension PersistentSessionManagerTests {
     }
     
     @Test
-    func test_sessionIsInvalid_accessToken_Expired() {
+    func test_sessionIsInvalid_accessToken_Expired() throws {
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
+
         // GIVEN the unprotected store contains an access token expiry date in the past
         mockUnprotectedStore.set(
             Date.distantPast,
@@ -200,6 +159,11 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_returnTokensIfValid() throws {
+        let mockAccessControlEncryptedStore = MockSecureStoreService()
+        let mockEncryptedStore = MockSecureStoreService()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+                                                               mockEncryptedStore: mockEncryptedStore)
+
         // GIVEN the unprotected store contains an access token expiry date in the future
         try mockEncryptedStore.saveItem(
             item: Date.distantFuture.timeIntervalSince1970.description,
@@ -224,6 +188,11 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_returnTokensIfValid_expired() throws {
+        let mockAccessControlEncryptedStore = MockSecureStoreService()
+        let mockEncryptedStore = MockSecureStoreService()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+                                                               mockEncryptedStore: mockEncryptedStore)
+
         // GIVEN the unprotected store contains an access token expiry date in the past
         try mockEncryptedStore.saveItem(
             item: Date.distantPast.timeIntervalSince1970.description,
@@ -246,7 +215,10 @@ extension PersistentSessionManagerTests {
     }
     
     @Test
-    func test_isReturningUserPullsFromStore() {
+    func test_isReturningUserPullsFromStore() throws {
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
+
         mockUnprotectedStore.set(
             true,
             forKey: OLString.returningUser
@@ -256,6 +228,9 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_persistentID() throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
+
         try mockEncryptedStore.saveItem(
             item: "123456789",
             itemName: OLString.persistentSessionID
@@ -265,11 +240,16 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_persistentID_nil() throws {
+        let sut: PersistentSessionManager = try .makeWithMocks()
+
         #expect(sut.persistentID == nil)
     }
     
     @Test
     func test_persistentID_empty() throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
+
         try mockEncryptedStore.saveItem(
             item: "",
             itemName: OLString.persistentSessionID
@@ -279,37 +259,54 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_hasNotRemovedLocalAuth() throws {
+        let mockLocalAuthentication = MockLocalAuthManager()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
+                                                               mockLocalAuthentication: mockLocalAuthentication)
+
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         mockUnprotectedStore.set(
             true,
             forKey: OLString.returningUser
         )
-        #expect(hasNotRemovedLocalAuth)
+        #expect(try sut.hasNotRemovedLocalAuth)
     }
     
     @Test
     func test_hasRemovedLocalAuth() throws {
+        let mockLocalAuthentication = MockLocalAuthManager()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
+                                                               mockLocalAuthentication: mockLocalAuthentication)
+
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
         mockUnprotectedStore.set(
             true,
             forKey: OLString.returningUser
         )
-        #expect(hasNotRemovedLocalAuth == false)
+        #expect(try sut.hasNotRemovedLocalAuth == false)
     }
     
     @Test
     func test_hasRemovedLocalAuth_inverse() throws {
+        let mockLocalAuthentication = MockLocalAuthManager()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
+                                                               mockLocalAuthentication: mockLocalAuthentication)
+
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         mockUnprotectedStore.set(
             false,
             forKey: OLString.returningUser
         )
-        #expect(hasNotRemovedLocalAuth == false)
+        #expect(try sut.hasNotRemovedLocalAuth == false)
     }
     
     @MainActor
     @Test
     func test_startSession_logsTheUserIn() async throws {
+        let sut: PersistentSessionManager = try .makeWithMocks()
+
         // GIVEN I am not logged in
         let loginSession = MockLoginSession(window: UIWindow())
         // WHEN I start a session
@@ -320,7 +317,7 @@ extension PersistentSessionManagerTests {
         // THEN a login screen is shown
         #expect(loginSession.didCallPerformLoginFlow)
         // AND no persistent session ID is provided
-        let configuration = try XCTUnwrap(loginSession.sessionConfiguration)
+        let configuration = try #require(loginSession.sessionConfiguration)
         #expect(configuration.persistentSessionId == "123456789")
         #expect(sut.sessionState == .oneTime)
     }
@@ -328,6 +325,8 @@ extension PersistentSessionManagerTests {
     @MainActor
     @Test
     func test_startSession_logsTheUserIn_appIntegrity() async throws {
+        let sut: PersistentSessionManager = try .makeWithMocks()
+
         AppEnvironment.updateFlags(
             releaseFlags: [:],
             featureFlags: [FeatureFlagsName.appCheckEnabled.rawValue: true]
@@ -354,12 +353,18 @@ extension PersistentSessionManagerTests {
         let mockAnalyticsPrefernceStore = UserDefaultsPreferenceStore()
         mockAnalyticsPrefernceStore.hasAcceptedAnalytics = true
         
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore,
+                                                               mockAnalyticsPreferenceStore: mockAnalyticsPrefernceStore)
+
         // GIVEN I am a returning user
         mockUnprotectedStore.set(
             true,
             forKey: OLString.returningUser
         )
-        let sessionBoundDataTest = SessionBoundDataTest()
+        let sessionBoundDataTest = MockSessionBoundData()
         sut.registerSessionBoundData([
             sessionBoundDataTest,
             mockEncryptedStore,
@@ -387,12 +392,21 @@ extension PersistentSessionManagerTests {
         #expect(mockEncryptedStore.savedItems.isEmpty)
         #expect(mockUnprotectedStore.savedData.isEmpty)
         #expect(mockAnalyticsPrefernceStore.hasAcceptedAnalytics == nil)
-        #expect(await systemLogUserOutNotifications.next() != nil)
+        #expect(await systemLogUserOutNotifications.next() == Notification(name: .systemLogUserOut))
     }
     
     @MainActor
     @Test
     func test_startSession_noPersistentID_ReturningUser_WalletNotEmptyError() async throws {
+        let mockAnalyticsService: MockAnalyticsService = MockAnalyticsService()
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let mockWalletSDK = MockWalletSDKWrapper()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockAnalyticsService: mockAnalyticsService,
+                                                               mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore,
+                                                               mockWalletSDK: mockWalletSDK)
+
         // GIVEN I am a returning user
         mockUnprotectedStore.set(
             true,
@@ -428,17 +442,14 @@ extension PersistentSessionManagerTests {
         // AND the wallet is not empty
         let mockWalletSDK = MockWalletSDKWrapper()
         mockWalletSDK.isEmpty = false
-        
-        // AND there aren't any errors logged
-        #expect(mockAnalyticsService.crashesLogged.count == 0)
-        
+
         try await confirmation("wallet not empty") { confirmation in
             let mockAnalyticsService = MockAnalyticsServiceExpectation(onLogCrashAnyErrorCalled: {
                 confirmation()
             })
-            let sut: PersistentSessionManager = try .make(mockEncryptedStore: mockEncryptedStore,
-                                                      mockAnalyticsService: mockAnalyticsService,
-                                                      mockWalletSDK: mockWalletSDK)
+            let sut: PersistentSessionManager = try .makeWithMocks(mockAnalyticsService: mockAnalyticsService,
+                                                                   mockEncryptedStore: mockEncryptedStore,
+                                                                   mockWalletSDK: mockWalletSDK)
 
             // WHEN I start a session
             await #expect(throws: Never.self) {
@@ -464,10 +475,9 @@ extension PersistentSessionManagerTests {
         let mockAnalyticsPrefernceStore = UserDefaultsPreferenceStore()
         mockAnalyticsPrefernceStore.hasAcceptedAnalytics = true
         
-        let sut: PersistentSessionManager = try .make(mockEncryptedStore: mockEncryptedStore,
-                                                  mockUnprotectedStore: mockUnprotectedStore,
-                                                  mockAnalyticsService: mockAnalyticsService,
-                                                  mockWalletSDK: mockWalletSDK)
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore,
+                                                               mockAnalyticsPreferenceStore: mockAnalyticsPrefernceStore)
 
         try await confirmation("clear app except analytics") { confirmation in
             let sessionBoundDataExpectation = SessionBoundDataExpectation(onClearSessionData: {
@@ -503,6 +513,8 @@ extension PersistentSessionManagerTests {
     @MainActor
     @Test
     func test_startSession_exposesUserAndAccessToken() async throws {
+        let sut: PersistentSessionManager = try .makeWithMocks()
+
         // GIVEN I am logged in
         // WHEN I start a session
         try await sut.startAuthSession(
@@ -520,6 +532,11 @@ extension PersistentSessionManagerTests {
     @MainActor
     @Test
     func test_startSession_skipsSavingTokensForNewUsers() async throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore)
+
         // GIVEN I am not logged in
         // WHEN I start a session
         try await sut.startAuthSession(
@@ -534,6 +551,8 @@ extension PersistentSessionManagerTests {
     @MainActor
     @Test
     func test_startSession_savesTokensForReturningUsers() async throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
         // GIVEN I am a returning user
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         let persistentSessionID = UUID().uuidString
@@ -542,6 +561,9 @@ extension PersistentSessionManagerTests {
             itemName: OLString.persistentSessionID
         )
         
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore)
+
         let enrolmentCompleteNotifications = NotificationCenter.default.notifications(named: .enrolmentComplete).makeAsyncIterator()
         
         // WHEN I re-authenticate
@@ -551,7 +573,7 @@ extension PersistentSessionManagerTests {
         )
         
         // THEN the user can be returned to where they left off
-        #expect(await enrolmentCompleteNotifications.next() != nil)
+        #expect(await enrolmentCompleteNotifications.next() == Notification(name: .enrolmentComplete))
         
         // AND my session data is updated in the store
         #expect(mockEncryptedStore.savedItems == [
@@ -564,8 +586,14 @@ extension PersistentSessionManagerTests {
     @MainActor
     @Test
     func test_saveSession_enrolsLocalAuthenticationForNewUsers() async throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
         // GIVEN I am a new user
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
+
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore)
+
         // AND I have logged in
         try await sut.startAuthSession(
             MockLoginSession(window: UIWindow()),
@@ -599,9 +627,9 @@ extension PersistentSessionManagerTests {
         let mockUnprotectedStore = MockDefaultsStore()
         
         // GIVEN I am a new user
-        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
-                                                  mockEncryptedStore: mockEncryptedStore,
-                                                  mockUnprotectedStore: mockUnprotectedStore)
+        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+                                                               mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore)
         
         // AND I have logged in
         try await sut.startAuthSession(
@@ -624,9 +652,10 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_resumeSession_refreshTokenExchange_noLocalAuth() async throws {
+        let mockLocalAuthentication = MockLocalAuthManager()
         // GIVEN I am a returning user with local auth enabled and tokens stored
-        try setUpNeededForResumeSession()
-        
+        let sut: PersistentSessionManager = try .makeForResumeSession(mockLocalAuthentication: mockLocalAuthentication)
+
         // IF I disable local auth
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
         
@@ -640,6 +669,11 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_hasNotRemovedLocalAuth_throwsError_whenPasscodeRemoved() async throws {
+        let mockLocalAuthentication = MockLocalAuthManager()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
+                                                               mockLocalAuthentication: mockLocalAuthentication)
+
         // GIVEN I am a returning user with an active session
         mockUnprotectedStore.savedData = [
             OLString.returningUser: true,
@@ -657,6 +691,13 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_resumeSession_refreshTokenExchange_noPersistentSessionID() async throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let mockLocalAuthentication = MockLocalAuthManager()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore,
+                                                               mockLocalAuthentication: mockLocalAuthentication)
+
         // GIVEN I am a returning user with local auth enabled
         mockUnprotectedStore.set(
             true,
@@ -679,7 +720,10 @@ extension PersistentSessionManagerTests {
     @Test
     func test_resumeSession_refreshTokenExchange_idTokenNotStored() async throws {
         // GIVEN I am a returning user with local auth enabled and tokens stored
-        try setUpNeededForResumeSession()
+        let mockAccessControlEncryptedStore = MockSecureStoreService()
+        let mockEncryptedStore = MockSecureStoreService()
+        let sut: PersistentSessionManager = try .makeForResumeSession(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+                                                                      mockEncryptedStore: mockEncryptedStore)
         
         // IF the ID token is no longer stored
         let tokens = StoredTokens.encodeKeys(
@@ -700,99 +744,49 @@ extension PersistentSessionManagerTests {
         #expect(error?.kind == .idTokenNotStored)
     }
     
-    @Test
-    func test_resumeSession_offlineWallet_noInternet() async throws {
-        // GIVEN I am a returning user with local auth enabled and tokens stored
-        try setUpNeededForResumeSession()
-        
-        // AND I have no internet
+    @Test(arguments: [URLError(.notConnectedToInternet), URLError(.networkConnectionLost), URLError(.timedOut)])
+    func test_resumeSession_whenRefreshTokenExchangeThrowsError_doesNotThrowError(_ error: URLError) async throws {
         MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         let client = NetworkClient(configuration: configuration)
         client.clientAttestationProvider = MockAppIntegrityProvider()
         client.dPoPProvider = MockAppIntegrityProvider()
-        
-        MockURLProtocol.handler = {
-            throw URLError(.notConnectedToInternet)
-        }
-        
-        let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
-                                                  mockLocalAuthentication: mockLocalAuthentication,
-                                                  mockEncryptedStore: mockEncryptedStore,
-                                                  mockUnprotectedStore: mockUnprotectedStore,
-                                                  mockAnalyticsService: mockAnalyticsService,
-                                                  mockWalletSDK: mockWalletSDK,
-                                                  refreshTokenExchangeManager: refreshTokenExchangeManager)
-        // WHEN I attempt to resume my session
-        do {
-            try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.noInternet {
-            // Expected path
-        }
-    }
-    
-    @Test
-    func test_resumeSession_offlineWallet_networkConnectionLost() async throws {
+
         // GIVEN I am a returning user with local auth enabled and tokens stored
-        try setUpNeededForResumeSession()
-        
+        let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
+        let sut: PersistentSessionManager = try .makeForResumeSession(mockRefreshTokenExchangeManager: refreshTokenExchangeManager)
+
         // AND I have no internet
-        MockURLProtocol.clear()
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        let client = NetworkClient(configuration: configuration)
-        client.clientAttestationProvider = MockAppIntegrityProvider()
-        client.dPoPProvider = MockAppIntegrityProvider()
-        
         MockURLProtocol.handler = {
-            throw URLError(.networkConnectionLost)
+            throw error
         }
         
-        let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
-                                                  mockLocalAuthentication: mockLocalAuthentication,
-                                                  mockEncryptedStore: mockEncryptedStore,
-                                                  mockUnprotectedStore: mockUnprotectedStore,
-                                                  mockAnalyticsService: mockAnalyticsService,
-                                                  mockWalletSDK: mockWalletSDK,
-                                                  refreshTokenExchangeManager: refreshTokenExchangeManager)
         // WHEN I attempt to resume my session
-        do {
+        await #expect(throws: Never.self) {
             try await sut.resumeSession()
-        } catch RefreshTokenExchangeError.noInternet {
-            // Expected path
         }
     }
-    
+
     @Test
     func test_resumeSession_offlineWallet_firebaseNetworkError() async throws {
-        // GIVEN I am a returning user with local auth enabled and tokens stored
-        try setUpNeededForResumeSession()
-        
-        // AND I have no internet
-        let mockAppIntegrityProvider = MockAppIntegrityProvider()
-        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network, reason: "test")
-        
         MockURLProtocol.clear()
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [MockURLProtocol.self]
         let client = NetworkClient(configuration: configuration)
+        let mockAppIntegrityProvider = MockAppIntegrityProvider()
         client.clientAttestationProvider = mockAppIntegrityProvider
         client.dPoPProvider = mockAppIntegrityProvider
         
+        // GIVEN I am a returning user with local auth enabled and tokens stored
         let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
-                                                  mockLocalAuthentication: mockLocalAuthentication,
-                                                  mockEncryptedStore: mockEncryptedStore,
-                                                  mockUnprotectedStore: mockUnprotectedStore,
-                                                  mockAnalyticsService: mockAnalyticsService,
-                                                  mockWalletSDK: mockWalletSDK,
-                                                  refreshTokenExchangeManager: refreshTokenExchangeManager)
+        let sut: PersistentSessionManager = try .makeForResumeSession(mockRefreshTokenExchangeManager: refreshTokenExchangeManager)
+        
+        // AND I have no internet
+        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network, reason: "test")
         
         // WHEN I attempt to resume my session
-        let error = await #expect(throws: Networking.AppIntegrityError.self) {
+        await #expect(throws: Networking.AppIntegrityError.self) {
             try await sut.resumeSession()
         }
     }
@@ -800,8 +794,13 @@ extension PersistentSessionManagerTests {
     @Test
     func test_resumeSession_refreshTokenExchange_restoresUserAndAccessToken() async throws {
         // GIVEN I am a returning user with tokens stored
-        try setUpNeededForResumeSession()
-        
+        let mockAccessControlEncryptedStore = MockSecureStoreService()
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeForResumeSession(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+                                                                      mockEncryptedStore: mockEncryptedStore,
+                                                                      mockUnprotectedStore: mockUnprotectedStore)
+
         // WHEN I return to the app and authenticate successfully
         try await sut.resumeSession()
         
@@ -831,6 +830,15 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_resumeSession_withoutRefreshToken() async throws {
+        let mockAccessControlEncryptedStore = MockSecureStoreService()
+        let mockLocalAuthentication = MockLocalAuthManager()
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+                                                               mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore,
+                                                               mockLocalAuthentication: mockLocalAuthentication)
+
         // GIVEN I am a returning user with local auth enabled
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
@@ -875,8 +883,9 @@ extension PersistentSessionManagerTests {
 
     @Test
     func test_endCurrentSession_clearsDataFromSession() async throws {
-        try setUpNeededForResumeSession()
-        
+        let mockAccessControlEncryptedStore = MockSecureStoreService()
+        let sut: PersistentSessionManager = try .makeForResumeSession(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore)
+
         try await sut.resumeSession()
         // WHEN I end the session
         sut.endCurrentSession()
@@ -889,6 +898,13 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_endCurrentSession_clearsAllPersistedData() async throws {
+        let mockAccessControlEncryptedStore = MockSecureStoreService()
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+                                                               mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore)
+
         // GIVEN I have an access token expiry stored
         mockUnprotectedStore.savedData = [
             OLString.returningUser: true,
@@ -926,7 +942,9 @@ extension PersistentSessionManagerTests {
     @Test
     func test_resumeSession_withoutRefreshToken_butWithRefreshTokenSavedInEncryptedStore() async throws {
         // GIVEN I am a returning user with a refresh token stored
-        try setUpNeededForResumeSession()
+        let mockEncryptedStore = MockSecureStoreService()
+        let sut: PersistentSessionManager = try .makeForResumeSession(mockEncryptedStore: mockEncryptedStore,
+                                                                      mockRefreshTokenExchangeManager: MockRefreshTokenNilExchangeManager())
         
         // GIVEN my refresh token is expired
         try mockEncryptedStore.saveItem(
@@ -936,15 +954,7 @@ extension PersistentSessionManagerTests {
         // THEN the session is not valid
         #expect(sut.isSessionValid == false)
         #expect(sut.sessionState == .expired)
-        
-        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
-                                                  mockLocalAuthentication: mockLocalAuthentication,
-                                                  mockEncryptedStore: mockEncryptedStore,
-                                                  mockUnprotectedStore: mockUnprotectedStore,
-                                                  mockAnalyticsService: mockAnalyticsService,
-                                                  mockWalletSDK: mockWalletSDK,
-                                                  refreshTokenExchangeManager: MockRefreshTokenNilExchangeManager())
-        
+                
         // WHEN I return to the app and authenticate successfully but without a refresh token
         try await sut.resumeSession()
         
@@ -954,6 +964,11 @@ extension PersistentSessionManagerTests {
     
     @Test
     func test_startSession_withoutRefreshToken_butWithRefreshTokenSavedInEncryptedStore() async throws {
+        let mockEncryptedStore = MockSecureStoreService()
+        let mockUnprotectedStore = MockDefaultsStore()
+        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                               mockUnprotectedStore: mockUnprotectedStore)
+
         // GIVEN I am a returning user
         mockUnprotectedStore.savedData = [OLString.returningUser: true]
         let persistentSessionID = UUID().uuidString
@@ -983,17 +998,8 @@ extension PersistentSessionManagerTests {
     @Test
     func test_refreshTokenExchange_isSerialisedAcrossResumeSessionAndAuthorizedRequest() async throws {
         // GIVEN I am a returning user with a refresh token stored
-        try setUpNeededForResumeSession()
-
         let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
-        
-        let sut: PersistentSessionManager = try .make(mockAccessControlEncryptedStore: mockAccessControlEncryptedStore,
-                                                  mockLocalAuthentication: mockLocalAuthentication,
-                                                  mockEncryptedStore: mockEncryptedStore,
-                                                  mockUnprotectedStore: mockUnprotectedStore,
-                                                  mockAnalyticsService: mockAnalyticsService,
-                                                  mockWalletSDK: mockWalletSDK,
-                                                  refreshTokenExchangeManager: mockRefreshTokenExchangeManager)
+        let sut: PersistentSessionManager = try .makeForResumeSession(mockRefreshTokenExchangeManager: mockRefreshTokenExchangeManager)
         
         let numberOfTasks = 10
         await withTaskGroup { group in
@@ -1039,11 +1045,10 @@ extension PersistentSessionManagerTests {
         let mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         let (mockWalletSessionBound, walletData) = WalletSessionBoundDataStub.stubWalletData(["any": "value"])
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        let sut = try PersistentSessionManager.make(
-            mockEncryptedStore: encryptedStore,
-            mockUnprotectedStore: mockUnprotectedStore,
-            walletSessionData: mockWalletSessionBound,
-            analyticsPreferenceStore: mockAnalyticsPreferenceStore
+        let sut = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: encryptedStore,
+                                                             mockUnprotectedStore: mockUnprotectedStore,
+                                                             mockWalletSessionData: mockWalletSessionBound,
+                                                             mockAnalyticsPreferenceStore: mockAnalyticsPreferenceStore
         )
 
         let error = await #expect(throws: SecureStoreError.self) {
@@ -1069,10 +1074,8 @@ extension PersistentSessionManagerTests {
             itemName: OLString.persistentSessionID
         )
         
-        let sut = try PersistentSessionManager.make(
-            mockEncryptedStore: mockEncryptedStore,
-            mockUnprotectedStore: MockDefaultsStore.returningUser()
-        )
+        let sut = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                             mockUnprotectedStore: MockDefaultsStore.returningUser())
 
         try await sut.assertReturningUserCanLogin()
         try await sut.assertReturningUserCanLogin()
@@ -1085,10 +1088,8 @@ extension PersistentSessionManagerTests {
         let (mockEncryptedStore, mockEncryptedStoreReadItem) = MockSecureStoreService.mockReadItemCounter()
         
         let mockUnprotectedStore = MockDefaultsStore.firstTimeUser()
-        let sut = try PersistentSessionManager.make(
-            mockEncryptedStore: mockEncryptedStore,
-            mockUnprotectedStore: mockUnprotectedStore
-        )
+        let sut = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                             mockUnprotectedStore: mockUnprotectedStore)
 
         try await sut.assertReturningUserCanLogin()
 
@@ -1110,10 +1111,8 @@ extension PersistentSessionManagerTests {
         let walletSessionData = WalletSessionData(
             walletSDK: MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
         )
-        let sut = try PersistentSessionManager.make(
-            mockAnalyticsService: analyticsService,
-            walletSessionData: walletSessionData
-        )
+        let sut = try PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
+                                                             mockWalletSessionData: walletSessionData)
 
         try await sut.clearAllSessionData(presentSystemLogOut: false)
 
@@ -1128,10 +1127,8 @@ extension PersistentSessionManagerTests {
                 return []
             })
         )
-        let sut = try PersistentSessionManager.make(
-            mockAnalyticsService: analyticsService,
-            walletSessionData: walletSessionData
-        )
+        let sut = try PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
+                                                             mockWalletSessionData: walletSessionData)
 
         try await sut.clearAllSessionData(presentSystemLogOut: false)
 
@@ -1150,10 +1147,8 @@ extension PersistentSessionManagerTests {
         let walletSessionData = WalletSessionData(
             walletSDK: MockWalletSDKWrapper(deleteAsFunction: deleteThrowsWalletUnsafeState)
         )
-        let sut = try PersistentSessionManager.make(
-            mockAnalyticsService: analyticsService,
-            walletSessionData: walletSessionData
-        )
+        let sut = try PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
+                                                             mockWalletSessionData: walletSessionData)
 
         let error = await #expect(throws: WalletStoreError.self) {
             try await sut.clearAllSessionData(presentSystemLogOut: false)
@@ -1233,27 +1228,4 @@ extension PersistentSessionManagerTests {
     }
 }
 
-extension PersistentSessionManagerTests {
-    private func setUpNeededForResumeSession() throws {
-        // GIVEN I am a returning user with local auth enabled
-        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
-        mockUnprotectedStore.savedData = [OLString.returningUser: true]
-        
-        // AND I have a persistentSessionID saved in secure store
-        try mockEncryptedStore.saveItem(
-            item: UUID().uuidString,
-            itemName: OLString.persistentSessionID
-        )
-        
-        // AND I have tokens saved in secure store
-        let data = StoredTokens.encodeKeys(
-            idToken: MockJWTs.genericToken,
-            refreshToken: MockJWTs.genericToken,
-            accessToken: MockJWTs.genericToken
-        )
-        try mockAccessControlEncryptedStore.saveItem(
-            item: data,
-            itemName: OLString.storedTokens
-        )
-    }
-}
+// swiftlint:enable type_body_length
