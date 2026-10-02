@@ -3,7 +3,7 @@ import CryptoService
 import Foundation
 import TokenGeneration
 
-extension CryptoSigningService: @retroactive ProofOfPossessionProvider, @retroactive JWTSigningService {
+extension CryptoSigningService: @retroactive ProofOfPossessionProvider {
     public var publicKey: Data {
         get throws(AppIntegritySigningError) {
             do {

@@ -3,36 +3,28 @@ import GDSAnalytics
 import Networking
 @testable import OneLogin
 import SecureStore
+import Testing
+import UIKit
 import Wallet
-import XCTest
 
 @MainActor
-final class WalletCoordinatorTests: XCTestCase {
+struct WalletCoordinatorTests {
     var mockAnalyticsService: MockAnalyticsService!
     var mockSessionManager: MockSessionManager!
     var sut: WalletCoordinator!
     
-    override func setUp() {
-        super.setUp()
-
+    init() {
         mockAnalyticsService = MockAnalyticsService()
         mockSessionManager = MockSessionManager()
         mockSessionManager.walletStoreID = "12345"
-        sut = WalletCoordinator(analyticsService: mockAnalyticsService,
-                                networkingService: NetworkClient(),
-                                sessionManager: mockSessionManager)
+        sut = WalletCoordinator(
+            analyticsService: mockAnalyticsService,
+            networkingService: NetworkClient(),
+            sessionManager: mockSessionManager
+        )
     }
     
-    override func tearDown() {
-        mockAnalyticsService = nil
-        mockSessionManager = nil
-        sut = nil
-        
-        super.tearDown()
-    }
-}
-
-extension WalletCoordinatorTests {
+    @Test
     func test_tabBarItem() {
         // WHEN the WalletCoordinator has started
         sut.start()
@@ -40,29 +32,31 @@ extension WalletCoordinatorTests {
         let walletTab = UITabBarItem(title: "Documents",
                                      image: UIImage(systemName: "wallet.pass.fill"),
                                      tag: 1)
-        XCTAssertEqual(sut.root.tabBarItem.title, walletTab.title)
-        XCTAssertEqual(sut.root.tabBarItem.image, walletTab.image)
-        XCTAssertEqual(sut.root.tabBarItem.tag, walletTab.tag)
+        #expect(sut.root.tabBarItem.title == walletTab.title)
+        #expect(sut.root.tabBarItem.image == walletTab.image)
+        #expect(sut.root.tabBarItem.tag == walletTab.tag)
     }
     
+    @Test
     func test_didBecomeSelected() {
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
         sut.didBecomeSelected()
         let event = IconEvent(textKey: "app_tabBarWallet")
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String)
-        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String == nil)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String == nil)
     }
     
+    @Test
     func test_walletInitFailed() throws {
         mockSessionManager.walletStoreID = nil
         sut.start()
         
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        let screen = try XCTUnwrap(sut.root.topViewController as? GDSScreen)
+        #expect(sut.root.viewControllers.count == 1)
+        let screen = try #require(sut.root.topViewController as? GDSScreen)
         // TODO: DCMAW-20468 update with new error screen
-        XCTAssertTrue(screen.viewModel is UnrecoverableLoginErrorViewModel)
+        #expect(screen.viewModel is UnrecoverableLoginErrorViewModel)
     }
 }
