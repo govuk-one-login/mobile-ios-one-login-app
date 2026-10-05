@@ -7,25 +7,27 @@ import Testing
 import UIKit
 import Wallet
 
-@MainActor
-struct WalletCoordinatorTests {
-    var mockAnalyticsService: MockAnalyticsService!
-    var mockSessionManager: MockSessionManager!
-    var sut: WalletCoordinator!
-    
-    init() {
-        mockAnalyticsService = MockAnalyticsService()
-        mockSessionManager = MockSessionManager()
-        mockSessionManager.walletStoreID = "12345"
-        sut = WalletCoordinator(
+extension WalletCoordinator {
+    static func make(
+        mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
+        mockSessionManager: MockSessionManager = MockSessionManager()
+    ) -> WalletCoordinator {
+        return WalletCoordinator(
             analyticsService: mockAnalyticsService,
             networkingService: NetworkClient(),
             sessionManager: mockSessionManager
         )
     }
-    
+}
+
+@MainActor
+struct WalletCoordinatorTests {
     @Test
     func test_tabBarItem() {
+        let mockSessionManager = MockSessionManager()
+        mockSessionManager.walletStoreID = "12345"
+        let sut: WalletCoordinator = .make(mockSessionManager: mockSessionManager)
+        
         // WHEN the WalletCoordinator has started
         sut.start()
         // THEN the bar button item of the root is correctly configured
@@ -39,6 +41,9 @@ struct WalletCoordinatorTests {
     
     @Test
     func test_didBecomeSelected() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut: WalletCoordinator = .make(mockAnalyticsService: mockAnalyticsService)
+        
         #expect(mockAnalyticsService.eventsLogged.count == 0)
         sut.didBecomeSelected()
         let event = IconEvent(textKey: "app_tabBarWallet")
@@ -51,7 +56,9 @@ struct WalletCoordinatorTests {
     
     @Test
     func test_walletInitFailed() throws {
+        let mockSessionManager = MockSessionManager()
         mockSessionManager.walletStoreID = nil
+        let sut: WalletCoordinator = .make(mockSessionManager: mockSessionManager)
         sut.start()
         
         #expect(sut.root.viewControllers.count == 1)
