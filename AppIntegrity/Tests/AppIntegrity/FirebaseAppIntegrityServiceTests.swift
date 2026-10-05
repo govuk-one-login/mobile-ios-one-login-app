@@ -143,14 +143,14 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
         )
     }
         
-    @Test("AppCheck vendor throws error from limitedUseToken maps to FirebaseAppCheckErrorType",
+    @Test("Error thrown by App Check vendor limitedUseToken is mapped to FirebaseAppCheckErrorType",
           arguments: [(AppCheckErrorCode(.unknown), FirebaseAppCheckErrorType.unknown),
                       (AppCheckErrorCode(.serverUnreachable), FirebaseAppCheckErrorType.network),
                       (AppCheckErrorCode(.invalidConfiguration), FirebaseAppCheckErrorType.invalidConfiguration),
                       (AppCheckErrorCode(.keychain), FirebaseAppCheckErrorType.keychainAccess),
                       (AppCheckErrorCode(.unsupported), FirebaseAppCheckErrorType.notSupported),
                       (AppCheckErrorCode(AppCheckErrorCode.Code(rawValue: 5)!), FirebaseAppCheckErrorType.generic)])
-    func testAppCheckGenericError(errorFromLimitedUseToken: AppCheckErrorCode, kind: FirebaseAppCheckErrorType) async throws {
+    func testAppCheck(errorFromLimitedUseToken: AppCheckErrorCode, map kind: FirebaseAppCheckErrorType) async throws {
         mockVendor.errorFromLimitedUseToken = errorFromLimitedUseToken
         
         let error = try #require(await #expect(throws: FirebaseAppCheckError.self) {
