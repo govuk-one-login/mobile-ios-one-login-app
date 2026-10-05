@@ -3,66 +3,67 @@ import GDSAnalytics
 import Networking
 @testable import OneLogin
 import SecureStore
+import Testing
+import UIKit
 import Wallet
-import XCTest
 
-@MainActor
-final class WalletCoordinatorTests: XCTestCase {
-    var mockAnalyticsService: MockAnalyticsService!
-    var mockSessionManager: MockSessionManager!
-    var sut: WalletCoordinator!
-    
-    override func setUp() {
-        super.setUp()
-
-        mockAnalyticsService = MockAnalyticsService()
-        mockSessionManager = MockSessionManager()
-        mockSessionManager.walletStoreID = "12345"
-        sut = WalletCoordinator(analyticsService: mockAnalyticsService,
-                                networkingService: NetworkClient(),
-                                sessionManager: mockSessionManager)
-    }
-    
-    override func tearDown() {
-        mockAnalyticsService = nil
-        mockSessionManager = nil
-        sut = nil
-        
-        super.tearDown()
+extension WalletCoordinator {
+    static func make(
+        mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
+        mockSessionManager: MockSessionManager = MockSessionManager()
+    ) -> WalletCoordinator {
+        return WalletCoordinator(
+            analyticsService: mockAnalyticsService,
+            networkingService: NetworkClient(),
+            sessionManager: mockSessionManager
+        )
     }
 }
 
-extension WalletCoordinatorTests {
+@MainActor
+struct WalletCoordinatorTests {
+    @Test
     func test_tabBarItem() {
+        let mockSessionManager = MockSessionManager()
+        mockSessionManager.walletStoreID = "12345"
+        let sut: WalletCoordinator = .make(mockSessionManager: mockSessionManager)
+        
         // WHEN the WalletCoordinator has started
         sut.start()
         // THEN the bar button item of the root is correctly configured
         let walletTab = UITabBarItem(title: "Documents",
                                      image: UIImage(systemName: "wallet.pass.fill"),
                                      tag: 1)
-        XCTAssertEqual(sut.root.tabBarItem.title, walletTab.title)
-        XCTAssertEqual(sut.root.tabBarItem.image, walletTab.image)
-        XCTAssertEqual(sut.root.tabBarItem.tag, walletTab.tag)
+        #expect(sut.root.tabBarItem.title == walletTab.title)
+        #expect(sut.root.tabBarItem.image == walletTab.image)
+        #expect(sut.root.tabBarItem.tag == walletTab.tag)
     }
     
+    @Test
     func test_didBecomeSelected() {
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 0)
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut: WalletCoordinator = .make(mockAnalyticsService: mockAnalyticsService)
+        
+        #expect(mockAnalyticsService.eventsLogged.count == 0)
         sut.didBecomeSelected()
         let event = IconEvent(textKey: "app_tabBarWallet")
-        XCTAssertEqual(mockAnalyticsService.eventsLogged.count, 1)
-        XCTAssertEqual(mockAnalyticsService.eventsLogged, [event.name.name])
-        XCTAssertEqual(mockAnalyticsService.eventsParamsLogged, event.parameters)
-        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String)
-        XCTAssertNil(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String)
+        #expect(mockAnalyticsService.eventsLogged.count == 1)
+        #expect(mockAnalyticsService.eventsLogged == [event.name.name])
+        #expect(mockAnalyticsService.eventsParamsLogged == event.parameters)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String == nil)
+        #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String == nil)
     }
     
+    @Test
     func test_walletInitFailed() throws {
+        let mockSessionManager = MockSessionManager()
         mockSessionManager.walletStoreID = nil
+        let sut: WalletCoordinator = .make(mockSessionManager: mockSessionManager)
         sut.start()
         
-        XCTAssertTrue(sut.root.viewControllers.count == 1)
-        let screen = try XCTUnwrap(sut.root.topViewController as? GDSScreen)
+        #expect(sut.root.viewControllers.count == 1)
+        let screen = try #require(sut.root.topViewController as? GDSScreen)
         // TODO: DCMAW-20468 update with new error screen
-        XCTAssertTrue(screen.viewModel is UnrecoverableLoginErrorViewModel)
+        #expect(screen.viewModel is UnrecoverableLoginErrorViewModel)
     }
 }
