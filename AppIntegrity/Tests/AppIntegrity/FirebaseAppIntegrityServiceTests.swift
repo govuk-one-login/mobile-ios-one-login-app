@@ -1,4 +1,3 @@
-// swiftlint:disable file_length
 @testable import AppIntegrity
 import FirebaseAppCheck
 import FirebaseCore
@@ -143,89 +142,25 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
                 .contains(#""mockDPoPPayloadKey1": "mockDPoPPayloadValue1""#) ?? false
         )
     }
-    
-    @Test("AppCheck vendor throws unknown error from limitedUseToken")
-    func testAppCheckUnknownError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 0)
         
-        let error = await #expect(throws: FirebaseAppCheckError.self) {
-            _ = try await sut.clientAssertions
-        }
-
-        #expect(error?.kind == .unknown)
-        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
-        #expect(underlyingError.localizedDescription ==
-                "The operation couldn’t be completed. (com.firebase.appCheck error 0.)")
-    }
-    
-    @Test("AppCheck vendor throws network error from limitedUseToken")
-    func testAppCheckNetworkError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
+    @Test("Error thrown by App Check vendor limitedUseToken is mapped to FirebaseAppCheckErrorType",
+          arguments: [(AppCheckErrorCode(.unknown), FirebaseAppCheckErrorType.unknown),
+                      (AppCheckErrorCode(.serverUnreachable), FirebaseAppCheckErrorType.network),
+                      (AppCheckErrorCode(.invalidConfiguration), FirebaseAppCheckErrorType.invalidConfiguration),
+                      (AppCheckErrorCode(.keychain), FirebaseAppCheckErrorType.keychainAccess),
+                      (AppCheckErrorCode(.unsupported), FirebaseAppCheckErrorType.notSupported),
+                      (AppCheckErrorCode(AppCheckErrorCode.Code(rawValue: 5)!), FirebaseAppCheckErrorType.generic)])
+    func testAppCheck(errorFromLimitedUseToken: AppCheckErrorCode, map kind: FirebaseAppCheckErrorType) async throws {
+        mockVendor.errorFromLimitedUseToken = errorFromLimitedUseToken
         
-        let error = await #expect(throws: FirebaseAppCheckError.self) {
+        let error = try #require(await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
-        }
+        })
 
-        #expect(error?.kind == .network)
-        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
+        #expect(error.kind == kind)
+        let underlyingError = try #require(error.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
         #expect(underlyingError.localizedDescription ==
-                "The operation couldn’t be completed. (com.firebase.appCheck error 1.)")
-    }
-    
-    @Test("AppCheck vendor throws invalid configuration error from limitedUseToken")
-    func testAppCheckInvalidconfigurationError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
-        
-        let error = await #expect(throws: FirebaseAppCheckError.self) {
-            _ = try await sut.clientAssertions
-        }
-
-        #expect(error?.kind == .invalidConfiguration)
-        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
-        #expect(underlyingError.localizedDescription ==
-                "The operation couldn’t be completed. (com.firebase.appCheck error 2.)")
-    }
-    
-    @Test("AppCheck vendor throws keychain access error from limitedUseToken")
-    func testAppCheckKeychainAccessError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 3)
-        
-        let error = await #expect(throws: FirebaseAppCheckError.self) {
-            _ = try await sut.clientAssertions
-        }
-
-        #expect(error?.kind == .keychainAccess)
-        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
-        #expect(underlyingError.localizedDescription ==
-                "The operation couldn’t be completed. (com.firebase.appCheck error 3.)")
-    }
-    
-    @Test("AppCheck vendor throws not supported error from limitedUseToken")
-    func testAppCheckNotSupportedError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 4)
-        
-        let error = await #expect(throws: FirebaseAppCheckError.self) {
-            _ = try await sut.clientAssertions
-        }
-
-        #expect(error?.kind == .notSupported)
-        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
-        #expect(underlyingError.localizedDescription ==
-                "The operation couldn’t be completed. (com.firebase.appCheck error 4.)")
-    }
-    
-    @Test("AppCheck vendor throws generic error from limitedUseToken")
-    func testAppCheckGenericError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 5)
-        
-        let error = await #expect(throws: FirebaseAppCheckError.self) {
-            _ = try await sut.clientAssertions
-        }
-
-        #expect(error?.kind == .generic)
-        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
-        #expect(underlyingError.localizedDescription ==
-                "The operation couldn’t be completed. (com.firebase.appCheck error 5.)")
+                "The operation couldn’t be completed. (com.firebase.appCheck error \(errorFromLimitedUseToken.errorCode).)")
     }
     
     @Test("Check that 400 throws invalid public key error")
