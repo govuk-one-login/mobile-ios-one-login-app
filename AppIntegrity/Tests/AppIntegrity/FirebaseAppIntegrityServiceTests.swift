@@ -146,7 +146,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws unknown error from limitedUseToken")
     func testAppCheckUnknownError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 0)
+        mockVendor.errorFromLimitedUseToken = AppCheckErrorCode(.unknown)
         
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
@@ -160,7 +160,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws network error from limitedUseToken")
     func testAppCheckNetworkError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 1)
+        mockVendor.errorFromLimitedUseToken = AppCheckErrorCode(.serverUnreachable)
         
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
@@ -174,7 +174,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws invalid configuration error from limitedUseToken")
     func testAppCheckInvalidconfigurationError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 2)
+        mockVendor.errorFromLimitedUseToken = AppCheckErrorCode(.invalidConfiguration)
         
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
@@ -188,7 +188,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws keychain access error from limitedUseToken")
     func testAppCheckKeychainAccessError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 3)
+        mockVendor.errorFromLimitedUseToken = AppCheckErrorCode(.keychain)
         
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
@@ -202,7 +202,7 @@ struct FirebaseAppIntegrityServiceTests: ~Copyable {
     
     @Test("AppCheck vendor throws not supported error from limitedUseToken")
     func testAppCheckNotSupportedError() async throws {
-        mockVendor.errorFromLimitedUseToken = NSError(domain: AppCheckErrorDomain, code: 4)
+        mockVendor.errorFromLimitedUseToken = AppCheckErrorCode(.unsupported)
         
         let error = await #expect(throws: FirebaseAppCheckError.self) {
             _ = try await sut.clientAssertions
