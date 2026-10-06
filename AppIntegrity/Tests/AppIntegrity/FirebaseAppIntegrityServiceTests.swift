@@ -53,7 +53,9 @@ struct FirebaseAppIntegrityServiceTests {
         mockDemonstratingProofOfPossessionTokenGenerator.header = ["mockDPoPHeaderKey1": "mockDPoPHeaderValue1"]
         mockDemonstratingProofOfPossessionTokenGenerator.payload = ["mockDPoPPayloadKey1": "mockDPoPPayloadValue1"]
 
-        let sut: FirebaseAppIntegrityService = .makeWithMocks(demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator)
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(
+            demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator
+        )
 
         let integrityResponse = try sut.dPoPAssertion
 
@@ -94,7 +96,9 @@ struct FirebaseAppIntegrityServiceTests {
     func testFetchClientAttestationPublicKey() async throws {
         let mockAttestationProofOfPossessionProvider = MockProofOfPossessionProvider()
         mockAttestationProofOfPossessionProvider.errorFromPublicKey = NSError(domain: "test domain", code: 0)
-        let sut: FirebaseAppIntegrityService = .makeWithMocks(attestationProofOfPossessionProvider: mockAttestationProofOfPossessionProvider)
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(
+            attestationProofOfPossessionProvider: mockAttestationProofOfPossessionProvider
+        )
 
         await #expect(
             throws: ProofOfPossessionError(
@@ -124,7 +128,9 @@ struct FirebaseAppIntegrityServiceNetworkingTests {
 
         let mockDemonstratingProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockDemonstratingProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
-        let sut: FirebaseAppIntegrityService = .makeWithMocks(demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator)
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(
+            demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator
+        )
 
         let error = await #expect(throws: ProofOfPossessionError.self) {
             _ = try await sut.dPoPAssertion
@@ -160,7 +166,8 @@ struct FirebaseAppIntegrityServiceNetworkingTests {
         let sut: FirebaseAppIntegrityService = .makeWithMocks(
             attestationProofOfPossessionTokenGenerator: mockAttestationProofOfPossessionTokenGenerator,
             demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator,
-            attestationStore: mockAttestationStore)
+            attestationStore: mockAttestationStore
+        )
 
         let integrityResponse = try await sut.clientAssertions
 
@@ -281,7 +288,9 @@ struct FirebaseAppIntegrityServiceNetworkingTests {
         
         let mockAttestationProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockAttestationProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
-        let sut: FirebaseAppIntegrityService = .makeWithMocks(attestationProofOfPossessionTokenGenerator: mockAttestationProofOfPossessionTokenGenerator)
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(
+            attestationProofOfPossessionTokenGenerator: mockAttestationProofOfPossessionTokenGenerator
+        )
 
         let error = await #expect(throws: ProofOfPossessionError.self) {
             _ = try await sut.clientAssertions
@@ -307,7 +316,9 @@ struct FirebaseAppIntegrityServiceNetworkingTests {
         
         let mockDemonstratingProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
         mockDemonstratingProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
-        let sut: FirebaseAppIntegrityService = .makeWithMocks(demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator)
+        let sut: FirebaseAppIntegrityService = .makeWithMocks(
+            demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator
+        )
 
         let error = #expect(throws: ProofOfPossessionError.self) {
             _ = try sut.dPoPAssertion
