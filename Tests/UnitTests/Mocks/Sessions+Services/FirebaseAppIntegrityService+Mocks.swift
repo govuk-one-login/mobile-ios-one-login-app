@@ -14,12 +14,13 @@ extension FirebaseAppIntegrityService {
         return makeWithMocks(attestationStore: mockAttestationStore)
     }
     
-    static func makeWithMocks(attestationProofOfPossessionProvider: ProofOfPossessionProvider = MockProofOfPossessionProvider(),
-                     attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
-                     demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
-                     attestationStore: AttestationStorage = MockAttestationStore(),
-                     networkClient: AppIntegrityNetworkClient = MockAppIntegrityNetworkClient.mock(),
-                     baseURL: URL = URL(string: "https://mobile.account.gov.uk")!
+    static func makeWithMocks(
+        attestationProofOfPossessionProvider: ProofOfPossessionProvider = MockProofOfPossessionProvider(),
+        attestationProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
+        demonstratingProofOfPossessionTokenGenerator: ProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator(),
+        attestationStore: AttestationStorage = MockAttestationStore(),
+        networkClient: AppIntegrityNetworkClient = MockAppIntegrityNetworkClient.mock(),
+        baseURL: URL = URL(string: "https://mobile.account.gov.uk")!
     ) -> FirebaseAppIntegrityService {
         return FirebaseAppIntegrityService(
             vendor: MockAppCheckVendor(),
