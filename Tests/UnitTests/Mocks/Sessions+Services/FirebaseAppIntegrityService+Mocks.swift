@@ -29,7 +29,8 @@ extension FirebaseAppIntegrityService {
             demonstratingProofOfPossessionTokenGenerator: demonstratingProofOfPossessionTokenGenerator,
             attestationStore: attestationStore,
             networkClient: networkClient,
-            baseURL: baseURL)
+            baseURL: baseURL
+        )
     }
 
     static func make(attestationStore: AttestationStorage) throws -> FirebaseAppIntegrityService {
@@ -47,7 +48,8 @@ extension FirebaseAppIntegrityService {
             attestationProofOfPossessionProvider: attestationProvider,
             attestationProofOfPossessionTokenGenerator: attestationPoPTokenGenerator,
             demonstratingProofOfPossessionTokenGenerator: demonstratingPoPTokenGenerator,
-            attestationStore: attestationStore)
+            attestationStore: attestationStore
+        )
     }
 }
 
