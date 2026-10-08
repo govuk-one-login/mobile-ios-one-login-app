@@ -1,3 +1,4 @@
+import DesignSystem
 @testable import OneLogin
 import Testing
 import UIKit
@@ -35,7 +36,10 @@ extension UnlockScreenViewControllerTests {
     func test_buttonLabelContents() throws {
         #expect(try sut.unlockButton.titleLabel?.adjustsFontForContentSizeCategory ?? false)
         #expect(try sut.unlockButton.titleLabel?.font == UIFont(style: .title3, weight: .bold))
-        #expect(try sut.unlockButton.title(for: .normal) == "Unlock")
+        #expect(try sut.unlockButton.configuration?.title == "Unlock")
+        #expect(try sut.unlockButton.titleColor(for: .normal) == DesignSystem.Color.Base.black1)
+        #expect(try sut.unlockButton.titleColor(for: .highlighted) == DesignSystem.Color.Base.black1)
+        #expect(try sut.unlockButton.configuration?.cornerStyle == .capsule)
     }
     
     @Test

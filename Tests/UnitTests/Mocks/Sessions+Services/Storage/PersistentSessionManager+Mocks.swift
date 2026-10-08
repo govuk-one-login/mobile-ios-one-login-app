@@ -1,4 +1,5 @@
 import Foundation
+import LocalAuthenticationWrapper
 import Logging
 @testable import OneLogin
 
@@ -79,5 +80,91 @@ extension PersistentSessionManager {
 
         persistentSessionManager.isEnrolling = false
         return persistentSessionManager
+    }
+
+    /// Creates a `PersistentSessionManager` with the following conditions:
+    /// * `isEnrolling = false`
+    /// * `persistentID = nil` i.e. not stored in the `encryptedStore`
+    /// * `isReturningUser = false`
+    /// *  `walletSDK.isEmpty = true`
+    ///
+    /// A call to `startAuthSession(:using:)` assumes this is "a new user" with a `sessionState` that is `.nonePresent` due to a missing `expiryDate`.
+    static func makeWithMocks(
+        mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService(),
+        mockAccessControlEncryptedSecureStoreMigrator: MockSecureStoreService = MockSecureStoreService(),
+        mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
+        mockUnprotectedStore: (any DefaultsStoring & SessionBoundData) = MockDefaultsStore(),
+        mockWalletSessionData: SessionBoundData = WalletSessionBoundDataStub(),
+        mockLocalAuthentication: LocalAuthManaging = MockLocalAuthManager(),
+        mockWalletSDK: WalletServiceProtocol = MockWalletSDKWrapper(),
+        mockRefreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
+        mockAnalyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()
+    ) throws -> PersistentSessionManager {
+        return try .make(
+                accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedSecureStoreMigrator,
+                encryptedStore: mockEncryptedStore,
+                unprotectedStore: mockUnprotectedStore,
+                localAuthentication: mockLocalAuthentication,
+                analyticsService: mockAnalyticsService,
+                walletSDK: mockWalletSDK,
+                walletSessionData: mockWalletSessionData,
+                refreshTokenExchangeManager: mockRefreshTokenExchangeManager,
+                serialTaskQueue: SerialTaskQueue(),
+                analyticsPreferenceStore: mockAnalyticsPreferenceStore
+            )
+    }
+
+    static func makeForResumeSession(
+        mockAnalyticsService: MockAnalyticsService = MockAnalyticsService(),
+        mockAccessControlEncryptedSecureStoreMigrator: MockSecureStoreService = MockSecureStoreService(),
+        mockEncryptedStore: MockSecureStoreService = MockSecureStoreService(),
+        mockUnprotectedStore: MockDefaultsStore = MockDefaultsStore(),
+        mockWalletSessionData: SessionBoundData = WalletSessionBoundDataStub(),
+        mockLocalAuthentication: MockLocalAuthManager = MockLocalAuthManager(),
+        mockWalletSDK: WalletServiceProtocol = MockWalletSDKWrapper(),
+        mockRefreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
+        mockAnalyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()
+    ) throws -> PersistentSessionManager {
+        // GIVEN I am a returning user with local auth enabled
+        mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
+        mockUnprotectedStore.savedData = [OLString.returningUser: true]
+
+        // AND I have a persistentSessionID saved in secure store
+        try mockEncryptedStore.saveItem(
+            item: UUID().uuidString,
+            itemName: OLString.persistentSessionID
+        )
+
+        // AND I have tokens saved in secure store
+        let data = StoredTokens.encodeKeys(
+            idToken: MockJWTs.genericToken,
+            refreshToken: MockJWTs.genericToken,
+            accessToken: MockJWTs.genericToken
+        )
+        try mockAccessControlEncryptedSecureStoreMigrator.saveItem(
+            item: data,
+            itemName: OLString.storedTokens
+        )
+
+        return try .make(
+                accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedSecureStoreMigrator,
+                encryptedStore: mockEncryptedStore,
+                unprotectedStore: mockUnprotectedStore,
+                localAuthentication: mockLocalAuthentication,
+                analyticsService: mockAnalyticsService,
+                walletSDK: mockWalletSDK,
+                walletSessionData: mockWalletSessionData,
+                refreshTokenExchangeManager: mockRefreshTokenExchangeManager,
+                serialTaskQueue: SerialTaskQueue(),
+                analyticsPreferenceStore: mockAnalyticsPreferenceStore
+            )
+    }
+}
+
+extension PersistentSessionManager {
+    var hasNotRemovedLocalAuth: Bool {
+        get throws {
+            try localAuthentication.canUseAnyLocalAuth && isReturningUser
+        }
     }
 }

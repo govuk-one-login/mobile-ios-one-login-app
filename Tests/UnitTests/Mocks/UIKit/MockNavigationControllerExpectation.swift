@@ -1,4 +1,4 @@
-import XCTest
+import UIKit
 
 class MockNavigationControllerExpectation: UINavigationController {
     typealias PushViewControllerAsFunction = (UIViewController, Bool) -> Void

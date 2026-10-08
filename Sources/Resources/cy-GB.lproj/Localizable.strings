@@ -197,10 +197,9 @@
 // MARK: Update App screen
 "app_updateAppTitle" = "Mae angen i chi ddiweddaru eich ap";
 
-"app_updateAppBody" = "Rydych yn defnyddio hen fersiwn o'r ap %@.\n\nDiweddarwch eich ap i barhau.";
+"app_updateAppBody" = "Rydych yn defnyddio hen fersiwn o'r ap %@.\n\nEwch i'r App Store a diweddarwch eich ap i barhau.";
 
-"app_updateAppButton" = "Diweddaru Ap %@";
-
+"app_updateAppButton" = "Ewch i'r App Store";
 
 // MARK: Home Screen Cards content tiles
 "app_welcomeTileHeader" = "Croeso";

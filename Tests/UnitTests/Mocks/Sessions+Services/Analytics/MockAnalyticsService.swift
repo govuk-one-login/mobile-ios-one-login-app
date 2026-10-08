@@ -1,6 +1,7 @@
+import Foundation
 import Logging
 @testable import OneLogin
-import XCTest
+import Testing
 
 final class MockAnalyticsService: OneLoginAnalyticsService {
     var analyticsPreferenceStore: AnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
@@ -25,7 +26,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         screenViews.append(screen)
         
         guard let parameters = parameters as? [String: String] else {
-            XCTFail("Non-string parameters were logged")
+            Issue.record("Non-string parameters were logged")
             return
         }
         
@@ -36,7 +37,7 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
         eventsLogged.append(event.name)
         
         guard let parameters = parameters as? [String: String] else {
-            XCTFail("Non-string parameters were logged")
+            Issue.record("Non-string parameters were logged")
             return
         }
         
@@ -61,6 +62,8 @@ final class MockAnalyticsService: OneLoginAnalyticsService {
 }
 
 final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
+    typealias OnLogCrashAnyErrorCalled = @Sendable () -> Void
+
     var analyticsPreferenceStore: AnalyticsPreferenceStore {
         mockAnalyticsService.analyticsPreferenceStore
     }
@@ -79,10 +82,10 @@ final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
     }
     
     let mockAnalyticsService = MockAnalyticsService()
-    let expectation: XCTestExpectation
+    let onLogCrashAnyErrorCalled: OnLogCrashAnyErrorCalled
     
-    init(expectation: XCTestExpectation) {
-        self.expectation = expectation
+    init(onLogCrashAnyErrorCalled: @escaping OnLogCrashAnyErrorCalled = {}) {
+        self.onLogCrashAnyErrorCalled = onLogCrashAnyErrorCalled
     }
     
     func addingAdditionalParameters(_ additionalParameters: [String: Any]) -> Self {
@@ -96,7 +99,7 @@ final class MockAnalyticsServiceExpectation: OneLoginAnalyticsService {
     
     func logCrash(_ crash: any Error) {
         mockAnalyticsService.logCrash(crash)
-        expectation.fulfill()
+        onLogCrashAnyErrorCalled()
     }
     
     func trackScreen(_ screen: any LoggableScreen, parameters: [String: Any]) {

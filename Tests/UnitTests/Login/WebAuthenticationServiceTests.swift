@@ -273,7 +273,7 @@ struct WebAuthenticationServiceTests {
     
     @Test
     func test_startWebSession_success() async throws {
-        let sessionManager: PersistentSessionManager = try .make()
+        let sessionManager: PersistentSessionManager = try .makeWithMocks()
         let sut: WebAuthenticationService = await .make(sessionManager: sessionManager)
         
         await #expect(throws: Never.self) {
@@ -374,7 +374,7 @@ struct WebAuthenticationServiceTests {
     func test_errorFromAttestationJWT_onNewUser() async throws {
         let mockAnalyticsService = MockAnalyticsService()
 
-        let sessionManager: PersistentSessionManager = try .make()
+        let sessionManager: PersistentSessionManager = try .makeWithMocks(mockAnalyticsService: mockAnalyticsService)
 
         let sut: WebAuthenticationService = await .make(
             sessionManager: sessionManager,

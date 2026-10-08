@@ -32,7 +32,7 @@ extension UpdateAppViewModelTests {
         let bodyText = sut.body.last as? GDSTextViewModel
         #expect(bodyText?.title.stringKey == "app_updateAppBody")
         #expect(bodyText?.title.variableKeys == ["app_nameString"])
-        #expect(bodyText?.title.value == "You’re using an old version of the GOV.UK One Login app.\n\nUpdate your app to continue.")
+        #expect(bodyText?.title.value == "You're using an old version of the GOV.UK One Login app.\n\nGo to the App Store and update your app to continue.")
         #expect(sut.rightBarButtonTitle == nil)
         #expect(sut.backButtonIsHidden)
     }
@@ -41,8 +41,8 @@ extension UpdateAppViewModelTests {
     func test_button() {
         let primaryButton = sut.movableFooter.first as? GDSButtonViewModel
         
-        #expect(primaryButton?.title.forState(.normal) == "Update GOV.UK One Login app")
-        
+        #expect(primaryButton?.title.forState(.normal) == "Go to App Store")
+        #expect(primaryButton?.icon == .arrowUpRight)
         #expect(primaryButton?.accessibilityHint == "Opens in App Store")
         #expect(!urlOpener.didOpenURL)
         primaryButton?.buttonAction.perform()

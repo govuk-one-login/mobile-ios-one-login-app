@@ -55,45 +55,38 @@ public final class FirebaseAppIntegrityService: AppIntegrityProvider {
                     AppIntegrityHeaderKey.attestation.rawValue: attestationResponse.clientAttestation,
                     AppIntegrityHeaderKey.attestationProofOfPossession.rawValue: try attestationProofOfPossessionToken
                 ]
-            } catch let error as NSError where
-                        error.domain == AppCheckErrorDomain {
+            } catch let error as AppCheckErrorCode {
                 // available at firebase-ios-sdk/FirebaseAppCheck/Sources/Public/FirebaseAppCheck/FIRAppCheckErrors.h
-                switch error.code {
-                case 0:
+                switch error {
+                case AppCheckErrorCode.unknown:
                     throw FirebaseAppCheckError(
                         .unknown,
-                        originalError: error,
-                        additionalParameters: error.userInfo
+                        originalError: error
                     )
-                case 1:
+                case AppCheckErrorCode.serverUnreachable:
                     throw FirebaseAppCheckError(
                         .network,
-                        originalError: error,
-                        additionalParameters: error.userInfo
+                        originalError: error
                     )
-                case 2:
+                case AppCheckErrorCode.invalidConfiguration:
                     throw FirebaseAppCheckError(
                         .invalidConfiguration,
-                        originalError: error,
-                        additionalParameters: error.userInfo
+                        originalError: error
                     )
-                case 3:
+                case AppCheckErrorCode.keychain:
                     throw FirebaseAppCheckError(
                         .keychainAccess,
-                        originalError: error,
-                        additionalParameters: error.userInfo
+                        originalError: error
                     )
-                case 4:
+                case AppCheckErrorCode.unsupported:
                     throw FirebaseAppCheckError(
                         .notSupported,
-                        originalError: error,
-                        additionalParameters: error.userInfo
+                        originalError: error
                     )
                 default:
                     throw FirebaseAppCheckError(
                         .generic,
-                        originalError: error,
-                        additionalParameters: error.userInfo
+                        originalError: error
                     )
                 }
             } catch let error as ServerError where

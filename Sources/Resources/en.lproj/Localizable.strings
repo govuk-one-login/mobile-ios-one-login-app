@@ -197,9 +197,9 @@
 // MARK: Update App screen
 "app_updateAppTitle" = "You need to update your app";
 
-"app_updateAppBody" = "You’re using an old version of the %@ app.\n\nUpdate your app to continue.";
+"app_updateAppBody" = "You're using an old version of the %@ app.\n\nGo to the App Store and update your app to continue.";
 
-"app_updateAppButton" = "Update %@ app";
+"app_updateAppButton" = "Go to App Store";
 
 // MARK: Home Screen Cards content tiles
 "app_welcomeTileHeader" = "Welcome";

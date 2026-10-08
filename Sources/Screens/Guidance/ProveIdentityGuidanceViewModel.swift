@@ -34,7 +34,7 @@ struct ProveIdentityGuidanceViewModel: GDSLeftAlignedViewModel {
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_proveYourIdentityGuidanceLink").value,
                                    icon: .arrowUpRight,
-                                   style: .secondary.adjusting(alignment: .leading),
+                                   style: .secondaryLeading,
                                    buttonAction: .action {
                                        let event = LinkEvent(textKey: "app_proveYourIdentityGuidanceLink",
                                                              linkDomain: AppEnvironment.govSignInURL.absoluteString,
@@ -44,7 +44,8 @@ struct ProveIdentityGuidanceViewModel: GDSLeftAlignedViewModel {
                                        urlOpener.open(url: AppEnvironment.govSignInURL)
                                    },
                                    accessibilityHint: GDSLocalisedString("app_externalBrowser").value,
-                                   verticalPadding: .bottom(DesignSystem.Spacing.default)),
+                                   verticalPadding: .bottom(DesignSystem.Spacing.default),
+                                   horizontalPadding: .horizontal(DesignSystem.Spacing.default)),
                 GDSTextViewModel(title: GDSLocalisedString(stringLiteral: "app_proveYourIdentityGuidanceBody2",
                                                            stringAttributes: [(GDSLocalisedString("app_proveYourIdentityGuidanceBody2").value, [.font: UIFont.bodyBold])]),
                                  accessibilityTraits: .header,

@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/iProov/ios.git",
       "state" : {
-        "revision" : "1715e64ba336a2b154f5fd6a4795442a8dae4a5a",
-        "version" : "13.1.0"
+        "revision" : "68a7d87093d3c5201ca9ccc5f9956db438f056de",
+        "version" : "13.2.1"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-credential-sharing-ios",
       "state" : {
-        "revision" : "731ceb42be4d761ecd565ad942753df65a5adc44",
-        "version" : "2.5.0"
+        "revision" : "66bb3e5aa3727608933549a3135db567d04234d5",
+        "version" : "2.17.0"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
       "state" : {
-        "revision" : "9734c5bccbec820db378583d1694a70e716aa6b5",
-        "version" : "8.83.6"
+        "revision" : "8176beb721aa9622fab1470340314ebe193e60f7",
+        "version" : "8.84.1"
       }
     },
     {
@@ -158,8 +158,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "revision" : "dbeef4f0d41c595be949552f52b0a38e056ddcf4",
-        "version" : "5.1.0"
+        "revision" : "666028682dab5eb5c7f4c852a6abd0e20bce7ec5",
+        "version" : "5.2.0"
       }
     },
     {
@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "revision" : "9c39e09d5844e43e1f86d082d1b1bf1628ad9a94",
-        "version" : "4.8.0"
+        "revision" : "5c034bd5643bc7f2b1b12457a2dc8a0e0155a219",
+        "version" : "4.9.0"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-ui",
       "state" : {
-        "revision" : "4ceca00ad470122438d115834a4b6f77f6067bc7",
-        "version" : "2.4.1"
+        "revision" : "738a364253a9492e67317ce20dadff6bb613629e",
+        "version" : "2.5.0"
       }
     },
     {
@@ -274,17 +274,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-asn1.git",
       "state" : {
-        "revision" : "40d25bbb2fc5b557a9aa8512210bded327c0f60d",
-        "version" : "1.5.0"
+        "revision" : "3b6410f7dee09eb33cdd26260c5fd47fda19b0e2",
+        "version" : "1.7.3"
       }
     },
     {
       "identity" : "swift-certificates",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-certificates",
+      "location" : "https://github.com/apple/swift-certificates.git",
       "state" : {
-        "revision" : "f4cd9e78a1ec209b27e426a5f5c693675f95e75a",
-        "version" : "1.15.0"
+        "revision" : "ff86b924ead66f853b8baf91f3c41926a8f36177",
+        "version" : "1.21.0"
       }
     },
     {
