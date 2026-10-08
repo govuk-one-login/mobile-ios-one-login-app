@@ -197,7 +197,7 @@ struct FirebaseAppIntegrityServiceNetworkingTests {
         }
     }
 
-    @Test("Check that client attestation request payload results in a decoding error")
+    @Test("Check that malformed client attestation response body results in a decoding error")
     func testFetchClientAttestationDecodingError() async throws {
         MockURLProtocol.handler = {
             (Data("""
