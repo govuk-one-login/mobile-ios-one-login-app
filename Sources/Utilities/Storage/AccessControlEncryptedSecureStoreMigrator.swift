@@ -17,17 +17,19 @@ final class AccessControlEncryptedSecureStoreMigrator: EncryptedSecureStorable, 
         }
     }
     
-    convenience init(analyticsService: OneLoginAnalyticsService) throws {
+    convenience init(analyticsService: OneLoginAnalyticsService) {
         self.init(
-            v12AccessControlEncryptedSecureStore: try .v12AccessControlEncryptedStore(
+            v12AccessControlEncryptedSecureStore: .v12AccessControlEncryptedStore(
                 localAuthManager: LocalAuthenticationWrapper(
                     localAuthStrings: .oneLogin
-                )
+                ),
+                analytics: analyticsService
             ),
-            v13AccessControlEncryptedSecureStore: try .v13AccessControlEncryptedStore(
+            v13AccessControlEncryptedSecureStore: .v13AccessControlEncryptedStore(
                 localAuthManager: LocalAuthenticationWrapper(
                     localAuthStrings: .oneLogin
-                )
+                ),
+                analytics: analyticsService
             ),
             migrationStore: UserDefaults.standard,
             analyticsService: analyticsService

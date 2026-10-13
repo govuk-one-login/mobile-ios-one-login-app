@@ -23,6 +23,10 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
         return true
     }
     
+    func oneLoginStrings(type: LocalAuthType) throws -> SecureStore.LocalAuthenticationLocalizedStrings? {
+        return oneLoginStrings
+    }
+
     func hasBeenPrompted() -> Bool {
         return userPromptedForLocalAuth
     }
@@ -52,6 +56,10 @@ final class MockLocalAuthManagerExpectation: LocalAuthManaging, LocalAuthenticat
         mockLocalAuthManager.oneLoginStrings
     }
     
+    func oneLoginStrings(type: LocalAuthType) throws -> SecureStore.LocalAuthenticationLocalizedStrings? {
+        return try mockLocalAuthManager.oneLoginStrings(type: type)
+    }
+
     var canUseAnyLocalAuth: Bool {
         mockLocalAuthManager.canUseAnyLocalAuth
     }
