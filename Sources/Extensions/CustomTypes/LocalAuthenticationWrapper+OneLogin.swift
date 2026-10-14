@@ -3,11 +3,11 @@ import LocalAuthenticationWrapper
 import SecureStore
 
 protocol LocalAuthenticationContextStrings {
-    var oneLoginStrings: LocalAuthenticationLocalizedStrings? { get }
+    var oneLoginStrings: LocalAuthenticationLocalizedStrings { get }
 }
 
 extension LocalAuthenticationWrapper: LocalAuthenticationContextStrings {
-    var oneLoginStrings: LocalAuthenticationLocalizedStrings? {
+    var oneLoginStrings: LocalAuthenticationLocalizedStrings {
         get {
             LocalAuthenticationLocalizedStrings(
                 localizedReason: GDSLocalisedString(
