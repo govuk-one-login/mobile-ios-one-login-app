@@ -3,10 +3,24 @@ import LocalAuthenticationWrapper
 import SecureStore
 
 final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextStrings {
+    static func oneLoginStringsAsFunction(oneLoginStrings: LocalAuthenticationLocalizedStrings) -> OneLoginStringsAsFunction {
+        func oneLoginStringsAsFunction() -> LocalAuthenticationLocalizedStrings {
+            return oneLoginStrings
+        }
+
+        return oneLoginStringsAsFunction
+    }
+
+    typealias OneLoginStringsAsFunction = () -> LocalAuthenticationLocalizedStrings
     var type: LocalAuthType = .touchID
     var deviceBiometricsType: LocalAuthType = .touchID
-    
-    var oneLoginStrings: LocalAuthenticationLocalizedStrings?
+
+    let oneLoginStringsAsFunction: OneLoginStringsAsFunction
+    var oneLoginStrings: LocalAuthenticationLocalizedStrings {
+        get {
+            return self.oneLoginStringsAsFunction()
+        }
+    }
     
     var localAuthIsEnabledOnTheDevice = false
     var errorFromEnrolLocalAuth: Error?
@@ -15,6 +29,24 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
     
     var didCallEnrolFaceIDIfAvailable = false
     
+    init(type: LocalAuthType = .none,
+         deviceBiometricsType: LocalAuthType = .none,
+         oneLoginStringsAsFunction: @escaping OneLoginStringsAsFunction = MockLocalAuthManager.oneLoginStringsAsFunction(oneLoginStrings: .init(localizedReason: "", localisedFallbackTitle: "", localisedCancelTitle: "")),
+         localAuthIsEnabledOnTheDevice: Bool = false,
+         errorFromEnrolLocalAuth: Error? = nil,
+         userDidConsentToFaceID: Bool = true,
+         userPromptedForLocalAuth: Bool = false,
+         didCallEnrolFaceIDIfAvailable: Bool = false) {
+        self.type = type
+        self.deviceBiometricsType = deviceBiometricsType
+        self.oneLoginStringsAsFunction = oneLoginStringsAsFunction
+        self.localAuthIsEnabledOnTheDevice = localAuthIsEnabledOnTheDevice
+        self.errorFromEnrolLocalAuth = errorFromEnrolLocalAuth
+        self.userDidConsentToFaceID = userDidConsentToFaceID
+        self.userPromptedForLocalAuth = userPromptedForLocalAuth
+        self.didCallEnrolFaceIDIfAvailable = didCallEnrolFaceIDIfAvailable
+    }
+
     var canUseAnyLocalAuth: Bool {
         return localAuthIsEnabledOnTheDevice
     }
@@ -48,8 +80,10 @@ final class MockLocalAuthManagerExpectation: LocalAuthManaging, LocalAuthenticat
         mockLocalAuthManager.deviceBiometricsType
     }
     
-    var oneLoginStrings: LocalAuthenticationLocalizedStrings? {
-        mockLocalAuthManager.oneLoginStrings
+    var oneLoginStrings: LocalAuthenticationLocalizedStrings {
+        get {
+            mockLocalAuthManager.oneLoginStrings
+        }
     }
     
     var canUseAnyLocalAuth: Bool {
