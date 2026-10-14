@@ -2,12 +2,12 @@ import Foundation
 import LocalAuthenticationWrapper
 import SecureStore
 
-extension SecureStorable where Self == SecureStoreService {
-    static func v12AccessControlEncryptedStore(
+extension SecureStorageConfiguration {
+    static func makeV12TokensStoreConfiguration(
         localAuthManager: LocalAuthenticationContextStrings,
         analytics: OneLoginAnalyticsService
-    ) -> SecureStoreService {
-        let accessControlConfiguration = SecureStorageConfiguration(
+    ) -> SecureStorageConfiguration {
+        return SecureStorageConfiguration(
             id: OLString.v12TokensStore,
             accessControlLevel: .anyBiometricsOrPasscode,
             localAuthStringsProvider: {
@@ -19,16 +19,13 @@ extension SecureStorable where Self == SecureStoreService {
                 }
             }
         )
-        return SecureStoreService(
-            configuration: accessControlConfiguration
-        )
     }
-    
-    static func v13AccessControlEncryptedStore(
+
+    static func makeV13TokensStoreConfiguration(
         localAuthManager: LocalAuthenticationContextStrings,
         analytics: OneLoginAnalyticsService
-    ) -> SecureStoreService {
-        let accessControlConfiguration = SecureStorageConfiguration(
+    ) -> SecureStorageConfiguration {
+        return SecureStorageConfiguration(
             id: OLString.v13TokensStore,
             accessControlLevel: .anyBiometricsOrPasscode,
             localAuthStringsProvider: {
@@ -40,11 +37,32 @@ extension SecureStorable where Self == SecureStoreService {
                 }
             }
         )
+    }
+}
+
+extension SecureStorable where Self == SecureStoreService {
+    static func v12AccessControlEncryptedStore(
+        localAuthManager: LocalAuthenticationContextStrings,
+        analytics: OneLoginAnalyticsService
+    ) -> SecureStoreService {
         return SecureStoreService(
-            configuration: accessControlConfiguration
+            configuration: .makeV12TokensStoreConfiguration(
+                localAuthManager: localAuthManager, analytics: analytics
+            )
         )
     }
     
+    static func v13AccessControlEncryptedStore(
+        localAuthManager: LocalAuthenticationContextStrings,
+        analytics: OneLoginAnalyticsService
+    ) -> SecureStoreService {
+        return SecureStoreService(
+            configuration: .makeV13TokensStoreConfiguration(
+                localAuthManager: localAuthManager, analytics: analytics
+            )
+        )
+    }
+
     static func v12EncryptedStore() -> SecureStoreService {
         let encryptedConfiguration = SecureStorageConfiguration(
             id: OLString.v12TokenInfoStore,
