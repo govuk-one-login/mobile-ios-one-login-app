@@ -3,7 +3,13 @@ import LocalAuthenticationWrapper
 import SecureStore
 
 final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextStrings {
-    static func oneLoginStringsAsFunction(oneLoginStrings: LocalAuthenticationLocalizedStrings) -> OneLoginStringsAsFunction {
+    static func oneLoginStringsAsFunction(
+        oneLoginStrings: LocalAuthenticationLocalizedStrings = .init(
+            localizedReason: "",
+            localisedFallbackTitle: "",
+            localisedCancelTitle: ""
+        )
+    ) -> OneLoginStringsAsFunction {
         func oneLoginStringsAsFunction() -> LocalAuthenticationLocalizedStrings {
             return oneLoginStrings
         }
@@ -17,9 +23,7 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
 
     let oneLoginStringsAsFunction: OneLoginStringsAsFunction
     var oneLoginStrings: LocalAuthenticationLocalizedStrings {
-        get {
-            return self.oneLoginStringsAsFunction()
-        }
+        return self.oneLoginStringsAsFunction()
     }
     
     var localAuthIsEnabledOnTheDevice = false
@@ -31,7 +35,7 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
     
     init(type: LocalAuthType = .none,
          deviceBiometricsType: LocalAuthType = .none,
-         oneLoginStringsAsFunction: @escaping OneLoginStringsAsFunction = MockLocalAuthManager.oneLoginStringsAsFunction(oneLoginStrings: .init(localizedReason: "", localisedFallbackTitle: "", localisedCancelTitle: "")),
+         oneLoginStringsAsFunction: @escaping OneLoginStringsAsFunction = MockLocalAuthManager.oneLoginStringsAsFunction(),
          localAuthIsEnabledOnTheDevice: Bool = false,
          errorFromEnrolLocalAuth: Error? = nil,
          userDidConsentToFaceID: Bool = true,
@@ -81,9 +85,7 @@ final class MockLocalAuthManagerExpectation: LocalAuthManaging, LocalAuthenticat
     }
     
     var oneLoginStrings: LocalAuthenticationLocalizedStrings {
-        get {
-            mockLocalAuthManager.oneLoginStrings
-        }
+        mockLocalAuthManager.oneLoginStrings
     }
     
     var canUseAnyLocalAuth: Bool {

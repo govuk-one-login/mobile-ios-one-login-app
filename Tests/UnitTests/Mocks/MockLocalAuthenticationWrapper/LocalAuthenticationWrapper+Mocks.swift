@@ -1,6 +1,5 @@
-import Foundation
-@testable import LocalAuthenticationWrapper
 import LocalAuthentication
+@testable import LocalAuthenticationWrapper
 
 extension LocalAuthenticationWrapper {
     static func make(localAuthContext: LocalAuthContext = MockLocalAuthContext.stub(biometryType: .faceID),
