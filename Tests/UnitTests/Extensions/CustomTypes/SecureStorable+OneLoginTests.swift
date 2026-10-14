@@ -1,21 +1,24 @@
-import Foundation
-@testable import LocalAuthenticationWrapper
 import LocalAuthentication
+@testable import LocalAuthenticationWrapper
 @testable import OneLogin
 @testable import SecureStore
 import Testing
 
 extension SecureStorageConfiguration {
-    static func makeV12TokensStoreConfigurationWithMocks(localAuthManager: LocalAuthenticationContextStrings = LocalAuthenticationWrapper.make(localAuthPromptStore: UserDefaults.standard),
-                              analytics: OneLoginAnalyticsService = MockAnalyticsService()) -> SecureStorageConfiguration {
+    static func makeV12TokensStoreConfigurationWithMocks(
+        localAuthManager: LocalAuthenticationContextStrings = LocalAuthenticationWrapper.make(localAuthPromptStore: UserDefaults.standard),
+        analytics: OneLoginAnalyticsService = MockAnalyticsService()
+    ) -> SecureStorageConfiguration {
         return SecureStorageConfiguration.makeV12TokensStoreConfiguration(
             localAuthManager: localAuthManager,
             analytics: analytics
         )
     }
 
-    static func makeV13TokensStoreConfigurationWithMocks(localAuthManager: LocalAuthenticationContextStrings = LocalAuthenticationWrapper.make(localAuthPromptStore: UserDefaults.standard),
-                              analytics: OneLoginAnalyticsService = MockAnalyticsService()) -> SecureStorageConfiguration {
+    static func makeV13TokensStoreConfigurationWithMocks(
+        localAuthManager: LocalAuthenticationContextStrings = LocalAuthenticationWrapper.make(localAuthPromptStore: UserDefaults.standard),
+        analytics: OneLoginAnalyticsService = MockAnalyticsService()
+    ) -> SecureStorageConfiguration {
         return SecureStorageConfiguration.makeV13TokensStoreConfiguration(
             localAuthManager: localAuthManager,
             analytics: analytics

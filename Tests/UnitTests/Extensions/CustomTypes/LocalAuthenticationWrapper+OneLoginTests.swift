@@ -1,5 +1,5 @@
-@testable import LocalAuthenticationWrapper
 import LocalAuthentication
+@testable import LocalAuthenticationWrapper
 @testable import OneLogin
 import SecureStore
 import Testing

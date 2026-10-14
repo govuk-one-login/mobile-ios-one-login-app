@@ -5,7 +5,6 @@ import UIKit
 
 @MainActor
 struct SceneDelegateTests {
-    
     @Test
     func test_setUpBasicUI_tabBarTintColor() {
         let sut = SceneDelegate()
