@@ -4,23 +4,29 @@ import SecureStore
 
 protocol LocalAuthenticationContextStrings {
     var oneLoginStrings: LocalAuthenticationLocalizedStrings? { get throws }
+
+    func oneLoginStrings(type: LocalAuthType) throws -> LocalAuthenticationLocalizedStrings?
 }
 
 extension LocalAuthenticationWrapper: LocalAuthenticationContextStrings {
     var oneLoginStrings: LocalAuthenticationLocalizedStrings? {
         get throws {
-            LocalAuthenticationLocalizedStrings(
-                localizedReason: GDSLocalisedString(
-                    stringLiteral: try type == .faceID ?
-                    "app_faceId_subtitle" : "app_touchId_subtitle"
-                ).value,
-                localisedFallbackTitle: GDSLocalisedString(
-                    stringLiteral: "app_enterPasscodeButton"
-                ).value,
-                localisedCancelTitle: GDSLocalisedString(
-                    stringLiteral: "app_cancelButton"
-                ).value
-            )
+            oneLoginStrings(type: try type)
         }
+    }
+
+    func oneLoginStrings(type: LocalAuthType) -> LocalAuthenticationLocalizedStrings? {
+        LocalAuthenticationLocalizedStrings(
+            localizedReason: GDSLocalisedString(
+                stringLiteral: type == .faceID ?
+                "app_faceId_subtitle" : "app_touchId_subtitle"
+            ).value,
+            localisedFallbackTitle: GDSLocalisedString(
+                stringLiteral: "app_enterPasscodeButton"
+            ).value,
+            localisedCancelTitle: GDSLocalisedString(
+                stringLiteral: "app_cancelButton"
+            ).value
+        )
     }
 }
