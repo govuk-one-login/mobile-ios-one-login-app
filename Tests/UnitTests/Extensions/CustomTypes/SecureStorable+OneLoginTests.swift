@@ -27,54 +27,50 @@ extension SecureStorageConfiguration {
 }
 
 struct SecureStorableTests {
-    func given(errorFromOneLoginStrings: LAError,
-               sut: (LocalAuthenticationContextStrings, OneLoginAnalyticsService) -> SecureStorageConfiguration,
-               when: (SecureStorageConfiguration) throws -> Void) throws {
-        // GIVEN localAuthManager throws an error when accessing the oneLoginStrings
-        let localAuthManager = MockLocalAuthManager.errorFromOneLoginStringsAsFunction(error: errorFromOneLoginStrings)
-        let analytics = MockAnalyticsService()
+    func assertTokenStoreConfigurationThrows(
+        errorFromOneLoginStrings: LAError,
+        makeTokenStoreConfiguration: (LocalAuthenticationContextStrings, OneLoginAnalyticsService) -> SecureStorageConfiguration
+    ) throws {
+            // GIVEN localAuthManager throws an error when accessing the oneLoginStrings
+            let localAuthManager = MockLocalAuthManager.errorFromOneLoginStringsAsFunction(error: errorFromOneLoginStrings)
+            let analytics = MockAnalyticsService()
 
-        let sut = sut(localAuthManager, analytics)
+            let sut = makeTokenStoreConfiguration(localAuthManager, analytics)
 
-        #expect(throws: errorFromOneLoginStrings.self) {
-            try when(sut)
+            #expect(throws: errorFromOneLoginStrings.self) {
+                // WHEN accessing the oneLoginStrings
+                try sut.localAuthStringsProvider()
+            }
+
+            // THEN expect crashes to be logged
+            #expect(analytics.crashesLogged.count == 1)
+            let crash = try #require(analytics.crashesLogged.first as? LAError)
+
+            #expect(crash == errorFromOneLoginStrings)
         }
-
-        // THEN expect crashes to be logged
-        #expect(analytics.crashesLogged.count == 1)
-        let crash = try #require(analytics.crashesLogged.first as? LAError)
-
-        #expect(crash == errorFromOneLoginStrings)
-    }
 
     @Test
     func assert_v12TokenStoreConfiguration_localAuthStringsProvider_error() throws {
         let anyError = LAError(.passcodeNotSet)
 
-        try given(errorFromOneLoginStrings: anyError, sut: { localAuthManager, analytics in
+        try assertTokenStoreConfigurationThrows(errorFromOneLoginStrings: anyError) { localAuthManager, analytics in
             return .makeV12TokensStoreConfigurationWithMocks(
                     localAuthManager: localAuthManager,
                     analytics: analytics
                 )
-        }, when: { sut in
-            // WHEN accessing the oneLoginStrings
-            _ = try sut.localAuthStringsProvider()
-        })
+        }
     }
 
     @Test
     func assert_v13TokenStoreConfiguration_localAuthStringsProvider_error() throws {
         let anyError = LAError(.passcodeNotSet)
 
-        try given(errorFromOneLoginStrings: anyError, sut: { localAuthManager, analytics in
+        try assertTokenStoreConfigurationThrows(errorFromOneLoginStrings: anyError) { localAuthManager, analytics in
             return .makeV13TokensStoreConfigurationWithMocks(
                     localAuthManager: localAuthManager,
                     analytics: analytics
                 )
-        }, when: { sut in
-            // WHEN accessing the oneLoginStrings
-            _ = try sut.localAuthStringsProvider()
-        })
+        }
     }
 
     @Test
