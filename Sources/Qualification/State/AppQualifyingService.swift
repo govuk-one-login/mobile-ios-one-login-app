@@ -179,6 +179,8 @@ final class AppQualifyingService: QualifyingService {
             } catch let error as Networking.AppIntegrityError {
                 analyticsService.logCrash(error)
                 
+                // .generic and .appIntegrityFailed errors result in error screen being presented
+                // .intermittent error is caught within resumeSession()
                 sessionState = .appIntegrityCheckFailed
             } catch let error as ServerError where error.errorCode == 400 {
                 analyticsService.logCrash(error)
