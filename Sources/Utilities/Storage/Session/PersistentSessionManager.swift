@@ -6,6 +6,7 @@ import Foundation
 import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
+import Networking
 import SecureStore
 import WalletStore
 
@@ -337,6 +338,9 @@ final class PersistentSessionManager: SessionManager {
                 )
             } catch RefreshTokenExchangeError.noInternet {
                 // Enables offline wallet for users that have valid refresh tokens
+                return
+            } catch let error as Networking.AppIntegrityError where error.kind == .intermittent {
+                // Error fails silently and allows user to access app
                 return
             }
         }
