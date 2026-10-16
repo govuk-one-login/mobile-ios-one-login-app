@@ -1,4 +1,3 @@
-import AppIntegrity
 import Foundation
 import Logging
 import MobilePlatformServices

@@ -767,26 +767,49 @@ struct PersistentSessionManagerTests {
             try await sut.resumeSession()
         }
     }
-
+    
     @Test
-    func test_resumeSession_offlineWallet_firebaseNetworkError() async throws {
-        MockURLProtocol.clear()
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        let client = NetworkClient(configuration: configuration)
-        let mockAppIntegrityProvider = MockAppIntegrityProvider()
-        client.clientAttestationProvider = mockAppIntegrityProvider
-        client.dPoPProvider = mockAppIntegrityProvider
+    func test_resumeSession_intermittentAppIntegrityErrors() async throws {
+        // GIVEN I have an intermittent error
+        let clientAttestationProvider = MockAppIntegrityProvider()
+        clientAttestationProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network)
         
-        // GIVEN I am a returning user with local auth enabled and tokens stored
+        // AND I am a returning user with local auth enabled and tokens stored
+        let client = NetworkClient()
+        client.clientAttestationProvider = clientAttestationProvider
+        client.dPoPProvider = MockAppIntegrityProvider()
         let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
-        let sut: PersistentSessionManager = try .makeForResumeSession(mockRefreshTokenExchangeManager: refreshTokenExchangeManager)
+        let sut: PersistentSessionManager = try .makeForResumeSession(
+            mockRefreshTokenExchangeManager: refreshTokenExchangeManager
+        )
         
-        // AND I have no internet
-        mockAppIntegrityProvider.errorThrownAssertingIntegrity = FirebaseAppCheckError(.network, reason: "test")
+        // WHEN I attempt to resume my session no error is thrown
+        await #expect(throws: Never.self) {
+            try await sut.resumeSession()
+        }
+    }
+    
+    @Test(arguments: [
+        ClientAssertionError(.invalidToken),
+        ClientAssertionError(.serverError),
+        ClientAssertionError(.cantDecodeClientAssertion)
+    ])
+    func test_resumeSession_intermittentAppIntegrityErrors_clientAssertionErrors(_ error: Error) async throws {
+        // GIVEN I have an intermittent error
+        let clientAttestationProvider = MockAppIntegrityProvider()
+        clientAttestationProvider.errorThrownAssertingIntegrity = error
         
-        // WHEN I attempt to resume my session
-        await #expect(throws: Networking.AppIntegrityError.self) {
+        // AND I am a returning user with local auth enabled and tokens stored
+        let client = NetworkClient()
+        client.clientAttestationProvider = clientAttestationProvider
+        client.dPoPProvider = MockAppIntegrityProvider()
+        let refreshTokenExchangeManager = RefreshTokenExchangeManager(networkClient: client)
+        let sut: PersistentSessionManager = try .makeForResumeSession(
+            mockRefreshTokenExchangeManager: refreshTokenExchangeManager
+        )
+        
+        // WHEN I attempt to resume my session no error is thrown
+        await #expect(throws: Never.self) {
             try await sut.resumeSession()
         }
     }
