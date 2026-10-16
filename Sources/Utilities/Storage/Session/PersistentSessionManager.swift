@@ -1,11 +1,11 @@
 // swiftlint:disable file_length
-import AppIntegrity
 import Authentication
 import Combine
 import Foundation
 import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
+import Networking
 import SecureStore
 import WalletStore
 
@@ -338,6 +338,9 @@ final class PersistentSessionManager: SessionManager {
             } catch RefreshTokenExchangeError.noInternet {
                 // Enables offline wallet for users that have valid refresh tokens
                 return
+            } catch let error as Networking.AppIntegrityError where error.kind == .intermittent {
+                // Fail error silently and allows user to access app
+                return
             }
         }
     }
@@ -348,6 +351,7 @@ final class PersistentSessionManager: SessionManager {
         let exchangeTokenResponse = try await tokenExchangeManager.getUpdatedTokens(
             refreshToken: refreshToken
         )
+        
         try updateLoginTokens(
             idToken: idToken,
             refreshToken: exchangeTokenResponse.refreshToken,
@@ -355,7 +359,8 @@ final class PersistentSessionManager: SessionManager {
             accessTokenExpiry: exchangeTokenResponse.expiryDate,
             save: { tokens in
                 try self.storeKeyService.save(using: encryptor, tokens: tokens)
-            })
+            }
+        )
     }
     
     private func updateLoginTokens(

@@ -1,4 +1,3 @@
-import AppIntegrity
 import DesignSystem
 import GAnalytics
 import LocalAuthentication

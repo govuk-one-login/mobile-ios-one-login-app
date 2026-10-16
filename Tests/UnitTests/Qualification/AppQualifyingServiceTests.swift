@@ -420,6 +420,36 @@ extension AppQualifyingServiceXCTests {
         XCTAssertEqual(appState, .offline)
     }
     
+    func test_resumeSession_genericAppIntegrityError() {
+        let sessionManager = MockSessionManager()
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = Networking.AppIntegrityError(.generic)
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+        
+        let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
+            sut.initiate()
+        })
+        
+        XCTAssertEqual(appState, .qualified)
+        XCTAssertEqual(sessionState, .appIntegrityCheckFailed)
+    }
+    
+    func test_resumeSession_appIntegrityError() {
+        let sessionManager = MockSessionManager()
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = Networking.AppIntegrityError(.appIntegrityFailed)
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+        
+        let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
+            sut.initiate()
+        })
+        
+        XCTAssertEqual(appState, .qualified)
+        XCTAssertEqual(sessionState, .appIntegrityCheckFailed)
+    }
+    
     func test_resumeSession_appIntegrityFailed() {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
