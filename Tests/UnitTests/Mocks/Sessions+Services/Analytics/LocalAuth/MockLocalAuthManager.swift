@@ -19,10 +19,21 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
         return oneLoginStringsAsFunction
     }
 
+    static func oneLoginStringsAsFunction(oneLoginStrings: LocalAuthenticationLocalizedStrings? = nil) -> OneLoginStringsTypeAsFunction {
+        func oneLoginStringsAsFunction(type: LocalAuthType) -> LocalAuthenticationLocalizedStrings? {
+            return oneLoginStrings
+        }
+
+        return oneLoginStringsAsFunction
+    }
+
+    typealias OneLoginStringsTypeAsFunction = (LocalAuthType) -> LocalAuthenticationLocalizedStrings?
     typealias OneLoginStringsAsFunction = () throws -> LocalAuthenticationLocalizedStrings?
+
     var type: LocalAuthType = .touchID
     var deviceBiometricsType: LocalAuthType = .touchID
 
+    let oneLoginStringsTypeAsFunction: OneLoginStringsTypeAsFunction
     let oneLoginStringsAsFunction: OneLoginStringsAsFunction
     var oneLoginStrings: LocalAuthenticationLocalizedStrings? {
         get throws {
@@ -40,6 +51,7 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
     init(type: LocalAuthType = .none,
          deviceBiometricsType: LocalAuthType = .none,
          oneLoginStringsAsFunction: @escaping OneLoginStringsAsFunction = MockLocalAuthManager.oneLoginStringsAsFunction(),
+         oneLoginStringsTypeAsFunction: @escaping OneLoginStringsTypeAsFunction = MockLocalAuthManager.oneLoginStringsAsFunction(),
          localAuthIsEnabledOnTheDevice: Bool = false,
          errorFromEnrolLocalAuth: Error? = nil,
          userDidConsentToFaceID: Bool = true,
@@ -48,6 +60,7 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
         self.type = type
         self.deviceBiometricsType = deviceBiometricsType
         self.oneLoginStringsAsFunction = oneLoginStringsAsFunction
+        self.oneLoginStringsTypeAsFunction = oneLoginStringsTypeAsFunction
         self.localAuthIsEnabledOnTheDevice = localAuthIsEnabledOnTheDevice
         self.errorFromEnrolLocalAuth = errorFromEnrolLocalAuth
         self.userDidConsentToFaceID = userDidConsentToFaceID
@@ -63,8 +76,8 @@ final class MockLocalAuthManager: LocalAuthManaging, LocalAuthenticationContextS
         return true
     }
     
-    func oneLoginStrings(type: LocalAuthType) throws -> SecureStore.LocalAuthenticationLocalizedStrings? {
-        return try oneLoginStrings
+    func oneLoginStrings(type: LocalAuthType) -> LocalAuthenticationLocalizedStrings? {
+        return oneLoginStringsTypeAsFunction(type)
     }
 
     func hasBeenPrompted() -> Bool {
@@ -98,8 +111,8 @@ final class MockLocalAuthManagerExpectation: LocalAuthManaging, LocalAuthenticat
         }
     }
     
-    func oneLoginStrings(type: LocalAuthType) throws -> SecureStore.LocalAuthenticationLocalizedStrings? {
-        return try mockLocalAuthManager.oneLoginStrings(type: type)
+    func oneLoginStrings(type: LocalAuthType) -> SecureStore.LocalAuthenticationLocalizedStrings? {
+        return mockLocalAuthManager.oneLoginStrings(type: type)
     }
 
     var canUseAnyLocalAuth: Bool {

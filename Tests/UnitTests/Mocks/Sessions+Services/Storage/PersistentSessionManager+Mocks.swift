@@ -27,15 +27,15 @@ extension PersistentSessionManager {
         let walletSDK = MockWalletSDKWrapper()
         walletSDK.isEmpty = true
 
-        return try .make(accessControlEncryptedSecureStoreMigrator: accessControlEncryptedSecureStoreMigrator,
-                         encryptedStore: mockEncryptedStore,
-                         unprotectedStore: mockUnprotectedStore,
-                         analyticsService: mockAnalyticsService,
-                         walletSDK: walletSDK,
-                         walletSessionData: walletSessionData,
-                         refreshTokenExchangeManager: refreshTokenExchangeManager,
-                         serialTaskQueue: SerialTaskQueue(),
-                         analyticsPreferenceStore: analyticsPreferenceStore)
+        return .make(accessControlEncryptedSecureStoreMigrator: accessControlEncryptedSecureStoreMigrator,
+                     encryptedStore: mockEncryptedStore,
+                     unprotectedStore: mockUnprotectedStore,
+                     analyticsService: mockAnalyticsService,
+                     walletSDK: walletSDK,
+                     walletSessionData: walletSessionData,
+                     refreshTokenExchangeManager: refreshTokenExchangeManager,
+                     serialTaskQueue: SerialTaskQueue(),
+                     analyticsPreferenceStore: analyticsPreferenceStore)
     }
 
     /// Creates a `PersistentSessionManager` with the following conditions:
@@ -67,16 +67,16 @@ extension PersistentSessionManager {
         let walletSDK = MockWalletSDKWrapper()
         walletSDK.isEmpty = true
 
-        let persistentSessionManager: PersistentSessionManager = try .make(
-                         accessControlEncryptedSecureStoreMigrator: accessControlEncryptedSecureStoreMigrator,
-                         encryptedStore: mockEncryptedStore,
-                         unprotectedStore: mockUnprotectedStore,
-                         analyticsService: mockAnalyticsService,
-                         walletSDK: walletSDK,
-                         walletSessionData: walletSessionData,
-                         refreshTokenExchangeManager: refreshTokenExchangeManager,
-                         serialTaskQueue: SerialTaskQueue(),
-                         analyticsPreferenceStore: analyticsPreferenceStore)
+        let persistentSessionManager: PersistentSessionManager = .make(
+            accessControlEncryptedSecureStoreMigrator: accessControlEncryptedSecureStoreMigrator,
+            encryptedStore: mockEncryptedStore,
+            unprotectedStore: mockUnprotectedStore,
+            analyticsService: mockAnalyticsService,
+            walletSDK: walletSDK,
+            walletSessionData: walletSessionData,
+            refreshTokenExchangeManager: refreshTokenExchangeManager,
+            serialTaskQueue: SerialTaskQueue(),
+            analyticsPreferenceStore: analyticsPreferenceStore)
 
         persistentSessionManager.isEnrolling = false
         return persistentSessionManager
@@ -99,19 +99,19 @@ extension PersistentSessionManager {
         mockWalletSDK: WalletServiceProtocol = MockWalletSDKWrapper(),
         mockRefreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
         mockAnalyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()
-    ) throws -> PersistentSessionManager {
-        return try .make(
-                accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedSecureStoreMigrator,
-                encryptedStore: mockEncryptedStore,
-                unprotectedStore: mockUnprotectedStore,
-                localAuthentication: mockLocalAuthentication,
-                analyticsService: mockAnalyticsService,
-                walletSDK: mockWalletSDK,
-                walletSessionData: mockWalletSessionData,
-                refreshTokenExchangeManager: mockRefreshTokenExchangeManager,
-                serialTaskQueue: SerialTaskQueue(),
-                analyticsPreferenceStore: mockAnalyticsPreferenceStore
-            )
+    ) -> PersistentSessionManager {
+        return .make(
+            accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedSecureStoreMigrator,
+            encryptedStore: mockEncryptedStore,
+            unprotectedStore: mockUnprotectedStore,
+            localAuthentication: mockLocalAuthentication,
+            analyticsService: mockAnalyticsService,
+            walletSDK: mockWalletSDK,
+            walletSessionData: mockWalletSessionData,
+            refreshTokenExchangeManager: mockRefreshTokenExchangeManager,
+            serialTaskQueue: SerialTaskQueue(),
+            analyticsPreferenceStore: mockAnalyticsPreferenceStore
+        )
     }
 
     static func makeForResumeSession(
@@ -146,18 +146,18 @@ extension PersistentSessionManager {
             itemName: OLString.storedTokens
         )
 
-        return try .make(
-                accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedSecureStoreMigrator,
-                encryptedStore: mockEncryptedStore,
-                unprotectedStore: mockUnprotectedStore,
-                localAuthentication: mockLocalAuthentication,
-                analyticsService: mockAnalyticsService,
-                walletSDK: mockWalletSDK,
-                walletSessionData: mockWalletSessionData,
-                refreshTokenExchangeManager: mockRefreshTokenExchangeManager,
-                serialTaskQueue: SerialTaskQueue(),
-                analyticsPreferenceStore: mockAnalyticsPreferenceStore
-            )
+        return .make(
+            accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedSecureStoreMigrator,
+            encryptedStore: mockEncryptedStore,
+            unprotectedStore: mockUnprotectedStore,
+            localAuthentication: mockLocalAuthentication,
+            analyticsService: mockAnalyticsService,
+            walletSDK: mockWalletSDK,
+            walletSessionData: mockWalletSessionData,
+            refreshTokenExchangeManager: mockRefreshTokenExchangeManager,
+            serialTaskQueue: SerialTaskQueue(),
+            analyticsPreferenceStore: mockAnalyticsPreferenceStore
+        )
     }
 }
 

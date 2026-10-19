@@ -31,22 +31,21 @@ struct SecureStorableTests {
         errorFromOneLoginStrings: LAError,
         makeTokenStoreConfiguration: (LocalAuthenticationContextStrings, OneLoginAnalyticsService) -> SecureStorageConfiguration
     ) throws {
-            // GIVEN localAuthManager throws an error when accessing the oneLoginStrings
-            let localAuthManager = MockLocalAuthManager.errorFromOneLoginStringsAsFunction(error: errorFromOneLoginStrings)
-            let analytics = MockAnalyticsService()
+        // GIVEN localAuthManager throws an error when accessing the oneLoginStrings
+        let localAuthManager = MockLocalAuthManager.errorFromOneLoginStringsAsFunction(error: errorFromOneLoginStrings)
+        let analytics = MockAnalyticsService()
 
-            let sut = makeTokenStoreConfiguration(localAuthManager, analytics)
+        let sut = makeTokenStoreConfiguration(localAuthManager, analytics)
 
-            #expect(throws: errorFromOneLoginStrings.self) {
-                // WHEN accessing the oneLoginStrings
-                try sut.localAuthStringsProvider()
-            }
+        // WHEN accessing the oneLoginStrings
+        let localAuthStrings = sut.localAuthStringsProvider()
 
-            // THEN expect crashes to be logged
-            #expect(analytics.crashesLogged.count == 1)
-            let crash = try #require(analytics.crashesLogged.first as? LAError)
+        // THEN expect crashes to be logged
+        #expect(analytics.crashesLogged.count == 1)
+        let crash = try #require(analytics.crashesLogged.first as? LAError)
 
-            #expect(crash == errorFromOneLoginStrings)
+        #expect(crash == errorFromOneLoginStrings)
+        #expect(localAuthStrings == sut.localAuthStrings)
         }
 
     @Test

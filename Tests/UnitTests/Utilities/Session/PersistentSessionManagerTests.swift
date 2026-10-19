@@ -30,8 +30,8 @@ class MockSessionBoundData: SessionBoundData {
 // swiftlint:disable type_body_length
 struct PersistentSessionManagerTests {
     @Test
-    func test_initialState() throws {
-        let sut: PersistentSessionManager = try .makeWithMocks()
+    func test_initialState() {
+        let sut: PersistentSessionManager = .makeWithMocks()
         #expect(sut.expiryDate == nil)
         #expect(sut.isSessionValid == false)
         #expect(sut.isReturningUser == false)
@@ -42,7 +42,7 @@ struct PersistentSessionManagerTests {
     @Test
     func test_sessionExpiryDate_refreshToken() throws {
         let mockEncryptedStore: MockSecureStoreService = MockSecureStoreService()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
 
         // GIVEN the encrypted store contains a refresh token expiry date
         let date = Date.distantFuture
@@ -58,7 +58,7 @@ struct PersistentSessionManagerTests {
     func test_sessionExpiryDate_bothTokensSet() throws {
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore)
 
         // GIVEN the encrypted store contains a refresh token expiry date
@@ -80,9 +80,9 @@ struct PersistentSessionManagerTests {
     }
     
     @Test
-    func test_sessionExpiryDate_accessToken() throws {
+    func test_sessionExpiryDate_accessToken() {
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
+        let sut: PersistentSessionManager = .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
 
         // GIVEN the unprotected store contains an access token expiry date
         let date = Date()
@@ -98,7 +98,7 @@ struct PersistentSessionManagerTests {
     func test_sessionIsValid_refreshToken_notExpired() throws {
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore)
 
         // GIVEN the unprotected store contains a refresh token expiry date in the future
@@ -113,9 +113,9 @@ struct PersistentSessionManagerTests {
     }
     
     @Test
-    func test_sessionIsValid_accessToken_notExpired() throws {
+    func test_sessionIsValid_accessToken_notExpired() {
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
+        let sut: PersistentSessionManager = .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
 
         // GIVEN the unprotected store contains an access token expiry date in the future
         mockUnprotectedStore.set(
@@ -130,7 +130,7 @@ struct PersistentSessionManagerTests {
     @Test
     func test_sessionIsInvalid_refreshToken_Expired() throws {
         let mockEncryptedStore = MockSecureStoreService()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
 
         // GIVEN the unprotected store contains a refresh token expiry date in the past
         try mockEncryptedStore.saveItem(
@@ -143,9 +143,9 @@ struct PersistentSessionManagerTests {
     }
     
     @Test
-    func test_sessionIsInvalid_accessToken_Expired() throws {
+    func test_sessionIsInvalid_accessToken_Expired() {
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
+        let sut: PersistentSessionManager = .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
 
         // GIVEN the unprotected store contains an access token expiry date in the past
         mockUnprotectedStore.set(
@@ -161,7 +161,7 @@ struct PersistentSessionManagerTests {
     func test_returnTokensIfValid() throws {
         let mockAccessControlEncryptedStore = MockSecureStoreService()
         let mockEncryptedStore = MockSecureStoreService()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
                                                                mockEncryptedStore: mockEncryptedStore)
 
         // GIVEN the unprotected store contains an access token expiry date in the future
@@ -190,7 +190,7 @@ struct PersistentSessionManagerTests {
     func test_returnTokensIfValid_expired() throws {
         let mockAccessControlEncryptedStore = MockSecureStoreService()
         let mockEncryptedStore = MockSecureStoreService()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
                                                                mockEncryptedStore: mockEncryptedStore)
 
         // GIVEN the unprotected store contains an access token expiry date in the past
@@ -215,9 +215,9 @@ struct PersistentSessionManagerTests {
     }
     
     @Test
-    func test_isReturningUserPullsFromStore() throws {
+    func test_isReturningUserPullsFromStore() {
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
+        let sut: PersistentSessionManager = .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore)
 
         mockUnprotectedStore.set(
             true,
@@ -229,7 +229,7 @@ struct PersistentSessionManagerTests {
     @Test
     func test_persistentID() throws {
         let mockEncryptedStore = MockSecureStoreService()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
 
         try mockEncryptedStore.saveItem(
             item: "123456789",
@@ -239,8 +239,8 @@ struct PersistentSessionManagerTests {
     }
     
     @Test
-    func test_persistentID_nil() throws {
-        let sut: PersistentSessionManager = try .makeWithMocks()
+    func test_persistentID_nil() {
+        let sut: PersistentSessionManager = .makeWithMocks()
 
         #expect(sut.persistentID == nil)
     }
@@ -248,7 +248,7 @@ struct PersistentSessionManagerTests {
     @Test
     func test_persistentID_empty() throws {
         let mockEncryptedStore = MockSecureStoreService()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore)
 
         try mockEncryptedStore.saveItem(
             item: "",
@@ -261,7 +261,7 @@ struct PersistentSessionManagerTests {
     func test_hasNotRemovedLocalAuth() throws {
         let mockLocalAuthentication = MockLocalAuthManager()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
                                                                mockLocalAuthentication: mockLocalAuthentication)
 
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
@@ -276,7 +276,7 @@ struct PersistentSessionManagerTests {
     func test_hasRemovedLocalAuth() throws {
         let mockLocalAuthentication = MockLocalAuthManager()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
                                                                mockLocalAuthentication: mockLocalAuthentication)
 
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = false
@@ -291,7 +291,7 @@ struct PersistentSessionManagerTests {
     func test_hasRemovedLocalAuth_inverse() throws {
         let mockLocalAuthentication = MockLocalAuthManager()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
                                                                mockLocalAuthentication: mockLocalAuthentication)
 
         mockLocalAuthentication.localAuthIsEnabledOnTheDevice = true
@@ -305,7 +305,7 @@ struct PersistentSessionManagerTests {
     @MainActor
     @Test
     func test_startSession_logsTheUserIn() async throws {
-        let sut: PersistentSessionManager = try .makeWithMocks()
+        let sut: PersistentSessionManager = .makeWithMocks()
 
         // GIVEN I am not logged in
         let loginSession = MockLoginSession(window: UIWindow())
@@ -325,7 +325,7 @@ struct PersistentSessionManagerTests {
     @MainActor
     @Test
     func test_startSession_logsTheUserIn_appIntegrity() async throws {
-        let sut: PersistentSessionManager = try .makeWithMocks()
+        let sut: PersistentSessionManager = .makeWithMocks()
 
         AppEnvironment.updateFlags(
             releaseFlags: [:],
@@ -355,7 +355,7 @@ struct PersistentSessionManagerTests {
         
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore,
                                                                mockAnalyticsPreferenceStore: mockAnalyticsPrefernceStore)
 
@@ -402,7 +402,7 @@ struct PersistentSessionManagerTests {
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
         let mockWalletSDK = MockWalletSDKWrapper()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockAnalyticsService: mockAnalyticsService,
+        let sut: PersistentSessionManager = .makeWithMocks(mockAnalyticsService: mockAnalyticsService,
                                                                mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore,
                                                                mockWalletSDK: mockWalletSDK)
@@ -435,7 +435,7 @@ struct PersistentSessionManagerTests {
     
     @MainActor
     @Test
-    func test_startSession_noPersistentID_NotReturningUser_WalletNotEmptyError() async throws {
+    func test_startSession_noPersistentID_NotReturningUser_WalletNotEmptyError() async {
         // Given I am unable to re-authenticate because I have no persistent session ID
         let mockEncryptedStore = MockSecureStoreService()
         mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
@@ -443,11 +443,11 @@ struct PersistentSessionManagerTests {
         let mockWalletSDK = MockWalletSDKWrapper()
         mockWalletSDK.isEmpty = false
 
-        try await confirmation("wallet not empty") { confirmation in
+        await confirmation("wallet not empty") { confirmation in
             let mockAnalyticsService = MockAnalyticsServiceExpectation(onLogCrashAnyErrorCalled: {
                 confirmation()
             })
-            let sut: PersistentSessionManager = try .makeWithMocks(mockAnalyticsService: mockAnalyticsService,
+            let sut: PersistentSessionManager = .makeWithMocks(mockAnalyticsService: mockAnalyticsService,
                                                                    mockEncryptedStore: mockEncryptedStore,
                                                                    mockWalletSDK: mockWalletSDK)
 
@@ -475,7 +475,7 @@ struct PersistentSessionManagerTests {
         let mockAnalyticsPrefernceStore = UserDefaultsPreferenceStore()
         mockAnalyticsPrefernceStore.hasAcceptedAnalytics = true
         
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore,
                                                                mockAnalyticsPreferenceStore: mockAnalyticsPrefernceStore)
 
@@ -513,7 +513,7 @@ struct PersistentSessionManagerTests {
     @MainActor
     @Test
     func test_startSession_exposesUserAndAccessToken() async throws {
-        let sut: PersistentSessionManager = try .makeWithMocks()
+        let sut: PersistentSessionManager = .makeWithMocks()
 
         // GIVEN I am logged in
         // WHEN I start a session
@@ -534,7 +534,7 @@ struct PersistentSessionManagerTests {
     func test_startSession_skipsSavingTokensForNewUsers() async throws {
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore)
 
         // GIVEN I am not logged in
@@ -561,7 +561,7 @@ struct PersistentSessionManagerTests {
             itemName: OLString.persistentSessionID
         )
         
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore)
 
         let enrolmentCompleteNotifications = NotificationCenter.default.notifications(named: .enrolmentComplete).makeAsyncIterator()
@@ -591,7 +591,7 @@ struct PersistentSessionManagerTests {
         // GIVEN I am a new user
         mockUnprotectedStore.savedData = [OLString.returningUser: false]
 
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore)
 
         // AND I have logged in
@@ -627,7 +627,7 @@ struct PersistentSessionManagerTests {
         let mockUnprotectedStore = MockDefaultsStore()
         
         // GIVEN I am a new user
-        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
                                                                mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore)
         
@@ -671,8 +671,8 @@ struct PersistentSessionManagerTests {
     func test_hasNotRemovedLocalAuth_throwsError_whenPasscodeRemoved() async throws {
         let mockLocalAuthentication = MockLocalAuthManager()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
-                                                               mockLocalAuthentication: mockLocalAuthentication)
+        let sut: PersistentSessionManager = .makeWithMocks(mockUnprotectedStore: mockUnprotectedStore,
+                                                           mockLocalAuthentication: mockLocalAuthentication)
 
         // GIVEN I am a returning user with an active session
         mockUnprotectedStore.savedData = [
@@ -694,7 +694,7 @@ struct PersistentSessionManagerTests {
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
         let mockLocalAuthentication = MockLocalAuthManager()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore,
                                                                mockLocalAuthentication: mockLocalAuthentication)
 
@@ -834,7 +834,7 @@ struct PersistentSessionManagerTests {
         let mockLocalAuthentication = MockLocalAuthManager()
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
                                                                mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore,
                                                                mockLocalAuthentication: mockLocalAuthentication)
@@ -901,7 +901,7 @@ struct PersistentSessionManagerTests {
         let mockAccessControlEncryptedStore = MockSecureStoreService()
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockAccessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
                                                                mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore)
 
@@ -966,7 +966,7 @@ struct PersistentSessionManagerTests {
     func test_startSession_withoutRefreshToken_butWithRefreshTokenSavedInEncryptedStore() async throws {
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
-        let sut: PersistentSessionManager = try .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+        let sut: PersistentSessionManager = .makeWithMocks(mockEncryptedStore: mockEncryptedStore,
                                                                mockUnprotectedStore: mockUnprotectedStore)
 
         // GIVEN I am a returning user
@@ -1045,10 +1045,10 @@ struct PersistentSessionManagerTests {
         let mockAnalyticsPreferenceStore = MockAnalyticsPreferenceStore()
         let (mockWalletSessionBound, walletData) = WalletSessionBoundDataStub.stubWalletData(["any": "value"])
         mockAnalyticsPreferenceStore.hasAcceptedAnalytics = true
-        let sut = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: encryptedStore,
-                                                             mockUnprotectedStore: mockUnprotectedStore,
-                                                             mockWalletSessionData: mockWalletSessionBound,
-                                                             mockAnalyticsPreferenceStore: mockAnalyticsPreferenceStore
+        let sut = PersistentSessionManager.makeWithMocks(mockEncryptedStore: encryptedStore,
+                                                         mockUnprotectedStore: mockUnprotectedStore,
+                                                         mockWalletSessionData: mockWalletSessionBound,
+                                                         mockAnalyticsPreferenceStore: mockAnalyticsPreferenceStore
         )
 
         let error = await #expect(throws: SecureStoreError.self) {
@@ -1074,8 +1074,8 @@ struct PersistentSessionManagerTests {
             itemName: OLString.persistentSessionID
         )
         
-        let sut = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: mockEncryptedStore,
-                                                             mockUnprotectedStore: MockDefaultsStore.returningUser())
+        let sut = PersistentSessionManager.makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                         mockUnprotectedStore: MockDefaultsStore.returningUser())
 
         try await sut.assertReturningUserCanLogin()
         try await sut.assertReturningUserCanLogin()
@@ -1088,8 +1088,8 @@ struct PersistentSessionManagerTests {
         let (mockEncryptedStore, mockEncryptedStoreReadItem) = MockSecureStoreService.mockReadItemCounter()
         
         let mockUnprotectedStore = MockDefaultsStore.firstTimeUser()
-        let sut = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: mockEncryptedStore,
-                                                             mockUnprotectedStore: mockUnprotectedStore)
+        let sut = PersistentSessionManager.makeWithMocks(mockEncryptedStore: mockEncryptedStore,
+                                                         mockUnprotectedStore: mockUnprotectedStore)
 
         try await sut.assertReturningUserCanLogin()
 
@@ -1111,8 +1111,8 @@ struct PersistentSessionManagerTests {
         let walletSessionData = WalletSessionData(
             walletSDK: MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
         )
-        let sut = try PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
-                                                             mockWalletSessionData: walletSessionData)
+        let sut = PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
+                                                         mockWalletSessionData: walletSessionData)
 
         try await sut.clearAllSessionData(presentSystemLogOut: false)
 
@@ -1127,8 +1127,8 @@ struct PersistentSessionManagerTests {
                 return []
             })
         )
-        let sut = try PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
-                                                             mockWalletSessionData: walletSessionData)
+        let sut = PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
+                                                         mockWalletSessionData: walletSessionData)
 
         try await sut.clearAllSessionData(presentSystemLogOut: false)
 
@@ -1147,8 +1147,8 @@ struct PersistentSessionManagerTests {
         let walletSessionData = WalletSessionData(
             walletSDK: MockWalletSDKWrapper(deleteAsFunction: deleteThrowsWalletUnsafeState)
         )
-        let sut = try PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
-                                                             mockWalletSessionData: walletSessionData)
+        let sut = PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
+                                                         mockWalletSessionData: walletSessionData)
 
         let error = await #expect(throws: WalletStoreError.self) {
             try await sut.clearAllSessionData(presentSystemLogOut: false)
@@ -1179,8 +1179,9 @@ struct PersistentSessionManagerTests {
         let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
         
         let sut: PersistentSessionManager = try .makeReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
-                                                    accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
-                                                    refreshTokenExchangeManager: mockRefreshTokenExchangeManager)
+            accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+            refreshTokenExchangeManager: mockRefreshTokenExchangeManager
+        )
         
         let interactionNotAllowed = NSError(
             domain: NSOSStatusErrorDomain,
@@ -1215,8 +1216,9 @@ struct PersistentSessionManagerTests {
         let mockRefreshTokenExchangeManager = MockRefreshTokenExchangeManagerGuarantor()
 
         let sut: PersistentSessionManager = try .makeReturningNonEnrollingUnauthenticatedUserWithoutSavedExpiryDate(
-                                                    accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
-                                                    refreshTokenExchangeManager: mockRefreshTokenExchangeManager)
+            accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedStore,
+            refreshTokenExchangeManager: mockRefreshTokenExchangeManager
+        )
         
         do {
             try await sut.resumeSession()

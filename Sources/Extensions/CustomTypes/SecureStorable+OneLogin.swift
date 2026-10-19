@@ -15,7 +15,7 @@ extension SecureStorageConfiguration {
                     return try localAuthManager.oneLoginStrings
                 } catch {
                     analytics.logCrash(error)
-                    throw error
+                    return localAuthManager.oneLoginStrings(type: .faceID)
                 }
             }
         )
@@ -33,7 +33,7 @@ extension SecureStorageConfiguration {
                     return try localAuthManager.oneLoginStrings
                 } catch {
                     analytics.logCrash(error)
-                    throw error
+                    return localAuthManager.oneLoginStrings(type: .faceID)
                 }
             }
         )

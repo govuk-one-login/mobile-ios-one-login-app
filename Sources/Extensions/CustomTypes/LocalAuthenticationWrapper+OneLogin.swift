@@ -5,7 +5,7 @@ import SecureStore
 protocol LocalAuthenticationContextStrings {
     var oneLoginStrings: LocalAuthenticationLocalizedStrings? { get throws }
 
-    func oneLoginStrings(type: LocalAuthType) throws -> LocalAuthenticationLocalizedStrings?
+    func oneLoginStrings(type: LocalAuthType) -> LocalAuthenticationLocalizedStrings?
 }
 
 extension LocalAuthenticationWrapper: LocalAuthenticationContextStrings {
