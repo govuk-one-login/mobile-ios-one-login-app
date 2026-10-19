@@ -47,7 +47,8 @@ extension SecureStorable where Self == SecureStoreService {
     ) -> SecureStoreService {
         return SecureStoreService(
             configuration: .makeV12TokensStoreConfiguration(
-                localAuthManager: localAuthManager, analytics: analytics
+                localAuthManager: localAuthManager,
+                analytics: analytics
             )
         )
     }
@@ -58,7 +59,8 @@ extension SecureStorable where Self == SecureStoreService {
     ) -> SecureStoreService {
         return SecureStoreService(
             configuration: .makeV13TokensStoreConfiguration(
-                localAuthManager: localAuthManager, analytics: analytics
+                localAuthManager: localAuthManager,
+                analytics: analytics
             )
         )
     }
