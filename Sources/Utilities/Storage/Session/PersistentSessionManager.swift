@@ -5,7 +5,6 @@ import Foundation
 import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
-import Networking
 import SecureStore
 import WalletStore
 
