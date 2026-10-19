@@ -111,6 +111,7 @@ actor OneLoginAppIntegrityService {
     }
 }
 
+// Used by Networking package if client requests to make a network request with `withClientAttestation()`
 extension OneLoginAppIntegrityService: ClientAttestationProvider {
     func fetchClientAttestation() async throws -> [String: String] {
         do {
@@ -139,6 +140,7 @@ extension OneLoginAppIntegrityService: ClientAttestationProvider {
     }
 }
 
+// Used by Networking package if client requests to make a network request with `withDPop()`
 extension OneLoginAppIntegrityService: DPoPProvider {
     func fetchDPoP() async throws -> [String: String] {
         do {

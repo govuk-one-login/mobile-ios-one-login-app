@@ -102,6 +102,8 @@ final class LoginCoordinator: NSObject,
             } catch let error as JWTVerifierError {
                 showRecoverableErrorScreen(error)
             } catch is FirebaseAppCheckError, is ClientAssertionError, is ProofOfPossessionError {
+                // Errors deeemed as 'intermittent' are retried by OneLoginAppIntegrityService
+                // Any error rethrown by this service means the app integrity check has failed
                 showAppIntegrityErrorScreen()
             } catch {
                 showGenericErrorScreen(error)

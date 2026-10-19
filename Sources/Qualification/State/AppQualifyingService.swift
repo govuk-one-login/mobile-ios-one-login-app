@@ -1,4 +1,3 @@
-import AppIntegrity
 import Foundation
 import Logging
 import MobilePlatformServices
@@ -175,19 +174,23 @@ final class AppQualifyingService: QualifyingService {
                 try await sessionManager.resumeSession()
                 sessionState = .loggedIn
             } catch RefreshTokenExchangeError.noInternet {
-                appInfoState = .offline
+                // Enables offline wallet for users that have valid refresh tokens
+                sessionState = .loggedIn
+            } catch let error as Networking.AppIntegrityError where error.kind == .intermittent {
+                analyticsService.logCrash(error)
+                
+                // Enables offline wallet for users that have valid refresh tokens
+                sessionState = .loggedIn
             } catch let error as Networking.AppIntegrityError {
                 analyticsService.logCrash(error)
                 
                 // .generic and .appIntegrityFailed errors result in error screen being presented
-                // .intermittent error is caught within resumeSession()
                 sessionState = .appIntegrityCheckFailed
             } catch let error as ServerError where error.errorCode == 400 {
                 analyticsService.logCrash(error)
                 
                 return
-            } catch let error as SecureStoreError where
-                        error.kind == .cantDecryptData {
+            } catch let error as SecureStoreError where error.kind == .cantDecryptData {
                 analyticsService.logCrash(error)
                 
                 // This error is treated as recoverable
