@@ -763,7 +763,7 @@ struct PersistentSessionManagerTests {
         }
         
         // WHEN I attempt to resume my session
-        await #expect(throws: Never.self) {
+        await #expect(throws: RefreshTokenExchangeError.noInternet) {
             try await sut.resumeSession()
         }
     }

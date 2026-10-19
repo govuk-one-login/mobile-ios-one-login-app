@@ -404,16 +404,13 @@ extension AppQualifyingServiceXCTests {
     }
     
     func test_resumeSession_noInternet_error() {
-        let expectation = expectation(description: #function)
-        expectation.expectedFulfillmentCount = 2
-        
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = RefreshTokenExchangeError.noInternet
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         
-        let (appState, sessionState) = waitForAppInfoStateChange(expectation: expectation, sut: sut, when: { sut in
+        let (appState, sessionState) = waitForAppInfoStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
         
