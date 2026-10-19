@@ -410,7 +410,7 @@ extension AppQualifyingServiceXCTests {
         sessionManager.errorFromResumeSession = RefreshTokenExchangeError.noInternet
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         
-        let (appState, sessionState) = waitForAppInfoStateChange(sut: sut, when: { sut in
+        let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
         
