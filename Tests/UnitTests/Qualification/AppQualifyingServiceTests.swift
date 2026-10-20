@@ -448,7 +448,7 @@ extension AppQualifyingServiceXCTests {
         XCTAssertEqual(sessionState, .appIntegrityCheckFailed)
     }
     
-    func test_resumeSession_appIntegrityError() {
+    func test_resumeSession_appIntegrityFailedError() {
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
