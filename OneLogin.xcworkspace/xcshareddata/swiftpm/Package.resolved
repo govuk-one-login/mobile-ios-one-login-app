@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "revision" : "5c034bd5643bc7f2b1b12457a2dc8a0e0155a219",
-        "version" : "4.9.0"
+        "branch" : "fix/DCMAW-23803",
+        "revision" : "82f145245f25dcce1bdd7143161942051c48f863"
       }
     },
     {
