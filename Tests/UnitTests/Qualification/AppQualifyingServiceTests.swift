@@ -404,20 +404,63 @@ extension AppQualifyingServiceXCTests {
     }
     
     func test_resumeSession_noInternet_error() {
-        let expectation = expectation(description: #function)
-        expectation.expectedFulfillmentCount = 2
-        
         let sessionManager = MockSessionManager()
         sessionManager.expiryDate = .distantFuture
         sessionManager.sessionState = .saved
         sessionManager.errorFromResumeSession = RefreshTokenExchangeError.noInternet
         let sut: AppQualifyingService = .make(sessionManager: sessionManager)
         
-        let (appState, _) = waitForAppInfoStateChange(expectation: expectation, sut: sut, when: { sut in
+        let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
             sut.initiate()
         })
         
-        XCTAssertEqual(appState, .offline)
+        XCTAssertEqual(appState, .qualified)
+        XCTAssertEqual(sessionState, .loggedIn)
+    }
+    
+    func test_resumeSession_intermittmentAppIntegrityError() {
+        let sessionManager = MockSessionManager()
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = Networking.AppIntegrityError(.intermittent)
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+        
+        let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
+            sut.initiate()
+        })
+        
+        XCTAssertEqual(appState, .qualified)
+        XCTAssertEqual(sessionState, .loggedIn)
+    }
+    
+    func test_resumeSession_genericAppIntegrityError() {
+        let sessionManager = MockSessionManager()
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = Networking.AppIntegrityError(.generic)
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+        
+        let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
+            sut.initiate()
+        })
+        
+        XCTAssertEqual(appState, .qualified)
+        XCTAssertEqual(sessionState, .appIntegrityCheckFailed)
+    }
+    
+    func test_resumeSession_appIntegrityFailedError() {
+        let sessionManager = MockSessionManager()
+        sessionManager.expiryDate = .distantFuture
+        sessionManager.sessionState = .saved
+        sessionManager.errorFromResumeSession = Networking.AppIntegrityError(.appIntegrityFailed)
+        let sut: AppQualifyingService = .make(sessionManager: sessionManager)
+        
+        let (appState, sessionState) = waitForSessionStateChange(sut: sut, when: { sut in
+            sut.initiate()
+        })
+        
+        XCTAssertEqual(appState, .qualified)
+        XCTAssertEqual(sessionState, .appIntegrityCheckFailed)
     }
     
     func test_resumeSession_appIntegrityFailed() {
