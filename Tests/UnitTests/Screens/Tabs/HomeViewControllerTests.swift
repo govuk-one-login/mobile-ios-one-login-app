@@ -95,6 +95,7 @@ extension HomeViewControllerTests {
         #expect(viewModel.backgroundColour == DesignSystem.Color.Backgrounds.card)
         #expect(!viewModel.showShadow)
         #expect(viewModel.dismissAction == nil)
+        #expect(servicesTile?.canBecomeFocused == false)
     }
     
     @Test
@@ -119,6 +120,7 @@ extension HomeViewControllerTests {
         #expect(viewModel.backgroundColour == DesignSystem.Color.Backgrounds.card)
         #expect(!viewModel.showShadow)
         #expect(viewModel.dismissAction == nil)
+        #expect(servicesTile?.canBecomeFocused == false)
     }
     
     @Test
