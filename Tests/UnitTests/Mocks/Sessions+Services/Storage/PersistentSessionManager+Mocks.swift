@@ -27,7 +27,7 @@ extension PersistentSessionManager {
         let walletSDK = MockWalletSDKWrapper()
         walletSDK.isEmpty = true
 
-        return try .make(accessControlEncryptedSecureStoreMigrator: accessControlEncryptedSecureStoreMigrator,
+        return .make(accessControlEncryptedSecureStoreMigrator: accessControlEncryptedSecureStoreMigrator,
                          encryptedStore: mockEncryptedStore,
                          unprotectedStore: mockUnprotectedStore,
                          analyticsService: mockAnalyticsService,
@@ -67,7 +67,7 @@ extension PersistentSessionManager {
         let walletSDK = MockWalletSDKWrapper()
         walletSDK.isEmpty = true
 
-        let persistentSessionManager: PersistentSessionManager = try .make(
+        let persistentSessionManager: PersistentSessionManager = .make(
                          accessControlEncryptedSecureStoreMigrator: accessControlEncryptedSecureStoreMigrator,
                          encryptedStore: mockEncryptedStore,
                          unprotectedStore: mockUnprotectedStore,
@@ -99,8 +99,8 @@ extension PersistentSessionManager {
         mockWalletSDK: WalletServiceProtocol = MockWalletSDKWrapper(),
         mockRefreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
         mockAnalyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()
-    ) throws -> PersistentSessionManager {
-        return try .make(
+    ) -> PersistentSessionManager {
+        return .make(
                 accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedSecureStoreMigrator,
                 encryptedStore: mockEncryptedStore,
                 unprotectedStore: mockUnprotectedStore,
@@ -146,7 +146,7 @@ extension PersistentSessionManager {
             itemName: OLString.storedTokens
         )
 
-        return try .make(
+        return .make(
                 accessControlEncryptedSecureStoreMigrator: mockAccessControlEncryptedSecureStoreMigrator,
                 encryptedStore: mockEncryptedStore,
                 unprotectedStore: mockUnprotectedStore,

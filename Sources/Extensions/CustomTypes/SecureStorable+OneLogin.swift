@@ -5,11 +5,11 @@ import SecureStore
 extension SecureStorable where Self == SecureStoreService {
     static func v12AccessControlEncryptedStore(
         localAuthManager: LocalAuthenticationContextStrings
-    ) throws -> SecureStoreService {
+    ) -> SecureStoreService {
         let accessControlConfiguration = SecureStorageConfiguration(
             id: OLString.v12TokensStore,
             accessControlLevel: .anyBiometricsOrPasscode,
-            localAuthStrings: try localAuthManager.oneLoginStrings
+            localAuthStrings: localAuthManager.oneLoginStrings
         )
         return SecureStoreService(
             configuration: accessControlConfiguration
@@ -18,11 +18,11 @@ extension SecureStorable where Self == SecureStoreService {
     
     static func v13AccessControlEncryptedStore(
         localAuthManager: LocalAuthenticationContextStrings
-    ) throws -> SecureStoreService {
+    ) -> SecureStoreService {
         let accessControlConfiguration = SecureStorageConfiguration(
             id: OLString.v13TokensStore,
             accessControlLevel: .anyBiometricsOrPasscode,
-            localAuthStrings: try localAuthManager.oneLoginStrings
+            localAuthStrings: localAuthManager.oneLoginStrings
         )
         return SecureStoreService(
             configuration: accessControlConfiguration

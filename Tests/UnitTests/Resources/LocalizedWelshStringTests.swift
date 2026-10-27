@@ -34,9 +34,7 @@ struct LocalizedWelshStringTests {
     
     @Test
     func test_localAuthPrompt_keys() {
-        #expect("app_faceId_reason".getWelshString() ==
-                       "Unlock your phone to continue")
-        #expect("app_touchId_reason".getWelshString() ==
+        #expect("app_localAuthentication_reason".getWelshString() ==
                        "Unlock your phone to continue")
     }
     

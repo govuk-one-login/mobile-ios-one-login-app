@@ -226,7 +226,7 @@ struct AccessControlEncryptedSecureStoreManagerTests {
 
 extension AccessControlEncryptedSecureStoreMigrator {
     static func make(analyticsService mockAnalyticsService: OneLoginAnalyticsService = MockAnalyticsService()) throws -> AccessControlEncryptedSecureStoreMigrator {
-        return try AccessControlEncryptedSecureStoreMigrator(analyticsService: mockAnalyticsService)
+        return AccessControlEncryptedSecureStoreMigrator(analyticsService: mockAnalyticsService)
     }
 
     static func make(v12EncryptedSecureStore mockV12EncryptedSecureStore: SecureStorable = MockSecureStoreService(),
