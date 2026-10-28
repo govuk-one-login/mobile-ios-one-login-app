@@ -115,7 +115,7 @@ struct FirebaseAppIntegrityServiceTests {
 @Suite(.serialized, .tags(.networking))
 struct FirebaseAppIntegrityServiceNetworkingTests {
     @Test("DPoP token generator returns error cant create attestation proof of possession error")
-    func testDPoPError() async throws {
+    func testDPoPError() throws {
         MockURLProtocol.handler = {
             (Data("""
              {
@@ -132,8 +132,8 @@ struct FirebaseAppIntegrityServiceNetworkingTests {
             demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator
         )
 
-        let error = await #expect(throws: ProofOfPossessionError.self) {
-            _ = try await sut.dPoPAssertion
+        let error = #expect(throws: ProofOfPossessionError.self) {
+            _ = try sut.dPoPAssertion
         }
 
         #expect(error?.kind == .cantGenerateDemonstratingProofOfPossessionJWT)
@@ -297,34 +297,6 @@ struct FirebaseAppIntegrityServiceNetworkingTests {
         }
 
         #expect(error?.kind == .cantGenerateAttestationProofOfPossessionJWT)
-        let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
-        #expect(underlyingError.localizedDescription ==
-                "The operation couldn’t be completed. (test domain error 0.)")
-    }
-    
-    @Test("DPoP token generator returns error cant create attestation proof of possession error")
-    func testDPoPError() throws {
-        MockURLProtocol.handler = {
-            (Data("""
-             {
-              "client_attestation": "testAttestation",
-              "expires_in": 86400
-             }
-            """.utf8),
-             HTTPURLResponse(statusCode: 200))
-        }
-        
-        let mockDemonstratingProofOfPossessionTokenGenerator = MockProofOfPossessionTokenGenerator()
-        mockDemonstratingProofOfPossessionTokenGenerator.errorFromToken = NSError(domain: "test domain", code: 0)
-        let sut: FirebaseAppIntegrityService = .makeWithMocks(
-            demonstratingProofOfPossessionTokenGenerator: mockDemonstratingProofOfPossessionTokenGenerator
-        )
-
-        let error = #expect(throws: ProofOfPossessionError.self) {
-            _ = try sut.dPoPAssertion
-        }
-
-        #expect(error?.kind == .cantGenerateDemonstratingProofOfPossessionJWT)
         let underlyingError = try #require(error?.errorUserInfo[NSUnderlyingErrorKey] as? NSError)
         #expect(underlyingError.localizedDescription ==
                 "The operation couldn’t be completed. (test domain error 0.)")
