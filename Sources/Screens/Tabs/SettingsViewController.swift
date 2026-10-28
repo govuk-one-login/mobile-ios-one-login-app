@@ -107,25 +107,49 @@ extension SettingsViewController: UITableViewDataSource {
 }
 
 extension SettingsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(
+        _ tableView: UITableView,
+        viewForHeaderInSection section: Int
+    ) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TabbedViewSectionHeader.identifier) as? TabbedViewSectionHeader
         headerView?.title = viewModel.sectionModels[section].sectionTitle
         return headerView
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForHeaderInSection section: Int
+    ) -> CGFloat {
         return TabbedViewSectionHeader().intrinsicContentSize.height
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(
+        _ tableView: UITableView,
+        viewForFooterInSection section: Int
+    ) -> UIView? {
         let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TabbedViewSectionFooter.identifier) as? TabbedViewSectionFooter
         footerView?.title = viewModel.sectionModels[section].sectionFooter
         return footerView
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
         guard let cell = tableView.cellForRow(at: indexPath) as? TabbedTableViewCell else { return }
         cell.viewModel?.action?()
+    }
+
+    // Ensures keyboard focus doesn't skip cells that are partially on screen
+    func tableView(
+        _ tableView: UITableView,
+        didUpdateFocusIn context: UITableViewFocusUpdateContext,
+        with coordinator: UIFocusAnimationCoordinator
+    ) {
+        guard let indexPath = context.nextFocusedIndexPath else { return }
+        coordinator.addCoordinatedAnimations {
+            tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
+        }
     }
 }
 
