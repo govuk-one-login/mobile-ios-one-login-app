@@ -34,10 +34,10 @@ struct LocalizedWelshStringTests {
     
     @Test
     func test_localAuthPrompt_keys() {
-        #expect("app_faceId_subtitle".getWelshString() ==
-                       "Rhowch god mynediad iPhone")
-        #expect("app_touchId_subtitle".getWelshString() ==
-                       "Datgloi i barhau")
+        #expect("app_faceId_reason".getWelshString() ==
+                       "Unlock your phone to continue")
+        #expect("app_touchId_reason".getWelshString() ==
+                       "Unlock your phone to continue")
     }
     
     @Test

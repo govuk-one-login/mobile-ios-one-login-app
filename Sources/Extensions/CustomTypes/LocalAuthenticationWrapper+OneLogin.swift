@@ -12,13 +12,13 @@ extension LocalAuthenticationWrapper: LocalAuthenticationContextStrings {
             LocalAuthenticationLocalizedStrings(
                 localizedReason: GDSLocalisedString(
                     stringLiteral: try type == .faceID ?
-                    "app_faceId_subtitle" : "app_touchId_subtitle"
+                    "app_faceId_reason" : "app_touchId_reason"
                 ).value,
                 localisedFallbackTitle: GDSLocalisedString(
-                    stringLiteral: "app_enterPasscodeButton"
+                    stringLiteral: "app_localAuthentication_fallbackTitle"
                 ).value,
                 localisedCancelTitle: GDSLocalisedString(
-                    stringLiteral: "app_cancelButton"
+                    stringLiteral: "app_localAuthentication_cancelTitle"
                 ).value
             )
         }
