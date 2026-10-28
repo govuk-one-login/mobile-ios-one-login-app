@@ -59,7 +59,7 @@ struct SecureAttestationStoreTests: ~Copyable {
     }
     
     @Test
-    func test_attestionJWT_throwsCantDecryptDataError() async throws {
+    func test_attestionJWT_throwsCantDecryptDataError() throws {
         let errorFromAttestationJWT = SecureStoreError(.cantDecryptData,
                                                        originalError: NSError(domain: NSOSStatusErrorDomain, code: -50))
 
@@ -68,8 +68,8 @@ struct SecureAttestationStoreTests: ~Copyable {
         mockSecureStoreService.readItemAsFunction = MockSecureStoreService.errorFromReadItem(errorFromAttestationJWT)
         let sut = SecureAttestationStore(secureStore: mockSecureStoreService)
 
-        let error = await #expect(throws: SecureStoreError.self) {
-            try await sut.attestationJWT
+        let error = #expect(throws: SecureStoreError.self) {
+            try sut.attestationJWT
         }
         
         #expect(error?.kind == .cantDecryptData)
@@ -85,7 +85,7 @@ struct SecureAttestationStoreTests: ~Copyable {
     ///
     /// This tests verifies that the `SecureAttestationStore` instanced return by `.make()` does not throw a `SecureStoreError(.cantDecryptData)`
     @Test
-    func test_attestionJWT_doesNotThrowCantDecryptdataError() async throws {
+    func test_attestionJWT_doesNotThrowCantDecryptdataError() throws {
         let errorFromAttestationJWT: SecureStoreError = SecureStoreError(.cantDecryptData,
                                                        originalError: NSError(domain: NSOSStatusErrorDomain, code: -50))
 
@@ -111,8 +111,8 @@ struct SecureAttestationStoreTests: ~Copyable {
         let sut = SecureAttestationStore.make(secureStore: mockSecureStoreService)
         #expect(sut.attestationExpired)
 
-        let error = await #expect(throws: SecureStoreError.self) {
-            try await sut.attestationJWT
+        let error = #expect(throws: SecureStoreError.self) {
+            try sut.attestationJWT
         }
         
         #expect(error?.kind != .cantDecryptData)
