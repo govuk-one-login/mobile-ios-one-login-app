@@ -35,11 +35,15 @@
 
 
 // MARK: Local Auth prompt (Face ID)
-"app_faceId_subtitle" = "Enter iPhone passcode";
+"app_faceId_reason" = "Unlock your phone to continue";
 
 
 // MARK: Local Auth prompt (Touch ID)
-"app_touchId_subtitle" = "Unlock to proceed";
+"app_touchId_reason" = "Unlock your phone to continue";
+
+"app_localAuthentication_fallbackTitle" = "Enter phone passcode";
+
+"app_localAuthentication_cancelTitle" = "Cancel";
 
 
 // MARK: Sign in screen
