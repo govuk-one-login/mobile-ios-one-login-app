@@ -36,9 +36,7 @@ struct LocalizedEnglishStringTests {
     
     @Test
     func test_localAuthPrompt_keys() {
-        #expect("app_faceId_reason".getEnglishString() ==
-                       "Unlock your phone to continue")
-        #expect("app_touchId_reason".getEnglishString() ==
+        #expect("app_localAuthentication_reason".getEnglishString() ==
                        "Unlock your phone to continue")
     }
     
