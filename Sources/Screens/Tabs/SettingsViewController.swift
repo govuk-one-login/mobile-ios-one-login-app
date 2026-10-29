@@ -148,8 +148,12 @@ extension SettingsViewController: UITableViewDelegate {
     ) {
         guard let indexPath = context.nextFocusedIndexPath else { return }
         coordinator.addCoordinatedAnimations {
-            tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
+            self.scrollToFocusedRow(in: tableView, at: indexPath)
         }
+    }
+
+    func scrollToFocusedRow(in tableView: UITableView, at indexPath: IndexPath) {
+        tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
     }
 }
 
