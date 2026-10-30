@@ -43,9 +43,11 @@ final class SettingsViewController: BaseScreen {
         navigationController?.navigationBar.sizeToFit()
         guard let analyticsAccepted = analyticsPreference.hasAcceptedAnalytics else { return }
         analyticsSwitch.accessibilityIdentifier = "tabbed-view-analytics-switch"
-        analyticsSwitch.addTarget(self,
-                                  action: #selector(updateAnalytics(_:)),
-                                  for: .valueChanged)
+        analyticsSwitch.addTarget(
+            self,
+            action: #selector(updateAnalytics(_:)),
+            for: .valueChanged
+        )
         analyticsSwitch.setOn(analyticsAccepted, animated: true)
     }
     
@@ -73,9 +75,18 @@ final class SettingsViewController: BaseScreen {
     }
     
     private func configureTableView() {
-        tableView.register(TabbedTableViewCell.self, forCellReuseIdentifier: TabbedTableViewCell.identifier)
-        tableView.register(TabbedViewSectionFooter.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionFooter.identifier)
-        tableView.register(TabbedViewSectionHeader.self, forHeaderFooterViewReuseIdentifier: TabbedViewSectionHeader.identifier)
+        tableView.register(
+            TabbedTableViewCell.self,
+            forCellReuseIdentifier: TabbedTableViewCell.identifier
+        )
+        tableView.register(
+            TabbedViewSectionFooter.self,
+            forHeaderFooterViewReuseIdentifier: TabbedViewSectionFooter.identifier
+        )
+        tableView.register(
+            TabbedViewSectionHeader.self,
+            forHeaderFooterViewReuseIdentifier: TabbedViewSectionHeader.identifier
+        )
         tableView.sectionFooterHeight = UITableView.automaticDimension
         tableView.delegate = self
         tableView.dataSource = self
@@ -100,8 +111,11 @@ extension SettingsViewController: UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TabbedTableViewCell.identifier, for: indexPath)
-                as? TabbedTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView
+            .dequeueReusableCell(
+                withIdentifier: TabbedTableViewCell.identifier,
+                for: indexPath
+            ) as? TabbedTableViewCell else { return UITableViewCell() }
         cell.contentConfiguration = nil
         cell.accessoryView = nil
         cell.accessibilityHint = nil
@@ -119,7 +133,10 @@ extension SettingsViewController: UITableViewDelegate {
         _ tableView: UITableView,
         viewForHeaderInSection section: Int
     ) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TabbedViewSectionHeader.identifier) as? TabbedViewSectionHeader
+        let headerView = tableView
+            .dequeueReusableHeaderFooterView(
+                withIdentifier: TabbedViewSectionHeader.identifier
+            ) as? TabbedViewSectionHeader
         headerView?.title = viewModel.sectionModels[section].sectionTitle
         return headerView
     }
