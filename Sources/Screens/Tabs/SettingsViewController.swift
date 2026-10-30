@@ -135,7 +135,10 @@ extension SettingsViewController: UITableViewDelegate {
         _ tableView: UITableView,
         viewForFooterInSection section: Int
     ) -> UIView? {
-        let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: TabbedViewSectionFooter.identifier) as? TabbedViewSectionFooter
+        let footerView = tableView
+            .dequeueReusableHeaderFooterView(
+                withIdentifier: TabbedViewSectionFooter.identifier
+            ) as? TabbedViewSectionFooter
         footerView?.title = viewModel.sectionModels[section].sectionFooter
         return footerView
     }
