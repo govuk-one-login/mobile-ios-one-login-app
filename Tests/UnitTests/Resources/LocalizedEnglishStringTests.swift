@@ -26,6 +26,8 @@ struct LocalizedEnglishStringTests {
                        "Skip")
         #expect("app_enterPasscodeButton".getEnglishString() ==
                        "Enter passcode")
+        #expect("app_localAuthentication_fallbackTitle".getEnglishString() ==
+                       "Enter phone passcode")
         #expect("app_exitButton".getEnglishString() ==
                        "Exit")
         #expect("app_nameString".getEnglishString() ==
@@ -34,10 +36,10 @@ struct LocalizedEnglishStringTests {
     
     @Test
     func test_localAuthPrompt_keys() {
-        #expect("app_faceId_subtitle".getEnglishString() ==
-                       "Enter iPhone passcode")
-        #expect("app_touchId_subtitle".getEnglishString() ==
-                       "Unlock to proceed")
+        #expect("app_faceId_reason".getEnglishString() ==
+                       "Unlock your phone to continue")
+        #expect("app_touchId_reason".getEnglishString() ==
+                       "Unlock your phone to continue")
     }
     
     @Test
