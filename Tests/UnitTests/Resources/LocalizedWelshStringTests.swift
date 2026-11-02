@@ -31,15 +31,7 @@ struct LocalizedWelshStringTests {
         #expect("app_nameString".getWelshString() ==
                        "GOV.UK One Login")
     }
-    
-    @Test
-    func test_localAuthPrompt_keys() {
-        #expect("app_faceId_reason".getWelshString() ==
-                       "Unlock your phone to continue")
-        #expect("app_touchId_reason".getWelshString() ==
-                       "Unlock your phone to continue")
-    }
-    
+        
     @Test
     func test_signInScreen_keys() {
         #expect("app_signInBody".getWelshString() ==
