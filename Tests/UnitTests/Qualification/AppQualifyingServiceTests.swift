@@ -265,7 +265,7 @@ struct AppQualifyingServiceTests {
         encryptedStore.readItemAsFunction = MockSecureStoreService.errorFromReadItem(cantDecryptDataError)
 
         let analyticsService = MockAnalyticsService()
-        let sessionManager = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: encryptedStore,
+        let sessionManager = PersistentSessionManager.makeWithMocks(mockEncryptedStore: encryptedStore,
                                                                         mockUnprotectedStore: MockDefaultsStore.returningUser())
         
         let systemLogOutNotifications = NotificationCenter.default.notifications(named: .systemLogUserOut).makeAsyncIterator()
@@ -319,7 +319,7 @@ struct AppQualifyingServiceTests {
         let walletSessionData = WalletSessionBoundDataStub(clearSessionDataAsFunction: {
             throw WalletStoreError(.walletUnsafeState)
         })
-        let sessionManager = try PersistentSessionManager.makeWithMocks(mockEncryptedStore: encryptedStore,
+        let sessionManager = PersistentSessionManager.makeWithMocks(mockEncryptedStore: encryptedStore,
                                                                         mockUnprotectedStore: MockDefaultsStore.returningUser(),
                                                                         mockWalletSessionData: walletSessionData)
         
