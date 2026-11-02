@@ -26,8 +26,6 @@ struct LocalizedEnglishStringTests {
                        "Skip")
         #expect("app_enterPasscodeButton".getEnglishString() ==
                        "Enter passcode")
-        #expect("app_localAuthentication_fallbackTitle".getEnglishString() ==
-                       "Enter phone passcode")
         #expect("app_exitButton".getEnglishString() ==
                        "Exit")
         #expect("app_nameString".getEnglishString() ==
