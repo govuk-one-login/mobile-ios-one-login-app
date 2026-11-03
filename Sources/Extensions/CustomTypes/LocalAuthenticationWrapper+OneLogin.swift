@@ -10,16 +10,19 @@ extension LocalAuthenticationWrapper: LocalAuthenticationContextStrings {
     var oneLoginStrings: LocalAuthenticationLocalizedStrings? {
         get throws {
             LocalAuthenticationLocalizedStrings(
-                localizedReason: GDSLocalisedString(
-                    stringLiteral: try type == .faceID ?
-                    "app_faceId_subtitle" : "app_touchId_subtitle"
-                ).value,
-                localisedFallbackTitle: GDSLocalisedString(
-                    stringLiteral: "app_enterPasscodeButton"
-                ).value,
-                localisedCancelTitle: GDSLocalisedString(
-                    stringLiteral: "app_cancelButton"
-                ).value
+                localizedReason: NSLocalizedString(
+                    key: try type == .faceID ?
+                    "app_faceId_reason" : "app_touchId_reason",
+                    value: "Unlock your phone to continue"
+                ),
+                localisedFallbackTitle: NSLocalizedString(
+                    key: "app_localAuthentication_fallbackTitle",
+                    value: "Enter phone passcode"
+                ),
+                localisedCancelTitle: NSLocalizedString(
+                    key: "app_localAuthentication_cancelTitle",
+                    value: "Cancel"
+                )
             )
         }
     }

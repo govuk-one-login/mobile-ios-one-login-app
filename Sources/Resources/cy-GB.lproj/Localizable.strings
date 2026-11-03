@@ -34,14 +34,6 @@
 "app_loadingLabel" = "Llwytho %@";
 
 
-// MARK: Local Auth prompt (Face ID)
-"app_faceId_subtitle" = "Rhowch god mynediad iPhone";
-
-
-// MARK: Local Auth prompt (Touch ID)
-"app_touchId_subtitle" = "Datgloi i barhau";
-
-
 // MARK: Sign in screen
 "app_signInBody" = "Profwch eich hunaniaeth i gael mynediad at wasanaethau'r llywodraeth.\n\nBydd angen i chi fewngofnodi gyda'ch manylion %@.";
 
