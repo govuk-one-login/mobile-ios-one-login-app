@@ -1,28 +1,8 @@
 import LocalAuthentication
-@testable import LocalAuthenticationWrapper
+import LocalAuthenticationWrapper
 @testable import OneLogin
 @testable import SecureStore
 import Testing
-
-extension SecureStorageConfiguration {
-    static func makeV12TokensStoreConfigurationWithMocks(
-        localAuthManager: LocalAuthenticationContextStrings = LocalAuthenticationWrapper.make(localAuthPromptStore: UserDefaults.standard),
-        analytics: OneLoginAnalyticsService = MockAnalyticsService()
-    ) -> SecureStorageConfiguration {
-        return SecureStorageConfiguration.makeV12TokensStoreConfiguration(
-            localAuthManager: localAuthManager
-        )
-    }
-
-    static func makeV13TokensStoreConfigurationWithMocks(
-        localAuthManager: LocalAuthenticationContextStrings = LocalAuthenticationWrapper.make(localAuthPromptStore: UserDefaults.standard),
-        analytics: OneLoginAnalyticsService = MockAnalyticsService()
-    ) -> SecureStorageConfiguration {
-        return SecureStorageConfiguration.makeV13TokensStoreConfiguration(
-            localAuthManager: localAuthManager
-        )
-    }
-}
 
 struct SecureStorableTests {
     @Test
