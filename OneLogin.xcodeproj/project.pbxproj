@@ -367,6 +367,9 @@
 		997E16863041D48C006E9940 /* WalletSessionDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997E16853041D488006E9940 /* WalletSessionDataTests.swift */; };
 		9996E02F30064DF900AB019B /* FirebaseAppIntegrityService+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9996E02E30064DF400AB019B /* FirebaseAppIntegrityService+Mocks.swift */; };
 		99AEB1C52FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AEB1C42FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift */; };
+		99D60701307F980600A203EA /* SecureStorable+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D60700307F980600A203EA /* SecureStorable+OneLoginTests.swift */; };
+		99D60704307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D60703307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift */; };
+		99D60705307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D60703307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift */; };
 		AB24C1132DB94A5F0080141C /* LocalAuthSettingsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */; };
 		AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = AB327B102D36BEAD00AC169E /* CRIOrchestrator */; };
 		AB90DC7E2D8875EA00070B0F /* GDSAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AB90DC7D2D8875EA00070B0F /* GDSAnalytics */; };
@@ -1019,6 +1022,8 @@
 		997E16853041D488006E9940 /* WalletSessionDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSessionDataTests.swift; sourceTree = "<group>"; };
 		9996E02E30064DF400AB019B /* FirebaseAppIntegrityService+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseAppIntegrityService+Mocks.swift"; sourceTree = "<group>"; };
 		99AEB1C42FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSessionManager+Mocks.swift"; sourceTree = "<group>"; };
+		99D60700307F980600A203EA /* SecureStorable+OneLoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecureStorable+OneLoginTests.swift"; sourceTree = "<group>"; };
+		99D60703307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalAuthenticationWrapper+Mocks.swift"; sourceTree = "<group>"; };
 		AB24C1122DB948520080141C /* LocalAuthSettingsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthSettingsErrorViewModel.swift; sourceTree = "<group>"; };
 		ABBD21AB2C6E1D6B00B0C959 /* MockAppInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppInfoService.swift; sourceTree = "<group>"; };
 		ABBE421B2C775C7E00607A7A /* AppEnvironmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironmentTests.swift; sourceTree = "<group>"; };
@@ -1710,6 +1715,7 @@
 		21FA1C4A2AE183830052136E /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				99D60702307F994E00A203EA /* MockLocalAuthenticationWrapper */,
 				8E660A682F9B940100120531 /* UIKit */,
 				8E620E5B2F9A72BD00192775 /* Coordination */,
 				7CD66F852C90A95C008513F4 /* Qualification */,
@@ -1898,6 +1904,7 @@
 			children = (
 				7C9CEA6A2EBA5ADE0074EB18 /* AppIntegrityProvider+OneLoginTests.swift */,
 				8E9A51842FDAEA4500F4C93A /* LoginSessionConfiguration+OneLoginTests.swift */,
+				99D60700307F980600A203EA /* SecureStorable+OneLoginTests.swift */,
 			);
 			path = CustomTypes;
 			sourceTree = "<group>";
@@ -2000,6 +2007,14 @@
 				8E3C5A9B2FA2642A00389C50 /* MockNavigationControllerExpectation.swift */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		99D60702307F994E00A203EA /* MockLocalAuthenticationWrapper */ = {
+			isa = PBXGroup;
+			children = (
+				99D60703307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift */,
+			);
+			path = MockLocalAuthenticationWrapper;
 			sourceTree = "<group>";
 		};
 		ABB941FD2C6CAD840007052B /* Service */ = {
@@ -3761,6 +3776,7 @@
 				C8BADD222B8652F200385FE7 /* TokenHolder.swift in Sources */,
 				D0275CBF2BFF876800AF9A50 /* TokenVerifier.swift in Sources */,
 				C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */,
+				99D60705307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift in Sources */,
 				C30D5F7C2F20E35D001412CF /* ErrorTypes.swift in Sources */,
 				C89989882ED9C16200C9B534 /* RemoteServiceState.swift in Sources */,
 				C372B7393019016500F61905 /* ProveIdentityGuidanceViewModel.swift in Sources */,
@@ -3817,6 +3833,7 @@
 				C8454A8F2B99D1BC000F9ED0 /* LoginCoordinatorTests.swift in Sources */,
 				C80D774A2E97C6DF00082040 /* MockFileManager.swift in Sources */,
 				C84960032EBE0B0E0065CA40 /* AccessControlEncryptedSecureStoreManagerTests.swift in Sources */,
+				99D60701307F980600A203EA /* SecureStorable+OneLoginTests.swift in Sources */,
 				C83E18122C05DDDB00B451D6 /* LoadingViewModelTests.swift in Sources */,
 				C327A33B2FFFBA3E00A4CB01 /* Testing+TestHelpers.swift in Sources */,
 				8E3C5AC62FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift in Sources */,
@@ -3850,6 +3867,7 @@
 				C84960052EBE120D0065CA40 /* EncryptedSecureStoreManagerTests.swift in Sources */,
 				C8520C2E2AE2C822006790C1 /* MockTokenResponse.swift in Sources */,
 				41E1A9152BE128610034B6C7 /* MockURLOpener.swift in Sources */,
+				99D60704307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift in Sources */,
 				7C81ADD32C78A5B000A73010 /* MockUser.swift in Sources */,
 				C83014B42CA19B2800799A32 /* MockWalletError.swift in Sources */,
 				41C5E3322B45B07D00212A12 /* NetworkConnectionErrorViewModelTests.swift in Sources */,

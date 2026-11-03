@@ -26,16 +26,12 @@ final class SceneDelegate: UIResponder,
     private lazy var serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     private lazy var networkingService = NetworkingService(sessionManager: sessionManager,
                                                            serialTaskQueue: serialTaskQueue)
-    private lazy var sessionManager: PersistentSessionManager = {
-        do {
-            return try .make(analyticsService: analyticsService,
-                             refreshTokenExchangeManager: refreshTokenExchangeManager,
-                             serialTaskQueue: serialTaskQueue,
-                             analyticsPreferenceStore: analyticsPreferenceStore)
-        } catch {
-            fatalError()
-        }
-    }()
+    private lazy var sessionManager: PersistentSessionManager = .make(
+        analyticsService: analyticsService,
+        refreshTokenExchangeManager: refreshTokenExchangeManager,
+        serialTaskQueue: serialTaskQueue,
+        analyticsPreferenceStore: analyticsPreferenceStore
+    )
     
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,

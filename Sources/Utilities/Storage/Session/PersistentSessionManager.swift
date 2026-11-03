@@ -482,9 +482,9 @@ extension PersistentSessionManager {
         refreshTokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue,
         analyticsPreferenceStore: any AnalyticsPreferenceStore & SessionBoundData
-    ) throws -> PersistentSessionManager {
+    ) -> PersistentSessionManager {
         let accessControlEncryptedSecureStoreMigrator
-            = try accessControlEncryptedSecureStoreMigrator ?? AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
+            = accessControlEncryptedSecureStoreMigrator ?? AccessControlEncryptedSecureStoreMigrator(analyticsService: analyticsService)
 
         let encryptedSecureStoreMigrator = encryptedStore ?? EncryptedSecureStoreMigrator(analyticsService: analyticsService)
         let manager = PersistentSessionManager(
