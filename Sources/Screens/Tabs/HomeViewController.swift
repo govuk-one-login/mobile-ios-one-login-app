@@ -3,17 +3,8 @@ import DesignSystem
 import GDSAnalytics
 import Logging
 import Networking
+import SDKInterface
 import UIKit
-
-@MainActor
-protocol CRIOrchestration {
-    func continueIdentityCheckIfRequired(over viewController: UIViewController)
-    
-    func getIDCheckCard(
-        viewController: UIViewController,
-        externalStream: IDCheckExternalStream
-    ) -> UIViewController
-}
 
 final class HomeViewController: BaseScreen {
     override var nibName: String? { "HomeView" }

@@ -5,16 +5,22 @@ import PackageDescription
 
 let package = Package(
     name: "MockCRIOrchestrator",
-    platforms: [.iOS(.v15)],
+    platforms: [.iOS("16.7")],
     products: [
         .library(
             name: "MockCRIOrchestrator",
             targets: ["MockCRIOrchestrator"]
         ),
     ],
+    dependencies: [
+        .package(path: "SDKInterface")
+    ],
     targets: [
         .target(
-            name: "MockCRIOrchestrator"
+            name: "MockCRIOrchestrator",
+            dependencies: [
+                .product(name: "SDKInterface", package: "SDKInterface")
+            ]
         ),
         .testTarget(
             name: "MockCRIOrchestratorTests",
