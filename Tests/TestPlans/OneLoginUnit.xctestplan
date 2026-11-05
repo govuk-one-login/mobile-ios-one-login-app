@@ -52,6 +52,13 @@
         "identifier" : "219601FC2A976305008F3427",
         "name" : "OneLoginUnitTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:MockCRIOrchestrator",
+        "identifier" : "MockCRIOrchestratorTests",
+        "name" : "MockCRIOrchestratorTests"
+      }
     }
   ],
   "version" : 1
