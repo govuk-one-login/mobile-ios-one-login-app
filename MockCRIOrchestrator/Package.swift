@@ -13,18 +13,26 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "SDKInterface")
+        .package(path: "SDKInterface"),
+        .package(
+            url: "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
+            .upToNextMajor(from: .init(8, 88, 0))
+        ),
     ],
     targets: [
         .target(
             name: "MockCRIOrchestrator",
             dependencies: [
-                .product(name: "SDKInterface", package: "SDKInterface")
+                .product(name: "SDKInterface", package: "SDKInterface"),
+                .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
             ]
         ),
         .testTarget(
             name: "MockCRIOrchestratorTests",
-            dependencies: ["MockCRIOrchestrator"]
+            dependencies: [
+                "MockCRIOrchestrator",
+                .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
+            ]
         )
     ]
 )

@@ -1,5 +1,6 @@
 import CRIOrchestrator
 @testable import OneLogin
+import SDKInterface
 import UIKit
 
 class MockCRIOrchestrator: CRIOrchestration {

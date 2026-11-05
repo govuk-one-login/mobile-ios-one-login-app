@@ -1,8 +1,31 @@
-import Testing
+import CRIOrchestrator
 @testable import MockCRIOrchestrator
+import Testing
+import UIKit
 
-@Test func example() {
-    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
-    // Swift Testing Documentation
-    // https://developer.apple.com/documentation/testing
+extension MockCRIOrchestrator {
+    static func make(
+        idCheckJourney: Bool = false,
+        streamContinuation: AsyncStream<CardStatus>.Continuation? = nil,
+        hostingViewController: UIViewController = UIViewController()
+    ) -> MockCRIOrchestrator {
+        return MockCRIOrchestrator(
+            idCheckJourney: idCheckJourney,
+            streamContinuation: streamContinuation,
+            hostingViewController: hostingViewController
+        )
+    }
+}
+
+@MainActor
+@Test
+func creatingMock() {
+    let vc = UIViewController()
+    let sut: MockCRIOrchestrator = .make(idCheckJourney: true,
+                                         streamContinuation: nil,
+                                         hostingViewController: vc)
+    
+    #expect(sut.idCheckJourney == true)
+    #expect(sut.streamContinuation == nil)
+    #expect(sut.hostingViewController == vc)
 }

@@ -1,4 +1,4 @@
-@_exported import CRIOrchestrator
+import CRIOrchestrator
 import UIKit
 
 // Matches signatures of public functions of CRIOrchestrator

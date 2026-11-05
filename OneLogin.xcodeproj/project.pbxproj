@@ -3172,7 +3172,6 @@
 				7CEFDE202E3BB684004EE532 /* XCLocalSwiftPackageReference "mobile-wallet-ios" */,
 				1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 				1E365B3F2FBB724A0090106D /* XCRemoteSwiftPackageReference "mobile-ios-ui" */,
-				D35A92B4309B4B5C009A7742 /* XCLocalSwiftPackageReference "MockCRIOrchestrator" */,
 				D31E496E309B58B200E9CE86 /* XCLocalSwiftPackageReference "SDKInterface" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
@@ -5556,10 +5555,6 @@
 		D31E496E309B58B200E9CE86 /* XCLocalSwiftPackageReference "SDKInterface" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = SDKInterface;
-		};
-		D35A92B4309B4B5C009A7742 /* XCLocalSwiftPackageReference "MockCRIOrchestrator" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = MockCRIOrchestrator;
 		};
 /* End XCLocalSwiftPackageReference section */
 
