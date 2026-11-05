@@ -1,9 +1,5 @@
 import Coordination
-#if DEBUG
-import MockCRIOrchestrator
-#else
 import CRIOrchestrator
-#endif
 import DesignSystem
 import GAnalytics
 import GDSAnalytics
@@ -37,15 +33,13 @@ final class HomeCoordinator: NSObject,
             image: UIImage(systemName: "house.fill"),
             tag: 0
         )
-        #if DEBUG
-        let criOrchestrator = MockCRIOrchestrator()
-        #else
+        // doesnt solve problem of avoiding importing mocks
+        
         let criOrchestrator = CRIOrchestrator(
             analyticsService: analyticsService,
             networkClient: networkingService,
             criURLs: OneLoginCRIURLs()
         )
-        #endif
         let hc = HomeViewController(
             analyticsService: analyticsService,
             criOrchestrator: criOrchestrator,
