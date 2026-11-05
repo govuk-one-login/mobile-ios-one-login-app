@@ -1,0 +1,43 @@
+name: On Push (Maestro Spike)
+
+on:
+  push:
+    branches:
+      - spike/maestro
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  maestro:
+    name: Run Maestro spike tests
+    runs-on: macos-26
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # pin@v4
+
+      - name: Install Maestro runner
+        shell: bash
+        run: curl -fsSL https://open.devicelab.dev/install/maestro-runner | bash -s -- --version 1.1.29
+
+      - name: Run example flow on an iOS simulator
+        shell: bash
+        env:
+          MAESTRO_RUNNER_NO_TELEMETRY: "1"
+          DO_NOT_TRACK: "1"
+        run: |
+          "$HOME/.maestro-runner/bin/maestro-runner" \
+            --platform ios \
+            --auto-start-emulator \
+            test ./flow.yml
+      
+      - name: Upload Maestro reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-test-reports
+          path: reports/
+          retention-days: 1

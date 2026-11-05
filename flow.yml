@@ -1,0 +1,38 @@
+appId: com.apple.mobileslideshow
+name: Select a photo on iOS
+---
+# Seed the gallery so this example does not depend on pre-existing photos.
+- addMedia:
+    - ./test-data/sample-photo.png
+
+- launchApp
+
+# These welcome/navigation controls vary between iOS versions.
+- tapOn:
+    text: "Continue"
+    optional: true
+    timeout: 3000
+- tapOn:
+    text: "Not Now"
+    optional: true
+    timeout: 3000
+- tapOn:
+    text: "Library"
+    optional: true
+    timeout: 3000
+- tapOn:
+    text: "All Photos"
+    optional: true
+    timeout: 3000
+
+# Photo thumbnails normally have an accessibility label beginning "Photo,".
+# Confirm this selector against the CI simulator's hierarchy on the first run.
+# This tap is required: a missing thumbnail must fail the flow.
+- tapOn:
+    text: "Photo,.*"
+    index: 0
+    label: Open the first photo
+
+# The photo viewer exposes Share after a photo has been opened.
+- assertVisible: "Share"
+- takeScreenshot: selected-photo
