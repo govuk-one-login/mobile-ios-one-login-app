@@ -24,10 +24,6 @@ public class MockCRIOrchestrator: CRIOrchestration {
         streamContinuation = externalStream.continuation
         hostingViewController.view.isHidden = !idCheckJourney
         
-//        hostingViewController.view.backgroundColor = .red
-//        hostingViewController.view.isHidden = false
-//        hostingViewController.view.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
         return hostingViewController
     }
     

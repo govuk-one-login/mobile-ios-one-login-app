@@ -3,6 +3,7 @@ import CRIOrchestrator
 import SDKInterface
 import UIKit
 
+// TODO: DCMAW-23968 Delete this mock and use mock from package MockCRIOrchestrator
 class MockCRIOrchestrator: CRIOrchestration {
     var idCheckJourney = false
     var streamContinuation: AsyncStream<CardStatus>.Continuation?

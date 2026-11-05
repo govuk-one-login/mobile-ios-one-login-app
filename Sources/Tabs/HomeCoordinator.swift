@@ -33,7 +33,6 @@ final class HomeCoordinator: NSObject,
             image: UIImage(systemName: "house.fill"),
             tag: 0
         )
-        // doesnt solve problem of avoiding importing mocks
         
         let criOrchestrator = CRIOrchestrator(
             analyticsService: analyticsService,

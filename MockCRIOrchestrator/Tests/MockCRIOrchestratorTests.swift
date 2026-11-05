@@ -20,12 +20,14 @@ extension MockCRIOrchestrator {
 @MainActor
 @Test
 func creatingMock() {
-    let vc = UIViewController()
-    let sut: MockCRIOrchestrator = .make(idCheckJourney: true,
-                                         streamContinuation: nil,
-                                         hostingViewController: vc)
+    let viewController = UIViewController()
+    let sut: MockCRIOrchestrator = .make(
+        idCheckJourney: true,
+        streamContinuation: nil,
+        hostingViewController: viewController
+    )
     
     #expect(sut.idCheckJourney == true)
     #expect(sut.streamContinuation == nil)
-    #expect(sut.hostingViewController == vc)
+    #expect(sut.hostingViewController == viewController)
 }
