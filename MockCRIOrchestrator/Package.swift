@@ -10,14 +10,14 @@ let package = Package(
         .library(
             name: "MockCRIOrchestrator",
             targets: ["MockCRIOrchestrator"]
-        ),
+        )
     ],
     dependencies: [
         .package(path: "SDKInterface"),
         .package(
             url: "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
             .upToNextMajor(from: .init(8, 88, 0))
-        ),
+        )
     ],
     targets: [
         .target(

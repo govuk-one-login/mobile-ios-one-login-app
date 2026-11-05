@@ -10,13 +10,13 @@ let package = Package(
         .library(
             name: "SDKInterface",
             targets: ["SDKInterface"]
-        ),
+        )
     ],
     dependencies: [
         .package(
             url: "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
             .upToNextMajor(from: .init(8, 88, 0))
-        ),
+        )
     ],
     targets: [
         .target(
@@ -28,6 +28,6 @@ let package = Package(
         .testTarget(
             name: "SDKInterfaceTests",
             dependencies: ["SDKInterface"]
-        ),
+        )
     ]
 )
