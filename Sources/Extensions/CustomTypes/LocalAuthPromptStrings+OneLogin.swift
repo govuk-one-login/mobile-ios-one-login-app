@@ -6,7 +6,7 @@ extension LocalAuthPromptStrings {
         LocalAuthPromptStrings(
             subtitle: NSLocalizedString(
                 key: "app_faceId_reason",
-                value: "Unlock your phone to continue"
+                value: "Unlock to continue"
             ),
             passcodeButton: NSLocalizedString(
                 key: "app_localAuthentication_fallbackTitle",
