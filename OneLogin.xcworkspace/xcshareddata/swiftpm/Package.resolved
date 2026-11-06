@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-credential-sharing-ios",
       "state" : {
-        "revision" : "66bb3e5aa3727608933549a3135db567d04234d5",
-        "version" : "2.17.0"
+        "revision" : "5373d813c83a26d814d395b2460cbfed718c59db",
+        "version" : "2.34.0"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
       "state" : {
-        "revision" : "8176beb721aa9622fab1470340314ebe193e60f7",
-        "version" : "8.84.1"
+        "revision" : "95ad82f13732f74933ed6f7f076837c37e2f1ea7",
+        "version" : "8.88.0"
       }
     },
     {
@@ -158,8 +158,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-authentication.git",
       "state" : {
-        "revision" : "666028682dab5eb5c7f4c852a6abd0e20bce7ec5",
-        "version" : "5.2.0"
+        "revision" : "62642b6839ba0f352179b72ccd3c84dfd13a8957",
+        "version" : "5.3.0"
       }
     },
     {
@@ -203,8 +203,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-secure-store",
       "state" : {
-        "revision" : "5c034bd5643bc7f2b1b12457a2dc8a0e0155a219",
-        "version" : "4.9.0"
+        "revision" : "c954e7b014a54136cbdf78e23d925facbcdbb191",
+        "version" : "4.10.0"
       }
     },
     {
@@ -212,8 +212,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-one-login/mobile-ios-ui",
       "state" : {
-        "revision" : "738a364253a9492e67317ce20dadff6bb613629e",
-        "version" : "2.5.0"
+        "revision" : "7c28fd988b70cf15d5b1efc0f77e2de14faf0a4b",
+        "version" : "2.7.4"
       }
     },
     {
@@ -248,7 +248,7 @@
       "kind" : "registry",
       "location" : "",
       "state" : {
-        "version" : "4.129.0"
+        "version" : "4.130.1"
       }
     },
     {
@@ -256,8 +256,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "4cc46f8607516226e5465062fdacd088fbd94552",
-        "version" : "20.1.4"
+        "revision" : "b4192c46305570577c4d08df790fddec5ab3aa04",
+        "version" : "20.1.5"
       }
     },
     {
@@ -265,8 +265,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift",
       "state" : {
-        "revision" : "600e187711e5fa4e8e2c0429cacee27e8e44f112",
-        "version" : "20.0.4"
+        "revision" : "a40ced79265b644a896e393b0f3a37e7916e7de3",
+        "version" : "20.0.6"
       }
     },
     {

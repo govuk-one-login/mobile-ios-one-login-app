@@ -31,6 +31,7 @@ struct AnalyticsPreferenceViewModel: GDSLeftAlignedViewModel {
                                  alignment: .left,
                                  verticalPadding: .bottom(DesignSystem.Spacing.default)),
                 GDSButtonViewModel(title: GDSLocalisedString(stringKey: "app_privacyNoticeLink", "app_nameString").value,
+                                   icon: .arrowUpRight,
                                    style: .secondaryLeading,
                                    buttonAction: .action {
                                        textButtonAction()

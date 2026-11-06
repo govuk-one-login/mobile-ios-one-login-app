@@ -4,6 +4,12 @@ import Logging
 import UIKit
 
 final class ContentTileCell: UITableViewCell {
+    // Prevents keyboard focus moving to cell
+    // Allowing focus to move to accessible components within cell
+    override var canBecomeFocused: Bool {
+        return false
+    }
+    
     var viewModel: GDSCardViewModel? {
         didSet {
             guard let viewModel else { return }

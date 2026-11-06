@@ -291,6 +291,14 @@ extension SettingsViewControllerTests {
         #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level2] as? String == OLTaxonomyValue.settings)
         #expect(mockAnalyticsService.additionalParameters[OLTaxonomyKey.level3] as? String == OLTaxonomyValue.undefined)
     }
+    
+    @Test
+    func test_keyboardAccessibilty_scrollToFocusedRow() throws {
+        let tableView = try sut.tabbedTableView
+        tableView.reloadData()
+        let indexPath = IndexPath(row: 0, section: 0)
+        sut.scrollToFocusedRow(in: tableView, at: indexPath)
+    }
 }
 
 extension SettingsViewController {

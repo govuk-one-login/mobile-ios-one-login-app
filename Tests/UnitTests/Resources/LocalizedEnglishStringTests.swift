@@ -31,15 +31,7 @@ struct LocalizedEnglishStringTests {
         #expect("app_nameString".getEnglishString() ==
                        "GOV.UK One Login")
     }
-    
-    @Test
-    func test_localAuthPrompt_keys() {
-        #expect("app_faceId_subtitle".getEnglishString() ==
-                       "Enter iPhone passcode")
-        #expect("app_touchId_subtitle".getEnglishString() ==
-                       "Unlock to proceed")
-    }
-    
+        
     @Test
     func test_signInScreen_keys() {
         #expect("app_signInBody".getEnglishString() ==

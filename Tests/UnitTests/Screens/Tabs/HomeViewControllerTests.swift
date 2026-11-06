@@ -44,7 +44,7 @@ extension HomeViewControllerTests {
         mockCRIOrchestrator.hostingViewController.view.isHidden = false
         mockCRIOrchestrator.streamContinuation?.yield(.show)
         let tableView = try sut.tableView
-        #expect(await eventually { self.sut.numberOfSections(in: tableView) == 3 })
+        #expect(await eventually { @MainActor in self.sut.numberOfSections(in: tableView) == 3 })
     }
     
     @Test
@@ -54,7 +54,7 @@ extension HomeViewControllerTests {
         mockCRIOrchestrator.hostingViewController.view.isHidden = true
         mockCRIOrchestrator.streamContinuation?.yield(.hide)
         let tableView = try sut.tableView
-        #expect(await eventually { self.sut.numberOfSections(in: tableView) == 2 })
+        #expect(await eventually { @MainActor in self.sut.numberOfSections(in: tableView) == 2 })
     }
     
     @Test
@@ -95,6 +95,7 @@ extension HomeViewControllerTests {
         #expect(viewModel.backgroundColour == DesignSystem.Color.Backgrounds.card)
         #expect(!viewModel.showShadow)
         #expect(viewModel.dismissAction == nil)
+        #expect(servicesTile?.canBecomeFocused == false)
     }
     
     @Test
@@ -119,6 +120,7 @@ extension HomeViewControllerTests {
         #expect(viewModel.backgroundColour == DesignSystem.Color.Backgrounds.card)
         #expect(!viewModel.showShadow)
         #expect(viewModel.dismissAction == nil)
+        #expect(servicesTile?.canBecomeFocused == false)
     }
     
     @Test
