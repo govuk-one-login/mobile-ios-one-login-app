@@ -1,4 +1,3 @@
-import AppIntegrity
 import Authentication
 import Foundation
 import LocalAuthenticationWrapper

@@ -34,14 +34,6 @@
 "app_loadingLabel" = "Loading %@";
 
 
-// MARK: Local Auth prompt (Face ID)
-"app_faceId_subtitle" = "Enter iPhone passcode";
-
-
-// MARK: Local Auth prompt (Touch ID)
-"app_touchId_subtitle" = "Unlock to proceed";
-
-
 // MARK: Sign in screen
 "app_signInBody" = "Prove your identity to access government services.\n\nYou’ll need to sign in with your %@ details.";
 

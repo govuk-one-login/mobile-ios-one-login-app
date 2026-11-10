@@ -1,4 +1,3 @@
-import AppIntegrity
 import Foundation
 
 extension URLRequest {
