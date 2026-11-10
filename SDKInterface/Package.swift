@@ -24,10 +24,6 @@ let package = Package(
             dependencies: [
                 .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
             ]
-        ),
-        .testTarget(
-            name: "SDKInterfaceTests",
-            dependencies: ["SDKInterface"]
         )
     ]
 )
