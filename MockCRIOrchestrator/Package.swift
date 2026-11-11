@@ -13,7 +13,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "SDKInterface"),
+        .package(path: "../SDKInterface"),
         .package(
             url: "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
             .upToNextMajor(from: .init(8, 88, 0))
