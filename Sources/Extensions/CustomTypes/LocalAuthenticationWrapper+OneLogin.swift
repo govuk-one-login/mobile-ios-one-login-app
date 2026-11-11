@@ -11,7 +11,7 @@ extension LocalAuthenticationWrapper: LocalAuthenticationContextStrings {
         LocalAuthenticationLocalizedStrings(
             localizedReason: NSLocalizedString(
                 key: "app_localAuthentication_reason",
-                value: "Unlock your phone to continue"
+                value: "Unlock to continue"
             ),
             localisedFallbackTitle: NSLocalizedString(
                 key: "app_localAuthentication_fallbackTitle",
