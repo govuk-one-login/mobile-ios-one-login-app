@@ -597,7 +597,6 @@
 		D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */; };
 		D0BE24472BEBD2E400759529 /* MockJWKs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKs.swift */; };
 		D31E4970309B58B200E9CE86 /* SDKInterface in Frameworks */ = {isa = PBXBuildFile; productRef = D31E496F309B58B200E9CE86 /* SDKInterface */; };
-		D35A92B6309B4B5C009A7742 /* MockCRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = D35A92B5309B4B5C009A7742 /* MockCRIOrchestrator */; };
 		D35EF5C23079242900A4E303 /* test_analyticsPeferenceScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BC3079242900A4E303 /* test_analyticsPeferenceScreen.7.png */; };
 		D35EF5C33079242900A4E303 /* test_analyticsPeferenceScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BD3079242900A4E303 /* test_analyticsPeferenceScreen.8.png */; };
 		D35EF5C43079242900A4E303 /* test_analyticsPeferenceScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BF3079242900A4E303 /* test_analyticsPeferenceScreen.10.png */; };
@@ -1297,7 +1296,6 @@
 				D3BE6B80309212590092D450 /* MockCRIOrchestrator in Frameworks */,
 				C8A13CA42AFBD07E00FCBD36 /* Authentication in Frameworks */,
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
-				D35A92B6309B4B5C009A7742 /* MockCRIOrchestrator in Frameworks */,
 				AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */,
 				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
@@ -2984,7 +2982,6 @@
 				7CEFDE212E3BB684004EE532 /* Wallet */,
 				1E365B402FBB724A0090106D /* DesignSystem */,
 				D3BE6B7F309212590092D450 /* MockCRIOrchestrator */,
-				D35A92B5309B4B5C009A7742 /* MockCRIOrchestrator */,
 				D31E496F309B58B200E9CE86 /* SDKInterface */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
@@ -5733,10 +5730,6 @@
 		D31E496F309B58B200E9CE86 /* SDKInterface */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SDKInterface;
-		};
-		D35A92B5309B4B5C009A7742 /* MockCRIOrchestrator */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MockCRIOrchestrator;
 		};
 		D3BE6B7F309212590092D450 /* MockCRIOrchestrator */ = {
 			isa = XCSwiftPackageProductDependency;
