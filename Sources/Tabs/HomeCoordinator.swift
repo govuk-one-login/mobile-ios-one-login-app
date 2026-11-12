@@ -1,5 +1,7 @@
 import Coordination
 import CRIOrchestrator
+import Orchestrator
+import OrchestratorInterfaces
 import DesignSystem
 import GAnalytics
 import GDSAnalytics
@@ -33,7 +35,7 @@ final class HomeCoordinator: NSObject,
             image: UIImage(systemName: "house.fill"),
             tag: 0
         )
-        let criOrchestrator = CRIOrchestrator(
+        let criOrchestrator = OneLoginOrchestrator.make(
             analyticsService: analyticsService,
             networkClient: networkingService,
             criURLs: OneLoginCRIURLs()

@@ -6,7 +6,6 @@ import HTTPLogging
 import Logging
 import MobilePlatformServices
 import Networking
-import SDKInterface
 import Wallet
 import WalletInterface
 
@@ -49,8 +48,6 @@ extension WalletEnvironment {
         }
     }
 }
-
-extension CRIOrchestrator: CRIOrchestration {}
 
 struct OneLoginCRIURLs: CRIURLs {
     let criBaseURL: URL = AppEnvironment.idCheckAsyncBaseURL

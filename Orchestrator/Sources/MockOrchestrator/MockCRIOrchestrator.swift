@@ -1,8 +1,8 @@
 import CRIOrchestrator
-import SDKInterface
+import OrchestratorInterfaces
 import UIKit
 
-public class MockCRIOrchestrator: CRIOrchestration {
+public class MockCRIOrchestrator: Orchestrator {
     var idCheckJourney = false
     var streamContinuation: AsyncStream<CardStatus>.Continuation?
     var hostingViewController = UIViewController()
