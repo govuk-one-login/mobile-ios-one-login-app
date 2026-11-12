@@ -496,7 +496,7 @@
 		C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C85507012B7FB58D00AA9375 /* InfoPlist.strings */; };
 		C85E21042ACEE34900AF8B4E /* TabManagerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21032ACEE34900AF8B4E /* TabManagerCoordinator.swift */; };
 		C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
-		C8603B1F2D9EC40400B4AD28 /* MockCRIORchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8603B1E2D9EC3F400B4AD28 /* MockCRIORchestrator.swift */; };
+		C8603B1F2D9EC40400B4AD28 /* MockCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8603B1E2D9EC3F400B4AD28 /* MockCRIOrchestrator.swift */; };
 		C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */; };
 		C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */; };
 		C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */; };
@@ -1156,7 +1156,7 @@
 		C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginBuild.entitlements; sourceTree = "<group>"; };
 		C85E21032ACEE34900AF8B4E /* TabManagerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManagerCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
-		C8603B1E2D9EC3F400B4AD28 /* MockCRIORchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCRIORchestrator.swift; sourceTree = "<group>"; };
+		C8603B1E2D9EC3F400B4AD28 /* MockCRIOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCRIOrchestrator.swift; sourceTree = "<group>"; };
 		C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifier.swift; sourceTree = "<group>"; };
 		C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifierTests.swift; sourceTree = "<group>"; };
@@ -2404,7 +2404,7 @@
 				1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */,
 				8E3C5A3C2F9FBF8500389C50 /* AppIntegrityProviderStub.swift */,
 				9996E02E30064DF400AB019B /* FirebaseAppIntegrityService+Mocks.swift */,
-				C8603B1E2D9EC3F400B4AD28 /* MockCRIORchestrator.swift */,
+				C8603B1E2D9EC3F400B4AD28 /* MockCRIOrchestrator.swift */,
 				7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */,
 				1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */,
 				7C81ADD22C78A5B000A73010 /* MockUser.swift */,
@@ -3852,7 +3852,7 @@
 				C3A337632F59835C00CBA690 /* ES256KeyVerifierTests.swift in Sources */,
 				C8C385562DA939D300520E69 /* MockAuthenticationProvider.swift in Sources */,
 				C8C385572DA939D300520E69 /* MockAuthenticationService.swift in Sources */,
-				C8603B1F2D9EC40400B4AD28 /* MockCRIORchestrator.swift in Sources */,
+				C8603B1F2D9EC40400B4AD28 /* MockCRIOrchestrator.swift in Sources */,
 				9996E02F30064DF900AB019B /* FirebaseAppIntegrityService+Mocks.swift in Sources */,
 				C811D65A2EA056A3009909A8 /* AppIntegrityDPoPJWTTests.swift in Sources */,
 				C8B825C52B98D3FA00336146 /* MockDefaultsStore.swift in Sources */,

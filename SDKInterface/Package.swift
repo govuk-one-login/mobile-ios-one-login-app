@@ -15,7 +15,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
-            .upToNextMajor(from: .init(8, 88, 0))
+            exact: "8.88.0"
         )
     ],
     targets: [
