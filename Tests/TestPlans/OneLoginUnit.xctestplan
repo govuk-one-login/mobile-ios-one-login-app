@@ -55,7 +55,7 @@
     },
     {
       "target" : {
-        "containerPath" : "container:MockCRIOrchestrator",
+        "containerPath" : "container:CRIOrchestration",
         "identifier" : "MockCRIOrchestratorTests",
         "name" : "MockCRIOrchestratorTests"
       }
