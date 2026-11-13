@@ -5546,6 +5546,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = LocalAuthenticationWrapper;
 		};
+		D390FC0830A72CBA00BE7624 /* XCLocalSwiftPackageReference "CRIOrchestration" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = CRIOrchestration;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
