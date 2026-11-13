@@ -1,5 +1,6 @@
 import AppIntegrity
 import CRIOrchestrator
+import CRIOrchestratorInterface
 import Foundation
 import GAnalytics
 import HTTPLogging
@@ -49,7 +50,7 @@ extension WalletEnvironment {
     }
 }
 
-extension CRIOrchestrator: CRIOrchestration {}
+extension CRIOrchestrator: @retroactive CRIOrchestration {}
 
 struct OneLoginCRIURLs: CRIURLs {
     let criBaseURL: URL = AppEnvironment.idCheckAsyncBaseURL
