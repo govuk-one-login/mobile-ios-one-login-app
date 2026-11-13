@@ -4,16 +4,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "MockCRIOrchestrator",
+    name: "CRIOrchestration",
     platforms: [.iOS("16.7")],
     products: [
+        .library(
+            name: "CRIOrchestration",
+            targets: ["CRIOrchestration"]
+        ),
         .library(
             name: "MockCRIOrchestrator",
             targets: ["MockCRIOrchestrator"]
         )
     ],
     dependencies: [
-        .package(path: "../SDKInterface"),
         .package(
             url: "https://github.com/govuk-one-login/mobile-id-check-ios-sdk.git",
             exact: "8.88.0"
@@ -21,17 +24,23 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "CRIOrchestration",
+            dependencies: [
+                .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
+            ]
+        ),
+        .target(
             name: "MockCRIOrchestrator",
             dependencies: [
-                .product(name: "SDKInterface", package: "SDKInterface"),
+                "CRIOrchestration",
                 .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
             ]
         ),
         .testTarget(
             name: "MockCRIOrchestratorTests",
             dependencies: [
-                "MockCRIOrchestrator",
-                .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
+                "CRIOrchestration",
+                "MockCRIOrchestrator"
             ]
         )
     ]

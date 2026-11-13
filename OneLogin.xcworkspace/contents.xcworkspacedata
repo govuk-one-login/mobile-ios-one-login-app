@@ -11,10 +11,7 @@
       location = "group:MobilePlatformServices">
    </FileRef>
    <FileRef
-      location = "group:MockCRIOrchestrator">
-   </FileRef>
-   <FileRef
-      location = "group:SDKInterface">
+      location = "group:CRIOrchestration">
    </FileRef>
    <FileRef
       location = "group:OneLogin.xcodeproj">

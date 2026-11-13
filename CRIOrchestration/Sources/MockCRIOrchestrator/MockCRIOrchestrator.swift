@@ -1,5 +1,5 @@
+import CRIOrchestration
 import CRIOrchestrator
-import SDKInterface
 import UIKit
 
 public class MockCRIOrchestrator: CRIOrchestration {
