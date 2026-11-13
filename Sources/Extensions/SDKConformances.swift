@@ -1,12 +1,12 @@
 import AppIntegrity
 import CRIOrchestrator
+import CRIOrchestratorInterface
 import Foundation
 import GAnalytics
 import HTTPLogging
 import Logging
 import MobilePlatformServices
 import Networking
-import SDKInterface
 import Wallet
 import WalletInterface
 

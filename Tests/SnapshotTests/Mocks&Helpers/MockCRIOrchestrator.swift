@@ -1,6 +1,6 @@
 import CRIOrchestrator
+import CRIOrchestratorInterface
 @testable import OneLogin
-import SDKInterface
 import UIKit
 
 // TODO: DCMAW-23968 Delete this mock and use mock from package MockCRIOrchestrator

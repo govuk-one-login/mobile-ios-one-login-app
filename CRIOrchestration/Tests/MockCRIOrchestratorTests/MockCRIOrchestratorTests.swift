@@ -1,5 +1,5 @@
-import CRIOrchestration
 import CRIOrchestrator
+import CRIOrchestratorInterface
 @testable import MockCRIOrchestrator
 import Testing
 import UIKit

@@ -1,9 +1,9 @@
 import CRIOrchestrator
+import CRIOrchestratorInterface
 import DesignSystem
 import GDSAnalytics
 import Logging
 import Networking
-import SDKInterface
 import UIKit
 
 final class HomeViewController: BaseScreen {

@@ -8,8 +8,8 @@ let package = Package(
     platforms: [.iOS("16.7")],
     products: [
         .library(
-            name: "CRIOrchestration",
-            targets: ["CRIOrchestration"]
+            name: "CRIOrchestratorInterface",
+            targets: ["CRIOrchestratorInterface"]
         ),
         .library(
             name: "MockCRIOrchestrator",
@@ -24,7 +24,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "CRIOrchestration",
+            name: "CRIOrchestratorInterface",
             dependencies: [
                 .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
             ]
@@ -32,14 +32,14 @@ let package = Package(
         .target(
             name: "MockCRIOrchestrator",
             dependencies: [
-                "CRIOrchestration",
+                "CRIOrchestratorInterface",
                 .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
             ]
         ),
         .testTarget(
             name: "MockCRIOrchestratorTests",
             dependencies: [
-                "CRIOrchestration",
+                "CRIOrchestratorInterface",
                 "MockCRIOrchestrator"
             ]
         )
