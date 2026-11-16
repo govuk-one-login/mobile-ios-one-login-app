@@ -4,13 +4,20 @@
 import PackageDescription
 
 let package = Package(
-    name: "CRIOrchestration",
+    name: "OneLoginCRIOrchestrator",
     platforms: [.iOS("16.7")],
     products: [
+        // Protocol
         .library(
-            name: "CRIOrchestratorInterface",
-            targets: ["CRIOrchestratorInterface"]
+            name: "CRIOrchestratorProtocol",
+            targets: ["CRIOrchestratorProtocol"]
         ),
+        // Wrapper
+        .library(
+            name: "OneLoginCRIOrchestrator",
+            targets: ["OneLoginCRIOrchestrator"]
+        ),
+        // Mock
         .library(
             name: "MockCRIOrchestrator",
             targets: ["MockCRIOrchestrator"]
@@ -23,24 +30,34 @@ let package = Package(
         )
     ],
     targets: [
+        // Protocol
         .target(
-            name: "CRIOrchestratorInterface",
+            name: "CRIOrchestratorProtocol",
             dependencies: [
                 .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
             ]
         ),
+        // Wrapper
+        .target(
+            name: "OneLoginCRIOrchestrator",
+            dependencies: [
+                "CRIOrchestratorProtocol",
+                .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
+            ]
+        ),
+        // Mock
         .target(
             name: "MockCRIOrchestrator",
             dependencies: [
-                "CRIOrchestratorInterface",
+                "CRIOrchestratorProtocol",
                 .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
             ]
         ),
         .testTarget(
             name: "MockCRIOrchestratorTests",
             dependencies: [
-                "CRIOrchestratorInterface",
-                "MockCRIOrchestrator"
+                "MockCRIOrchestrator",
+                .product(name: "CRIOrchestrator", package: "mobile-id-check-ios-sdk")
             ]
         )
     ]

@@ -1,5 +1,5 @@
 import CRIOrchestrator
-import CRIOrchestratorInterface
+import CRIOrchestratorProtocol
 @testable import OneLogin
 import UIKit
 

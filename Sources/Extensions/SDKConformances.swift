@@ -1,6 +1,6 @@
 import AppIntegrity
 import CRIOrchestrator
-import CRIOrchestratorInterface
+import CRIOrchestratorProtocol
 import Foundation
 import GAnalytics
 import HTTPLogging

@@ -1,5 +1,5 @@
 import CRIOrchestrator
-import CRIOrchestratorInterface
+import CRIOrchestratorProtocol
 import DesignSystem
 import GDSAnalytics
 import Logging

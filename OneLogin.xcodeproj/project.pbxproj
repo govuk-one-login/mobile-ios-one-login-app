@@ -596,6 +596,8 @@
 		D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24422BEBB06700759529 /* JWKInfo.swift */; };
 		D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */; };
 		D0BE24472BEBD2E400759529 /* MockJWKs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKs.swift */; };
+		D345434A30AB126A0084FF27 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */; };
+		D345434C30AB126A0084FF27 /* OneLoginCRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */; };
 		D35EF5C23079242900A4E303 /* test_analyticsPeferenceScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BC3079242900A4E303 /* test_analyticsPeferenceScreen.7.png */; };
 		D35EF5C33079242900A4E303 /* test_analyticsPeferenceScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BD3079242900A4E303 /* test_analyticsPeferenceScreen.8.png */; };
 		D35EF5C43079242900A4E303 /* test_analyticsPeferenceScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BF3079242900A4E303 /* test_analyticsPeferenceScreen.10.png */; };
@@ -608,7 +610,7 @@
 		D35EF5CB3079242900A4E303 /* test_analyticsPeferenceScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5B83079242900A4E303 /* test_analyticsPeferenceScreen.3.png */; };
 		D35EF5CC3079242900A4E303 /* test_analyticsPeferenceScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5B93079242900A4E303 /* test_analyticsPeferenceScreen.4.png */; };
 		D35EF5CD3079242900A4E303 /* test_analyticsPeferenceScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BB3079242900A4E303 /* test_analyticsPeferenceScreen.6.png */; };
-		D390FC0C30A72F0200BE7624 /* CRIOrchestratorInterface in Frameworks */ = {isa = PBXBuildFile; productRef = D390FC0B30A72F0200BE7624 /* CRIOrchestratorInterface */; };
+		D381F31930AB109B000E1CC1 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D381F31830AB109B000E1CC1 /* CRIOrchestratorProtocol */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1295,17 +1297,19 @@
 				C8A13CB02AFBD0F100FCBD36 /* Coordination in Frameworks */,
 				AB327B112D36BEAD00AC169E /* CRIOrchestrator in Frameworks */,
 				ABD7A0C02CEF887E006D6C7A /* CryptoService in Frameworks */,
+				D345434C30AB126A0084FF27 /* OneLoginCRIOrchestrator in Frameworks */,
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				AB90DC7E2D8875EA00070B0F /* GDSAnalytics in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
+				D381F31930AB109B000E1CC1 /* CRIOrchestratorProtocol in Frameworks */,
 				D0BE243E2BEB7E5E00759529 /* JWTKit in Frameworks */,
 				C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */,
 				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
 				7CDC2EBE2C8B1CF200EAA592 /* MobilePlatformServices in Frameworks */,
 				C8BADD202B8638BA00385FE7 /* SecureStore in Frameworks */,
-				D390FC0C30A72F0200BE7624 /* CRIOrchestratorInterface in Frameworks */,
 				ABD7A0BE2CEF8871006D6C7A /* TokenGeneration in Frameworks */,
 				7CEFDE222E3BB684004EE532 /* Wallet in Frameworks */,
+				D345434A30AB126A0084FF27 /* CRIOrchestratorProtocol in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2979,7 +2983,9 @@
 				C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */,
 				7CEFDE212E3BB684004EE532 /* Wallet */,
 				1E365B402FBB724A0090106D /* DesignSystem */,
-				D390FC0B30A72F0200BE7624 /* CRIOrchestratorInterface */,
+				D381F31830AB109B000E1CC1 /* CRIOrchestratorProtocol */,
+				D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */,
+				D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */,
 			);
 			productName = "di-mobile-ios-onelogin-app";
 			productReference = 219601E72A976302008F3427 /* OneLogin.app */;
@@ -3166,7 +3172,7 @@
 				7CEFDE202E3BB684004EE532 /* XCLocalSwiftPackageReference "mobile-wallet-ios" */,
 				1E7F940D2F153B2900CC2CF9 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 				1E365B3F2FBB724A0090106D /* XCRemoteSwiftPackageReference "mobile-ios-ui" */,
-				D390FC0830A72CBA00BE7624 /* XCLocalSwiftPackageReference "CRIOrchestration" */,
+				D345434830AB126A0084FF27 /* XCLocalSwiftPackageReference "OneLoginCRIOrchestrator" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -5546,9 +5552,9 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = LocalAuthenticationWrapper;
 		};
-		D390FC0830A72CBA00BE7624 /* XCLocalSwiftPackageReference "CRIOrchestration" */ = {
+		D345434830AB126A0084FF27 /* XCLocalSwiftPackageReference "OneLoginCRIOrchestrator" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = CRIOrchestration;
+			relativePath = OneLoginCRIOrchestrator;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -5724,10 +5730,17 @@
 			package = D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */;
 			productName = JWTKit;
 		};
-		D390FC0B30A72F0200BE7624 /* CRIOrchestratorInterface */ = {
+		D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D390FC0830A72CBA00BE7624 /* XCLocalSwiftPackageReference "CRIOrchestration" */;
-			productName = CRIOrchestratorInterface;
+			productName = CRIOrchestratorProtocol;
+		};
+		D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OneLoginCRIOrchestrator;
+		};
+		D381F31830AB109B000E1CC1 /* CRIOrchestratorProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CRIOrchestratorProtocol;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
