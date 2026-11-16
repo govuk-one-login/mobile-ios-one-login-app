@@ -5,7 +5,9 @@ import Foundation
 import GDSUtilities
 import LocalAuthenticationWrapper
 import Logging
+import OneLoginWallet
 import SecureStore
+import WalletProtocol
 import WalletStore
 
 // swiftlint:disable:next type_body_length
@@ -56,7 +58,7 @@ final class PersistentSessionManager: SessionManager {
         unprotectedStore: DefaultsStoring,
         localAuthentication: LocalAuthManaging,
         analyticsService: OneLoginAnalyticsService,
-        walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance,
+        walletSDK: WalletServiceProtocol = OneLoginWallet.instance,
         tokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue = SerialTaskQueue()
     ) {
@@ -477,7 +479,7 @@ extension PersistentSessionManager {
         unprotectedStore: (any DefaultsStoring & SessionBoundData) = UserDefaults.standard,
         localAuthentication: LocalAuthManaging = LocalAuthenticationWrapper(localAuthStrings: .oneLogin),
         analyticsService: OneLoginAnalyticsService,
-        walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance,
+        walletSDK: WalletServiceProtocol = OneLoginWallet.instance,
         walletSessionData: SessionBoundData = WalletSessionData(),
         refreshTokenExchangeManager: TokenExchangeManaging,
         serialTaskQueue: SerialTaskQueue,

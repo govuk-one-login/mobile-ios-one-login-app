@@ -1,7 +1,9 @@
 @testable import OneLogin
 import Wallet
 import WalletStore
+import WalletProtocol
 
+// TODO: DCMAW-23968 Delete this mock and use mock from package MockWallet
 final class MockWalletSDKWrapper: WalletServiceProtocol {
     typealias DeleteAsFunction = () async throws(WalletStoreError) -> [WalletStoreError]
 
