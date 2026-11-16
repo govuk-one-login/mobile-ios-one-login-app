@@ -55,7 +55,7 @@
     },
     {
       "target" : {
-        "containerPath" : "container:CRIOrchestration",
+        "containerPath" : "container:OneLoginCRIOrchestrator",
         "identifier" : "MockCRIOrchestratorTests",
         "name" : "MockCRIOrchestratorTests"
       }
