@@ -611,7 +611,6 @@
 		D35EF5CB3079242900A4E303 /* test_analyticsPeferenceScreen.3.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5B83079242900A4E303 /* test_analyticsPeferenceScreen.3.png */; };
 		D35EF5CC3079242900A4E303 /* test_analyticsPeferenceScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5B93079242900A4E303 /* test_analyticsPeferenceScreen.4.png */; };
 		D35EF5CD3079242900A4E303 /* test_analyticsPeferenceScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BB3079242900A4E303 /* test_analyticsPeferenceScreen.6.png */; };
-		D381F31930AB109B000E1CC1 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D381F31830AB109B000E1CC1 /* CRIOrchestratorProtocol */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1303,7 +1302,6 @@
 				C8A13CA92AFBD0CC00FCBD36 /* GAnalytics in Frameworks */,
 				AB90DC7E2D8875EA00070B0F /* GDSAnalytics in Frameworks */,
 				C8A13CAB2AFBD0CC00FCBD36 /* HTTPLogging in Frameworks */,
-				D381F31930AB109B000E1CC1 /* CRIOrchestratorProtocol in Frameworks */,
 				D0BE243E2BEB7E5E00759529 /* JWTKit in Frameworks */,
 				C88A02662D9D6D72003E2AE7 /* LocalAuthenticationWrapper in Frameworks */,
 				C8A13CAD2AFBD0CC00FCBD36 /* Logging in Frameworks */,
@@ -2994,7 +2992,6 @@
 				C88A02652D9D6D72003E2AE7 /* LocalAuthenticationWrapper */,
 				7CEFDE212E3BB684004EE532 /* Wallet */,
 				1E365B402FBB724A0090106D /* DesignSystem */,
-				D381F31830AB109B000E1CC1 /* CRIOrchestratorProtocol */,
 				D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */,
 				D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */,
 			);
@@ -5749,10 +5746,6 @@
 		D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OneLoginCRIOrchestrator;
-		};
-		D381F31830AB109B000E1CC1 /* CRIOrchestratorProtocol */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CRIOrchestratorProtocol;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
