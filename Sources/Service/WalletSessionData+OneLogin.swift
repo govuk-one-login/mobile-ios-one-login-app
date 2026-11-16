@@ -1,4 +1,6 @@
+import OneLoginWallet
 import Wallet
+import WalletProtocol
 import WalletStore
 
 /// Use to clear session data related to Wallet.
@@ -72,7 +74,7 @@ actor WalletSessionData: SessionBoundData {
 
     private let walletSDK: WalletServiceProtocol
     
-    public init(walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance) {
+    public init(walletSDK: WalletServiceProtocol = OneLoginWallet.instance) {
         self.walletSDK = walletSDK
         (streamClearSessionDataWarnings, clearSessionDataWarnings) = AsyncStream<WalletStoreError>.makeStream()
     }
@@ -124,28 +126,5 @@ actor WalletSessionData: SessionBoundData {
         for error in try await walletSDK.delete() {
             continuation.yield(error)
         }
-    }
-}
-
-protocol WalletServiceProtocol {
-    func delete() async throws(WalletStoreError) -> [WalletStoreError]
-    func isEmpty() async -> Bool
-}
-
-struct WalletSDKWrapper: WalletServiceProtocol {
-    static let instance = WalletSDKWrapper()
-    
-    /// Use ``instance`` to obtain a reference.
-    private init() {
-        // the `WalletSDKWrapper` is meant to represent an instance of the WalletSDK
-        // when using its static function. Thus, using a `init` is moot.
-    }
-    
-    func delete() async throws(WalletStoreError) -> [WalletStoreError] {
-        try await WalletSDK.delete()
-    }
-    
-    func isEmpty() async -> Bool {
-        return await WalletSDK.isEmpty()
     }
 }

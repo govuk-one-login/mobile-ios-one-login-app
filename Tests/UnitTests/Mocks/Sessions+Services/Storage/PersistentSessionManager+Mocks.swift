@@ -2,6 +2,7 @@ import Foundation
 import LocalAuthenticationWrapper
 import Logging
 @testable import OneLogin
+import WalletProtocol
 
 extension PersistentSessionManager {
     /// Creates a `PersistentSessionManager` with the following conditions:
