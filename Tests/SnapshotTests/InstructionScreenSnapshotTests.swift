@@ -1,5 +1,6 @@
 import DesignSystem
 import LocalAuthenticationWrapper
+import MockCRIOrchestrator
 @testable import OneLogin
 @testable import SnapshotHelpers
 internal import SnapshotTesting
