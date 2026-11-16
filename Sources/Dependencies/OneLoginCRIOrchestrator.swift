@@ -1,7 +1,7 @@
 import CRIOrchestrator
 import CRIOrchestratorProtocol
-import OneLoginCRIOrchestrator
 import Networking
+import OneLoginCRIOrchestrator
 
 extension OneLoginCRIOrchestrator {
     static func make(
