@@ -4,10 +4,10 @@ import UIKit
 
 @MainActor
 public class OneLoginCRIOrchestrator: CRIOrchestratorProtocol {
-    private var criOrchestrator: CRIOrchestratorProtocol
+    private var criOrchestrator: CRIOrchestrator
 
     public init(
-        criOrchestrator: CRIOrchestratorProtocol
+        criOrchestrator: CRIOrchestrator
     ) {
         self.criOrchestrator = criOrchestrator
     }

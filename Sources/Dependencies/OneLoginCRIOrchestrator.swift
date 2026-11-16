@@ -8,7 +8,7 @@ extension OneLoginCRIOrchestrator {
         analyticsService: IDCheckAnalyticsService,
         networkClient: IDCheckNetworkClient,
         criURLs: CRIURLs
-    ) -> OneLoginCRIOrchestrator {
+    ) -> CRIOrchestratorProtocol {
         let criOrchestrator = CRIOrchestrator(
             analyticsService: analyticsService,
             networkClient: networkClient,
@@ -18,5 +18,3 @@ extension OneLoginCRIOrchestrator {
         return OneLoginCRIOrchestrator(criOrchestrator: criOrchestrator)
     }
 }
-
-extension CRIOrchestrator: @retroactive CRIOrchestratorProtocol {}

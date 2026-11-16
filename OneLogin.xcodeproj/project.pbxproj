@@ -366,6 +366,8 @@
 		8EA9FDBB2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA9FDBA2F3CE17E00C52D4D /* AppIntegrityErrorViewModel.swift */; };
 		997E16863041D48C006E9940 /* WalletSessionDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 997E16853041D488006E9940 /* WalletSessionDataTests.swift */; };
 		9996E02F30064DF900AB019B /* FirebaseAppIntegrityService+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9996E02E30064DF400AB019B /* FirebaseAppIntegrityService+Mocks.swift */; };
+		999D714830AB57EC004B33BF /* MockCRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = 999D714730AB57EC004B33BF /* MockCRIOrchestrator */; };
+		999D714A30AB57F1004B33BF /* IDCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 999D714930AB57F1004B33BF /* IDCheck */; };
 		99AEB1C52FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99AEB1C42FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift */; };
 		99D60701307F980600A203EA /* SecureStorable+OneLoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D60700307F980600A203EA /* SecureStorable+OneLoginTests.swift */; };
 		99D60704307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D60703307F995B00A203EA /* LocalAuthenticationWrapper+Mocks.swift */; };
@@ -414,7 +416,6 @@
 		C37B8EEC30652CA100F09F40 /* test_updateAppError.3.png in Resources */ = {isa = PBXBuildFile; fileRef = C37B8ED730652CA100F09F40 /* test_updateAppError.3.png */; };
 		C388D2612DC8E928007C9902 /* HomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C388D2602DC8E928007C9902 /* HomeView.xib */; };
 		C390BF3A2FD97EC4007A8F79 /* URLOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = C390BF392FD97EC0007A8F79 /* URLOpener.swift */; };
-		C39812232F753B33003CEF98 /* MockCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39812222F753B2B003CEF98 /* MockCRIOrchestrator.swift */; };
 		C3A2D72F2DF1B58D00F8D617 /* SignOutSuccessfulViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */; };
 		C3A2D7312DF1B66500F8D617 /* SignOutSuccessfulViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */; };
 		C3A337632F59835C00CBA690 /* ES256KeyVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A337622F59835000CBA690 /* ES256KeyVerifierTests.swift */; };
@@ -496,7 +497,6 @@
 		C85506FF2B7FB58D00AA9375 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C85507012B7FB58D00AA9375 /* InfoPlist.strings */; };
 		C85E21042ACEE34900AF8B4E /* TabManagerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E21032ACEE34900AF8B4E /* TabManagerCoordinator.swift */; };
 		C85E210D2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */; };
-		C8603B1F2D9EC40400B4AD28 /* MockCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8603B1E2D9EC3F400B4AD28 /* MockCRIOrchestrator.swift */; };
 		C865444D2BD7D55000433897 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */; };
 		C865E6522C21DC24001FA62D /* UniversalLinkQualifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */; };
 		C865E6542C21DDA5001FA62D /* UniversalLinkQualifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */; };
@@ -596,6 +596,8 @@
 		D0BE24432BEBB06700759529 /* JWKInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24422BEBB06700759529 /* JWKInfo.swift */; };
 		D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */; };
 		D0BE24472BEBD2E400759529 /* MockJWKs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKs.swift */; };
+		D315459830AB63E50096C063 /* MockCRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = D315459730AB63E50096C063 /* MockCRIOrchestrator */; };
+		D315459A30AB63EC0096C063 /* IDCheck in Frameworks */ = {isa = PBXBuildFile; productRef = D315459930AB63EC0096C063 /* IDCheck */; };
 		D345434A30AB126A0084FF27 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */; };
 		D345434C30AB126A0084FF27 /* OneLoginCRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */; };
 		D345434F30AB17450084FF27 /* OneLoginCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345434E30AB173C0084FF27 /* OneLoginCRIOrchestrator.swift */; };
@@ -1073,7 +1075,6 @@
 		C37B8EE030652CA100F09F40 /* test_updateAppError.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_updateAppError.12.png; sourceTree = "<group>"; };
 		C388D2602DC8E928007C9902 /* HomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeView.xib; sourceTree = "<group>"; };
 		C390BF392FD97EC0007A8F79 /* URLOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLOpener.swift; sourceTree = "<group>"; };
-		C39812222F753B2B003CEF98 /* MockCRIOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCRIOrchestrator.swift; sourceTree = "<group>"; };
 		C3A2D72E2DF1B58500F8D617 /* SignOutSuccessfulViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutSuccessfulViewModel.swift; sourceTree = "<group>"; };
 		C3A2D7302DF1B65A00F8D617 /* SignOutSuccessfulViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutSuccessfulViewModelTests.swift; sourceTree = "<group>"; };
 		C3A337622F59835000CBA690 /* ES256KeyVerifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ES256KeyVerifierTests.swift; sourceTree = "<group>"; };
@@ -1157,7 +1158,6 @@
 		C85BD2412B03DC8800DE1D4B /* OneLoginBuild.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneLoginBuild.entitlements; sourceTree = "<group>"; };
 		C85E21032ACEE34900AF8B4E /* TabManagerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManagerCoordinator.swift; sourceTree = "<group>"; };
 		C85E210C2ACEE93C00AF8B4E /* OneLoginIntroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginIntroViewModel.swift; sourceTree = "<group>"; };
-		C8603B1E2D9EC3F400B4AD28 /* MockCRIOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCRIOrchestrator.swift; sourceTree = "<group>"; };
 		C865444C2BD7D55000433897 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C865E6512C21DC24001FA62D /* UniversalLinkQualifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifier.swift; sourceTree = "<group>"; };
 		C865E6532C21DDA5001FA62D /* UniversalLinkQualifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalLinkQualifierTests.swift; sourceTree = "<group>"; };
@@ -1281,10 +1281,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D315459A30AB63EC0096C063 /* IDCheck in Frameworks */,
 				1E7F94132F153B2900CC2CF9 /* SnapshotTestingCustomDump in Frameworks */,
 				1E7F940F2F153B2900CC2CF9 /* InlineSnapshotTesting in Frameworks */,
 				1EE98D8A30092A21008AED79 /* SnapshotHelpers in Frameworks */,
 				1E7F94112F153B2900CC2CF9 /* SnapshotTesting in Frameworks */,
+				D315459830AB63E50096C063 /* MockCRIOrchestrator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1317,6 +1319,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				999D714A30AB57F1004B33BF /* IDCheck in Frameworks */,
+				999D714830AB57EC004B33BF /* MockCRIOrchestrator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2277,7 +2281,6 @@
 		C8467D372F1978150071ED81 /* Mocks&Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				C39812222F753B2B003CEF98 /* MockCRIOrchestrator.swift */,
 				C8467D332F1978150071ED81 /* MockAnalyticsService.swift */,
 				C8467D342F1978150071ED81 /* MockURLOpener.swift */,
 				C8467D352F1978150071ED81 /* MockUserProvider.swift */,
@@ -2407,7 +2410,6 @@
 				1E4738EB2EC7320C00803940 /* MockAppIntegrityProvider.swift */,
 				8E3C5A3C2F9FBF8500389C50 /* AppIntegrityProviderStub.swift */,
 				9996E02E30064DF400AB019B /* FirebaseAppIntegrityService+Mocks.swift */,
-				C8603B1E2D9EC3F400B4AD28 /* MockCRIOrchestrator.swift */,
 				7CDC2EC32C8B247300EAA592 /* MockHelloWorldService.swift */,
 				1E88606E2EC4A9E100364BCF /* MockRefreshTokenExchangeManager.swift */,
 				7C81ADD22C78A5B000A73010 /* MockUser.swift */,
@@ -2952,6 +2954,8 @@
 				1E7F94102F153B2900CC2CF9 /* SnapshotTesting */,
 				1E7F94122F153B2900CC2CF9 /* SnapshotTestingCustomDump */,
 				1EE98D8930092A21008AED79 /* SnapshotHelpers */,
+				D315459730AB63E50096C063 /* MockCRIOrchestrator */,
+				D315459930AB63EC0096C063 /* IDCheck */,
 			);
 			productName = OneLoginSnapshotTests;
 			productReference = 1E7F93052F1538CF00CC2CF9 /* OneLoginSnapshotTests.xctest */;
@@ -3014,6 +3018,8 @@
 			);
 			name = OneLoginUnitTests;
 			packageProductDependencies = (
+				999D714730AB57EC004B33BF /* MockCRIOrchestrator */,
+				999D714930AB57F1004B33BF /* IDCheck */,
 			);
 			productName = "di-mobile-ios-onelogin-appTests";
 			productReference = 219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */;
@@ -3678,7 +3684,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C39812232F753B33003CEF98 /* MockCRIOrchestrator.swift in Sources */,
 				C8467D3B2F1978150071ED81 /* MockAnalyticsService.swift in Sources */,
 				C8467D3C2F1978150071ED81 /* MockURLOpener.swift in Sources */,
 				C8467D3D2F1978150071ED81 /* MockUserProvider.swift in Sources */,
@@ -3864,7 +3869,6 @@
 				C3A337632F59835C00CBA690 /* ES256KeyVerifierTests.swift in Sources */,
 				C8C385562DA939D300520E69 /* MockAuthenticationProvider.swift in Sources */,
 				C8C385572DA939D300520E69 /* MockAuthenticationService.swift in Sources */,
-				C8603B1F2D9EC40400B4AD28 /* MockCRIOrchestrator.swift in Sources */,
 				9996E02F30064DF900AB019B /* FirebaseAppIntegrityService+Mocks.swift in Sources */,
 				C811D65A2EA056A3009909A8 /* AppIntegrityDPoPJWTTests.swift in Sources */,
 				C8B825C52B98D3FA00336146 /* MockDefaultsStore.swift in Sources */,
@@ -5680,6 +5684,15 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = AppIntegrity;
 		};
+		999D714730AB57EC004B33BF /* MockCRIOrchestrator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MockCRIOrchestrator;
+		};
+		999D714930AB57F1004B33BF /* IDCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB327B0F2D36BEAD00AC169E /* XCRemoteSwiftPackageReference "mobile-id-check-ios-sdk" */;
+			productName = IDCheck;
+		};
 		AB327B102D36BEAD00AC169E /* CRIOrchestrator */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = AB327B0F2D36BEAD00AC169E /* XCRemoteSwiftPackageReference "mobile-id-check-ios-sdk" */;
@@ -5738,6 +5751,15 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D0BE243C2BEB7E5E00759529 /* XCRemoteSwiftPackageReference "jwt-kit" */;
 			productName = JWTKit;
+		};
+		D315459730AB63E50096C063 /* MockCRIOrchestrator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MockCRIOrchestrator;
+		};
+		D315459930AB63EC0096C063 /* IDCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB327B0F2D36BEAD00AC169E /* XCRemoteSwiftPackageReference "mobile-id-check-ios-sdk" */;
+			productName = IDCheck;
 		};
 		D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */ = {
 			isa = XCSwiftPackageProductDependency;

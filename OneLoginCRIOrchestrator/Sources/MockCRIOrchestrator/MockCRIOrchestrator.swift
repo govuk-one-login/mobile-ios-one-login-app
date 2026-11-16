@@ -3,9 +3,9 @@ import CRIOrchestratorProtocol
 import UIKit
 
 public class MockCRIOrchestrator: CRIOrchestratorProtocol {
-    var idCheckJourney = false
-    var streamContinuation: AsyncStream<CardStatus>.Continuation?
-    var hostingViewController = UIViewController()
+    public var idCheckJourney = false
+    public var streamContinuation: AsyncStream<CardStatus>.Continuation?
+    public var hostingViewController = UIViewController()
     
     public init(
         idCheckJourney: Bool = false,
