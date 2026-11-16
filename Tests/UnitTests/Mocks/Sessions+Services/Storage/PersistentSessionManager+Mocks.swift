@@ -1,6 +1,7 @@
 import Foundation
 import LocalAuthenticationWrapper
 import Logging
+import MockWallet
 @testable import OneLogin
 import WalletProtocol
 

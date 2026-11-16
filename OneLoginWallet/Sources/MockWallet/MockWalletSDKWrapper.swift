@@ -2,13 +2,13 @@ import WalletProtocol
 import WalletStore
 
 public class MockWalletSDKWrapper: WalletServiceProtocol {
-    typealias DeleteAsFunction = () async throws(WalletStoreError) -> [WalletStoreError]
+    public typealias DeleteAsFunction = () async throws(WalletStoreError) -> [WalletStoreError]
 
-    var deleteAsFunction: DeleteAsFunction
+    public var deleteAsFunction: DeleteAsFunction
 
-    var isEmpty: Bool = true
+    public var isEmpty: Bool = true
 
-    init(deleteAsFunction: @escaping DeleteAsFunction = { return [] }) {
+    public init(deleteAsFunction: @escaping DeleteAsFunction = { return [] }) {
         self.deleteAsFunction = deleteAsFunction
     }
 

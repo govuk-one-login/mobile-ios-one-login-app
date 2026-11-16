@@ -3,6 +3,7 @@ import AppIntegrity
 import Authentication
 import Logging
 import MockNetworking
+import MockWallet
 @testable import Networking
 @testable @preconcurrency import OneLogin
 import SecureStore
