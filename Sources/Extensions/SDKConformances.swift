@@ -50,8 +50,6 @@ extension WalletEnvironment {
     }
 }
 
-extension CRIOrchestrator: @retroactive CRIOrchestratorProtocol {}
-
 struct OneLoginCRIURLs: CRIURLs {
     let criBaseURL: URL = AppEnvironment.idCheckAsyncBaseURL
     let govSupportURL: URL = AppEnvironment.govSupportURL

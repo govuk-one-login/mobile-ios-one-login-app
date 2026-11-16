@@ -598,6 +598,7 @@
 		D0BE24472BEBD2E400759529 /* MockJWKs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKs.swift */; };
 		D345434A30AB126A0084FF27 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */; };
 		D345434C30AB126A0084FF27 /* OneLoginCRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */; };
+		D345434F30AB17450084FF27 /* OneLoginCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345434E30AB173C0084FF27 /* OneLoginCRIOrchestrator.swift */; };
 		D35EF5C23079242900A4E303 /* test_analyticsPeferenceScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BC3079242900A4E303 /* test_analyticsPeferenceScreen.7.png */; };
 		D35EF5C33079242900A4E303 /* test_analyticsPeferenceScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BD3079242900A4E303 /* test_analyticsPeferenceScreen.8.png */; };
 		D35EF5C43079242900A4E303 /* test_analyticsPeferenceScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BF3079242900A4E303 /* test_analyticsPeferenceScreen.10.png */; };
@@ -1261,6 +1262,7 @@
 		D0BE24422BEBB06700759529 /* JWKInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWKInfo.swift; sourceTree = "<group>"; };
 		D0BE24442BEBCB5000759529 /* JWTVerifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTVerifierTests.swift; sourceTree = "<group>"; };
 		D0BE24462BEBD2E400759529 /* MockJWKs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockJWKs.swift; sourceTree = "<group>"; };
+		D345434E30AB173C0084FF27 /* OneLoginCRIOrchestrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginCRIOrchestrator.swift; sourceTree = "<group>"; };
 		D35EF5B63079242900A4E303 /* test_analyticsPeferenceScreen.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.1.png; sourceTree = "<group>"; };
 		D35EF5B73079242900A4E303 /* test_analyticsPeferenceScreen.2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.2.png; sourceTree = "<group>"; };
 		D35EF5B83079242900A4E303 /* test_analyticsPeferenceScreen.3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.3.png; sourceTree = "<group>"; };
@@ -1734,6 +1736,7 @@
 		3BBF28E42A9F7D3200491BB1 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				D345434D30AB171C0084FF27 /* Dependencies */,
 				C8178E3C2AEB2C8600059875 /* Analytics */,
 				3BBF28EC2A9F7D3200491BB1 /* Application */,
 				C8098B942AEFF18C001517A0 /* Extensions */,
@@ -2921,6 +2924,14 @@
 			path = JWT;
 			sourceTree = "<group>";
 		};
+		D345434D30AB171C0084FF27 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				D345434E30AB173C0084FF27 /* OneLoginCRIOrchestrator.swift */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3750,6 +3761,7 @@
 				C8C343972B909A2F00E92FB9 /* OLString.swift in Sources */,
 				1E1D56AA2F47673200AB90D3 /* OneLoginAppIntegrityService.swift in Sources */,
 				C84302692D9167AA0002B4B1 /* OLTaxonomy.swift in Sources */,
+				D345434F30AB17450084FF27 /* OneLoginCRIOrchestrator.swift in Sources */,
 				C8C3439B2B91F99600E92FB9 /* OnboardingCoordinator.swift in Sources */,
 				C8495FFD2EBDFBDB0065CA40 /* EncryptedSecureStoreMigrator.swift in Sources */,
 				C8F092E42DA465110046F6EA /* OneLoginEnrolmentManager.swift in Sources */,
