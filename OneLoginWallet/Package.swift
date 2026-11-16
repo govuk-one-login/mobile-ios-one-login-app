@@ -24,7 +24,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path:"../mobile-wallet-ios")
+        .package(path: "../mobile-wallet-ios")
     ],
     targets: [
         // Protocol
