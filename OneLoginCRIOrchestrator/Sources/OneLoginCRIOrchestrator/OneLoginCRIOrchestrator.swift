@@ -4,18 +4,12 @@ import UIKit
 
 @MainActor
 public class OneLoginCRIOrchestrator: CRIOrchestratorProtocol {
-    private var criOrchestrator: CRIOrchestrator
+    private var criOrchestrator: CRIOrchestratorProtocol
 
     public init(
-        analyticsService: IDCheckAnalyticsService,
-        networkClient: IDCheckNetworkClient,
-        criURLs: CRIURLs
+        criOrchestrator: CRIOrchestratorProtocol
     ) {
-        self.criOrchestrator = CRIOrchestrator(
-            analyticsService: analyticsService,
-            networkClient: networkClient,
-            criURLs: criURLs
-        )
+        self.criOrchestrator = criOrchestrator
     }
 
     public func getIDCheckCard(
