@@ -597,6 +597,7 @@
 		D0BE24472BEBD2E400759529 /* MockJWKs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BE24462BEBD2E400759529 /* MockJWKs.swift */; };
 		D315459830AB63E50096C063 /* MockCRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = D315459730AB63E50096C063 /* MockCRIOrchestrator */; };
 		D315459A30AB63EC0096C063 /* IDCheck in Frameworks */ = {isa = PBXBuildFile; productRef = D315459930AB63EC0096C063 /* IDCheck */; };
+		D320F08930AB7D2900FA2E08 /* WalletProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D320F08830AB7D2900FA2E08 /* WalletProtocol */; };
 		D345434A30AB126A0084FF27 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */; };
 		D345434C30AB126A0084FF27 /* OneLoginCRIOrchestrator in Frameworks */ = {isa = PBXBuildFile; productRef = D345434B30AB126A0084FF27 /* OneLoginCRIOrchestrator */; };
 		D345434F30AB17450084FF27 /* OneLoginCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345434E30AB173C0084FF27 /* OneLoginCRIOrchestrator.swift */; };
@@ -1325,6 +1326,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D320F08930AB7D2900FA2E08 /* WalletProtocol in Frameworks */,
 				999D714A30AB57F1004B33BF /* IDCheck in Frameworks */,
 				D385D93A30AB6C1E00C889B5 /* MockWallet in Frameworks */,
 				999D714830AB57EC004B33BF /* MockCRIOrchestrator in Frameworks */,
@@ -3032,6 +3034,7 @@
 				999D714930AB57F1004B33BF /* IDCheck */,
 				D385D93930AB6C1E00C889B5 /* MockWallet */,
 				D348163F30AB6F6D00F48506 /* Wallet */,
+				D320F08830AB7D2900FA2E08 /* WalletProtocol */,
 			);
 			productName = "di-mobile-ios-onelogin-appTests";
 			productReference = 219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */;
@@ -5777,6 +5780,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AB327B0F2D36BEAD00AC169E /* XCRemoteSwiftPackageReference "mobile-id-check-ios-sdk" */;
 			productName = IDCheck;
+		};
+		D320F08830AB7D2900FA2E08 /* WalletProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WalletProtocol;
 		};
 		D345434930AB126A0084FF27 /* CRIOrchestratorProtocol */ = {
 			isa = XCSwiftPackageProductDependency;
