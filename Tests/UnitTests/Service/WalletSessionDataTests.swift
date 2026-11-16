@@ -1,3 +1,4 @@
+import MockWallet
 @testable import OneLogin
 import Testing
 import WalletStore

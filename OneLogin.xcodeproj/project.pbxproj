@@ -423,7 +423,6 @@
 		C3A337672F64378D00CBA690 /* OneLoginGDSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A337662F64377E00CBA690 /* OneLoginGDSError.swift */; };
 		C3C9BA492E3A337800CC6278 /* WalletNetworkClientWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */; };
 		C3CDBC8D2DDE7648005A5C36 /* LocalAuthBiometricsErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3CDBC8C2DDE7634005A5C36 /* LocalAuthBiometricsErrorViewModel.swift */; };
-		C3DF5A7F2F6836560089B42B /* MockWalletSDKWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DF5A7E2F6836560089B42B /* MockWalletSDKWrapper.swift */; };
 		C8098B972AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */; };
 		C8098B992AEFF287001517A0 /* AnalyticsService+GDS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */; };
 		C80B871A2B029E230087C6D5 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80B87192B029E230087C6D5 /* LoginUITests.swift */; };
@@ -603,6 +602,7 @@
 		D345434F30AB17450084FF27 /* OneLoginCRIOrchestrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D345434E30AB173C0084FF27 /* OneLoginCRIOrchestrator.swift */; };
 		D345435430AB31220084FF27 /* OneLoginWallet in Frameworks */ = {isa = PBXBuildFile; productRef = D345435330AB31220084FF27 /* OneLoginWallet */; };
 		D345435630AB31220084FF27 /* WalletProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D345435530AB31220084FF27 /* WalletProtocol */; };
+		D348164030AB6F6D00F48506 /* Wallet in Frameworks */ = {isa = PBXBuildFile; productRef = D348163F30AB6F6D00F48506 /* Wallet */; };
 		D35EF5C23079242900A4E303 /* test_analyticsPeferenceScreen.7.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BC3079242900A4E303 /* test_analyticsPeferenceScreen.7.png */; };
 		D35EF5C33079242900A4E303 /* test_analyticsPeferenceScreen.8.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BD3079242900A4E303 /* test_analyticsPeferenceScreen.8.png */; };
 		D35EF5C43079242900A4E303 /* test_analyticsPeferenceScreen.10.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BF3079242900A4E303 /* test_analyticsPeferenceScreen.10.png */; };
@@ -616,6 +616,7 @@
 		D35EF5CC3079242900A4E303 /* test_analyticsPeferenceScreen.4.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5B93079242900A4E303 /* test_analyticsPeferenceScreen.4.png */; };
 		D35EF5CD3079242900A4E303 /* test_analyticsPeferenceScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BB3079242900A4E303 /* test_analyticsPeferenceScreen.6.png */; };
 		D385D93830AB69A500C889B5 /* OneLoginWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D385D93730AB69A200C889B5 /* OneLoginWallet.swift */; };
+		D385D93A30AB6C1E00C889B5 /* MockWallet in Frameworks */ = {isa = PBXBuildFile; productRef = D385D93930AB6C1E00C889B5 /* MockWallet */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1085,7 +1086,6 @@
 		C3A337662F64377E00CBA690 /* OneLoginGDSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginGDSError.swift; sourceTree = "<group>"; };
 		C3C9BA482E3A336600CC6278 /* WalletNetworkClientWrapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNetworkClientWrapperTests.swift; sourceTree = "<group>"; };
 		C3CDBC8C2DDE7634005A5C36 /* LocalAuthBiometricsErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthBiometricsErrorViewModel.swift; sourceTree = "<group>"; };
-		C3DF5A7E2F6836560089B42B /* MockWalletSDKWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWalletSDKWrapper.swift; sourceTree = "<group>"; };
 		C8098B962AEFF1AB001517A0 /* LoginSessionConfiguration+OneLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginSessionConfiguration+OneLogin.swift"; sourceTree = "<group>"; };
 		C8098B982AEFF287001517A0 /* AnalyticsService+GDS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnalyticsService+GDS.swift"; sourceTree = "<group>"; };
 		C80B87192B029E230087C6D5 /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
@@ -1326,7 +1326,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				999D714A30AB57F1004B33BF /* IDCheck in Frameworks */,
+				D385D93A30AB6C1E00C889B5 /* MockWallet in Frameworks */,
 				999D714830AB57EC004B33BF /* MockCRIOrchestrator in Frameworks */,
+				D348164030AB6F6D00F48506 /* Wallet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2119,7 +2121,6 @@
 		C3DF5A7D2F6836470089B42B /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
-				C3DF5A7E2F6836560089B42B /* MockWalletSDKWrapper.swift */,
 				C83014B32CA19B2200799A32 /* MockWalletError.swift */,
 			);
 			path = Wallet;
@@ -3029,6 +3030,8 @@
 			packageProductDependencies = (
 				999D714730AB57EC004B33BF /* MockCRIOrchestrator */,
 				999D714930AB57F1004B33BF /* IDCheck */,
+				D385D93930AB6C1E00C889B5 /* MockWallet */,
+				D348163F30AB6F6D00F48506 /* Wallet */,
 			);
 			productName = "di-mobile-ios-onelogin-appTests";
 			productReference = 219601FD2A976305008F3427 /* OneLoginUnitTests.xctest */;
@@ -3872,7 +3875,6 @@
 				C83E18122C05DDDB00B451D6 /* LoadingViewModelTests.swift in Sources */,
 				C327A33B2FFFBA3E00A4CB01 /* Testing+TestHelpers.swift in Sources */,
 				8E3C5AC62FA37F0B00389C50 /* MockRefreshTokenExchangeManagerGuarantor.swift in Sources */,
-				C3DF5A7F2F6836560089B42B /* MockWalletSDKWrapper.swift in Sources */,
 				1E1D56AC2F48778200AB90D3 /* OneLoginAppIntegrityServiceTests.swift in Sources */,
 				C8C343A02B92227C00E92FB9 /* MockAnalyticsPreferenceStore.swift in Sources */,
 				21E04DFC2AE6BC5B004C6660 /* MockAnalyticsService.swift in Sources */,
@@ -5791,6 +5793,15 @@
 		D345435530AB31220084FF27 /* WalletProtocol */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WalletProtocol;
+		};
+		D348163F30AB6F6D00F48506 /* Wallet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7CEFDE202E3BB684004EE532 /* XCLocalSwiftPackageReference "mobile-wallet-ios" */;
+			productName = Wallet;
+		};
+		D385D93930AB6C1E00C889B5 /* MockWallet */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MockWallet;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

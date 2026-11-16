@@ -1,6 +1,7 @@
 import AppIntegrity
 import Foundation
 import MockNetworking
+import MockWallet
 @testable import Networking
 @testable import OneLogin
 import Testing
