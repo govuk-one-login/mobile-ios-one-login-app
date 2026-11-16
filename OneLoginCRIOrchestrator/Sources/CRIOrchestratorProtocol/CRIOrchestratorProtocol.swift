@@ -3,7 +3,7 @@ import UIKit
 
 // Matches signatures of public functions of CRIOrchestrator
 @MainActor
-public protocol CRIOrchestration {
+public protocol CRIOrchestratorProtocol {
     func getIDCheckCard(
         viewController: UIViewController,
         externalStream: IDCheckExternalStream

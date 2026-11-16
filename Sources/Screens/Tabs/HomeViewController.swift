@@ -11,7 +11,7 @@ final class HomeViewController: BaseScreen {
     
     let navigationTitle: GDSLocalisedString = "app_homeTitle"
     private var analyticsService: OneLoginAnalyticsService
-    private let criOrchestrator: CRIOrchestration
+    private let criOrchestrator: CRIOrchestratorProtocol
     let spaceBetweenSections: CGFloat = 16
     
     private var idCheckCard: UIViewController?
@@ -20,7 +20,7 @@ final class HomeViewController: BaseScreen {
     let openProveIdentityGuidancePage: () -> Void
     
     init(analyticsService: OneLoginAnalyticsService,
-         criOrchestrator: CRIOrchestration,
+         criOrchestrator: CRIOrchestratorProtocol,
          openProveIdentityGuidancePage: @escaping () -> Void) {
         self.analyticsService = analyticsService.addingAdditionalParameters([
             OLTaxonomyKey.level2: OLTaxonomyValue.home,

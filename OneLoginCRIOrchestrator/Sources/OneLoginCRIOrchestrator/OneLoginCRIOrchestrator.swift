@@ -3,7 +3,7 @@ import CRIOrchestratorProtocol
 import UIKit
 
 @MainActor
-public class OneLoginCRIOrchestrator: CRIOrchestration {
+public class OneLoginCRIOrchestrator: CRIOrchestratorProtocol {
     private var orchestrator: CRIOrchestrator
 
     public init(

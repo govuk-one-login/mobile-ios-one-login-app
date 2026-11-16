@@ -4,7 +4,7 @@ import CRIOrchestratorProtocol
 import UIKit
 
 // TODO: DCMAW-23968 Delete this mock and use mock from package MockCRIOrchestrator
-class MockCRIOrchestrator: CRIOrchestration {
+class MockCRIOrchestrator: CRIOrchestratorProtocol {
     var idCheckJourney = false
     var streamContinuation: AsyncStream<CardStatus>.Continuation?
     var hostingViewController = UIViewController()

@@ -2,7 +2,7 @@ import CRIOrchestrator
 import CRIOrchestratorProtocol
 import UIKit
 
-public class MockCRIOrchestrator: CRIOrchestration {
+public class MockCRIOrchestrator: CRIOrchestratorProtocol {
     var idCheckJourney = false
     var streamContinuation: AsyncStream<CardStatus>.Continuation?
     var hostingViewController = UIViewController()
