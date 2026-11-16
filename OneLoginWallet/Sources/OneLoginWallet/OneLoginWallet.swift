@@ -1,5 +1,5 @@
-import WalletProtocol
 import Wallet
+import WalletProtocol
 
 public struct OneLoginWallet: WalletServiceProtocol {
     public static let instance = OneLoginWallet()
