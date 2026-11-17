@@ -59,6 +59,13 @@
         "identifier" : "MockCRIOrchestratorTests",
         "name" : "MockCRIOrchestratorTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:OneLoginWallet",
+        "identifier" : "MockWalletTests",
+        "name" : "MockWalletTests"
+      }
     }
   ],
   "version" : 1

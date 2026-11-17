@@ -1,6 +1,7 @@
 import AppIntegrity
 import Foundation
 import MockNetworking
+import MockWallet
 @testable import Networking
 @testable import OneLogin
 import Testing
@@ -310,7 +311,7 @@ extension NetworkingSerivceTests {
             unprotectedStore: mockUnprotectedStore,
             localAuthentication: mockLocalAuthentication,
             analyticsService: MockAnalyticsService(),
-            walletSDK: MockWalletSDKWrapper(),
+            walletSDK: MockWallet(),
             tokenExchangeManager: refreshExchangeManager,
             serialTaskQueue: serialTaskQueue
         )

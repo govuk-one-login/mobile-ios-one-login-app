@@ -1,7 +1,9 @@
 import Foundation
 import LocalAuthenticationWrapper
 import Logging
+import MockWallet
 @testable import OneLogin
+import WalletProtocol
 
 extension PersistentSessionManager {
     /// Creates a `PersistentSessionManager` with the following conditions:
@@ -24,7 +26,7 @@ extension PersistentSessionManager {
             forKey: OLString.returningUser
         )
 
-        let walletSDK = MockWalletSDKWrapper()
+        let walletSDK = MockWallet()
         walletSDK.isEmpty = true
 
         return .make(accessControlEncryptedSecureStoreMigrator: accessControlEncryptedSecureStoreMigrator,
@@ -64,7 +66,7 @@ extension PersistentSessionManager {
             itemName: OLString.persistentSessionID
         )
 
-        let walletSDK = MockWalletSDKWrapper()
+        let walletSDK = MockWallet()
         walletSDK.isEmpty = true
 
         let persistentSessionManager: PersistentSessionManager = .make(
@@ -96,7 +98,7 @@ extension PersistentSessionManager {
         mockUnprotectedStore: (any DefaultsStoring & SessionBoundData) = MockDefaultsStore(),
         mockWalletSessionData: SessionBoundData = WalletSessionBoundDataStub(),
         mockLocalAuthentication: LocalAuthManaging = MockLocalAuthManager(),
-        mockWalletSDK: WalletServiceProtocol = MockWalletSDKWrapper(),
+        mockWalletSDK: WalletServiceProtocol = MockWallet(),
         mockRefreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
         mockAnalyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()
     ) -> PersistentSessionManager {
@@ -121,7 +123,7 @@ extension PersistentSessionManager {
         mockUnprotectedStore: MockDefaultsStore = MockDefaultsStore(),
         mockWalletSessionData: SessionBoundData = WalletSessionBoundDataStub(),
         mockLocalAuthentication: MockLocalAuthManager = MockLocalAuthManager(),
-        mockWalletSDK: WalletServiceProtocol = MockWalletSDKWrapper(),
+        mockWalletSDK: WalletServiceProtocol = MockWallet(),
         mockRefreshTokenExchangeManager: TokenExchangeManaging = MockRefreshTokenExchangeManager(),
         mockAnalyticsPreferenceStore: (any AnalyticsPreferenceStore & SessionBoundData) = MockAnalyticsPreferenceStore()
     ) throws -> PersistentSessionManager {

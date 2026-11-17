@@ -1,5 +1,5 @@
-import Wallet
-import WalletStore
+import OneLoginWallet
+import WalletProtocol
 
 /// Use to clear session data related to Wallet.
 ///
@@ -67,14 +67,14 @@ actor WalletSessionData: SessionBoundData {
     /// - Note: If a ``WalletSessionData`` instance is unexpectedly retained, a consumer waiting
     /// on a stream will remain suspended in the case of either omitting a call to ``clearSessionData()``
     /// or the observation task is not cancelled.
-    private(set) var streamClearSessionDataWarnings: AsyncStream<WalletStoreError>
-    private var clearSessionDataWarnings: AsyncStream<WalletStoreError>.Continuation
+    private(set) var streamClearSessionDataWarnings: AsyncStream<Error>
+    private var clearSessionDataWarnings: AsyncStream<Error>.Continuation
 
     private let walletSDK: WalletServiceProtocol
     
-    public init(walletSDK: WalletServiceProtocol = WalletSDKWrapper.instance) {
+    public init(walletSDK: WalletServiceProtocol = OneLoginWallet.instance) {
         self.walletSDK = walletSDK
-        (streamClearSessionDataWarnings, clearSessionDataWarnings) = AsyncStream<WalletStoreError>.makeStream()
+        (streamClearSessionDataWarnings, clearSessionDataWarnings) = AsyncStream<Error>.makeStream()
     }
     
     deinit {
@@ -118,34 +118,11 @@ actor WalletSessionData: SessionBoundData {
         
         defer {
             continuation.finish()
-            (streamClearSessionDataWarnings, clearSessionDataWarnings) = AsyncStream<WalletStoreError>.makeStream()
+            (streamClearSessionDataWarnings, clearSessionDataWarnings) = AsyncStream<Error>.makeStream()
         }
         
         for error in try await walletSDK.delete() {
             continuation.yield(error)
         }
-    }
-}
-
-protocol WalletServiceProtocol {
-    func delete() async throws(WalletStoreError) -> [WalletStoreError]
-    func isEmpty() async -> Bool
-}
-
-struct WalletSDKWrapper: WalletServiceProtocol {
-    static let instance = WalletSDKWrapper()
-    
-    /// Use ``instance`` to obtain a reference.
-    private init() {
-        // the `WalletSDKWrapper` is meant to represent an instance of the WalletSDK
-        // when using its static function. Thus, using a `init` is moot.
-    }
-    
-    func delete() async throws(WalletStoreError) -> [WalletStoreError] {
-        try await WalletSDK.delete()
-    }
-    
-    func isEmpty() async -> Bool {
-        return await WalletSDK.isEmpty()
     }
 }

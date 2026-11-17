@@ -3,6 +3,7 @@ import AppIntegrity
 import Authentication
 import Logging
 import MockNetworking
+import MockWallet
 @testable import Networking
 @testable @preconcurrency import OneLogin
 import SecureStore
@@ -401,7 +402,7 @@ struct PersistentSessionManagerTests {
         let mockAnalyticsService: MockAnalyticsService = MockAnalyticsService()
         let mockEncryptedStore = MockSecureStoreService()
         let mockUnprotectedStore = MockDefaultsStore()
-        let mockWalletSDK = MockWalletSDKWrapper()
+        let mockWalletSDK = MockWallet()
         let sut: PersistentSessionManager = .makeWithMocks(mockAnalyticsService: mockAnalyticsService,
                                                            mockEncryptedStore: mockEncryptedStore,
                                                            mockUnprotectedStore: mockUnprotectedStore,
@@ -440,7 +441,7 @@ struct PersistentSessionManagerTests {
         let mockEncryptedStore = MockSecureStoreService()
         mockEncryptedStore.deleteItem(itemName: OLString.persistentSessionID)
         // AND the wallet is not empty
-        let mockWalletSDK = MockWalletSDKWrapper()
+        let mockWalletSDK = MockWallet()
         mockWalletSDK.isEmpty = false
 
         await confirmation("wallet not empty") { confirmation in
@@ -1109,7 +1110,7 @@ struct PersistentSessionManagerTests {
 
         let analyticsService = MockAnalyticsService()
         let walletSessionData = WalletSessionData(
-            walletSDK: MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+            walletSDK: MockWallet(deleteAsFunction: deleteReturnsErrors)
         )
         let sut = PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
                                                          mockWalletSessionData: walletSessionData)
@@ -1123,7 +1124,7 @@ struct PersistentSessionManagerTests {
     func clearAllSessionDataWithNoWalletDeletionWarnings() async throws {
         let analyticsService = MockAnalyticsService()
         let walletSessionData = WalletSessionData(
-            walletSDK: MockWalletSDKWrapper(deleteAsFunction: {
+            walletSDK: MockWallet(deleteAsFunction: {
                 return []
             })
         )
@@ -1145,7 +1146,7 @@ struct PersistentSessionManagerTests {
 
         let analyticsService = MockAnalyticsService()
         let walletSessionData = WalletSessionData(
-            walletSDK: MockWalletSDKWrapper(deleteAsFunction: deleteThrowsWalletUnsafeState)
+            walletSDK: MockWallet(deleteAsFunction: deleteThrowsWalletUnsafeState)
         )
         let sut = PersistentSessionManager.makeWithMocks(mockAnalyticsService: analyticsService,
                                                          mockWalletSessionData: walletSessionData)
