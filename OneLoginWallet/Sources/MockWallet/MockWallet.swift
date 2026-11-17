@@ -7,7 +7,7 @@ public class MockWallet: WalletServiceProtocol {
 
     public var isEmpty: Bool = true
 
-    public init(deleteAsFunction: @escaping DeleteAsFunction = { return [] }) {
+    public init(deleteAsFunction: @escaping DeleteAsFunction = { [] }) {
         self.deleteAsFunction = deleteAsFunction
     }
 

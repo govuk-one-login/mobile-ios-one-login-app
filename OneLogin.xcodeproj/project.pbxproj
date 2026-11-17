@@ -3205,9 +3205,7 @@
 				1E365B3F2FBB724A0090106D /* XCRemoteSwiftPackageReference "mobile-ios-ui" */,
 				D345434830AB126A0084FF27 /* XCLocalSwiftPackageReference "OneLoginCRIOrchestrator" */,
 				D345435230AB31210084FF27 /* XCLocalSwiftPackageReference "OneLoginWallet" */,
-				999D715B30AB8101004B33BF /* XCLocalSwiftPackageReference "mobile-wallet-ios/Common" */,
 				999D715E30AB8143004B33BF /* XCLocalSwiftPackageReference "mobile-wallet-ios" */,
-				999D716130AB829D004B33BF /* XCLocalSwiftPackageReference "mobile-wallet-ios/Interface" */,
 			);
 			productRefGroup = 219601E82A976302008F3427 /* Products */;
 			projectDirPath = "";
@@ -5578,17 +5576,9 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = AppIntegrity;
 		};
-		999D715B30AB8101004B33BF /* XCLocalSwiftPackageReference "mobile-wallet-ios/Common" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "mobile-wallet-ios/Common";
-		};
 		999D715E30AB8143004B33BF /* XCLocalSwiftPackageReference "mobile-wallet-ios" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "mobile-wallet-ios";
-		};
-		999D716130AB829D004B33BF /* XCLocalSwiftPackageReference "mobile-wallet-ios/Interface" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "mobile-wallet-ios/Interface";
 		};
 		C8EE69062D933EA7005D191C /* XCLocalSwiftPackageReference "LocalAuthenticationWrapper" */ = {
 			isa = XCLocalSwiftPackageReference;
