@@ -1,7 +1,5 @@
 import OneLoginWallet
-import Wallet
 import WalletProtocol
-import WalletStore
 
 /// Use to clear session data related to Wallet.
 ///
@@ -69,14 +67,14 @@ actor WalletSessionData: SessionBoundData {
     /// - Note: If a ``WalletSessionData`` instance is unexpectedly retained, a consumer waiting
     /// on a stream will remain suspended in the case of either omitting a call to ``clearSessionData()``
     /// or the observation task is not cancelled.
-    private(set) var streamClearSessionDataWarnings: AsyncStream<WalletStoreError>
-    private var clearSessionDataWarnings: AsyncStream<WalletStoreError>.Continuation
+    private(set) var streamClearSessionDataWarnings: AsyncStream<Error>
+    private var clearSessionDataWarnings: AsyncStream<Error>.Continuation
 
     private let walletSDK: WalletServiceProtocol
     
     public init(walletSDK: WalletServiceProtocol = OneLoginWallet.instance) {
         self.walletSDK = walletSDK
-        (streamClearSessionDataWarnings, clearSessionDataWarnings) = AsyncStream<WalletStoreError>.makeStream()
+        (streamClearSessionDataWarnings, clearSessionDataWarnings) = AsyncStream<Error>.makeStream()
     }
     
     deinit {
@@ -120,7 +118,7 @@ actor WalletSessionData: SessionBoundData {
         
         defer {
             continuation.finish()
-            (streamClearSessionDataWarnings, clearSessionDataWarnings) = AsyncStream<WalletStoreError>.makeStream()
+            (streamClearSessionDataWarnings, clearSessionDataWarnings) = AsyncStream<Error>.makeStream()
         }
         
         for error in try await walletSDK.delete() {

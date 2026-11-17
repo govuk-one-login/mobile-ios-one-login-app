@@ -1,6 +1,5 @@
 @testable import MockWallet
 import Testing
-import WalletStore
 
 extension MockWallet {
     static func make(

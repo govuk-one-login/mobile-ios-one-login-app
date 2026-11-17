@@ -1,6 +1,4 @@
-import WalletStore
-
 public protocol WalletServiceProtocol {
-    func delete() async throws(WalletStoreError) -> [WalletStoreError]
+    func delete() async throws -> [Error]
     func isEmpty() async -> Bool
 }

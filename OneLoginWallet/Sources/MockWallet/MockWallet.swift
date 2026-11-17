@@ -1,8 +1,7 @@
 import WalletProtocol
-import WalletStore
 
 public class MockWallet: WalletServiceProtocol {
-    public typealias DeleteAsFunction = () async throws(WalletStoreError) -> [WalletStoreError]
+    public typealias DeleteAsFunction = () async throws -> [Error]
 
     public var deleteAsFunction: DeleteAsFunction
 
@@ -12,7 +11,7 @@ public class MockWallet: WalletServiceProtocol {
         self.deleteAsFunction = deleteAsFunction
     }
 
-    public func delete() async throws(WalletStoreError) -> [WalletStoreError] {
+    public func delete() async throws -> [Error] {
         try await self.deleteAsFunction()
     }
 

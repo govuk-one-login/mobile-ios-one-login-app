@@ -5,7 +5,7 @@ import WalletStore
 
 struct WalletSessionDataTests {
     @Test func assertWalletUnsafeStateThrown() async throws {
-        func deleteThrowsWalletUnsafeState() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteThrowsWalletUnsafeState() async throws -> [Error] {
             throw WalletStoreError(.walletUnsafeState)
         }
         
@@ -21,7 +21,7 @@ struct WalletSessionDataTests {
     }
     
     @Test func assertErrorsNotThrown() async throws {
-        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteReturnsErrors() async throws -> [Error] {
             return [
                 WalletStoreError(.updateDocumentExpiryDate),
                 WalletStoreError(.updateValid)
@@ -41,7 +41,7 @@ struct WalletSessionDataTests {
         let first: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
         let second: WalletStoreError = WalletStoreError(.updateValid)
         
-        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteReturnsErrors() async throws -> [Error] {
             return [
                 first,
                 second
@@ -55,12 +55,12 @@ struct WalletSessionDataTests {
         
         try await walletSessionData.clearSessionData()
         
-        #expect(await warningsStream.next() == first)
-        #expect(await warningsStream.next() == second)
+        #expect(try await #require(warningsStream.next() as? WalletStoreError) == first)
+        #expect(try await #require(warningsStream.next() as? WalletStoreError) == second)
     }
     
     @Test func assertNoWarningsStream() async throws {
-        func deleteNoErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteNoErrors() async throws -> [Error] {
             return []
         }
         
@@ -78,7 +78,7 @@ struct WalletSessionDataTests {
         let error: WalletStoreError = WalletStoreError(.updateValid)
         
         var called = false
-        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteReturnsErrors() async throws -> [Error] {
             defer {
                 called = true
             }
@@ -99,7 +99,7 @@ struct WalletSessionDataTests {
         var warningsStream = await walletSessionData.streamClearSessionDataWarnings.makeAsyncIterator()
         try await walletSessionData.clearSessionData()
     
-        #expect(await warningsStream.next() == error)
+        #expect(try await #require(warningsStream.next() as? WalletStoreError) == error)
     }
     
     @Test func assertWarningsStreamPerClearSessionData() async throws {
@@ -107,7 +107,7 @@ struct WalletSessionDataTests {
         let another: WalletStoreError = WalletStoreError(.updateValid)
 
         var called = false
-        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteReturnsErrors() async throws -> [Error] {
             defer {
                 called = true
             }
@@ -126,20 +126,20 @@ struct WalletSessionDataTests {
         var oneWarningsStream = await walletSessionData.streamClearSessionDataWarnings.makeAsyncIterator()
         try await walletSessionData.clearSessionData()
 
-        #expect(await oneWarningsStream.next() == one)
+        #expect(try await #require(oneWarningsStream.next() as? WalletStoreError) == one)
         #expect(await oneWarningsStream.next() == nil)
 
         var anotherWarningsStream = await walletSessionData.streamClearSessionDataWarnings.makeAsyncIterator()
         try await walletSessionData.clearSessionData()
     
-        #expect(await anotherWarningsStream.next() == another)
+        #expect(try await #require(anotherWarningsStream.next() as? WalletStoreError) == another)
         #expect(await anotherWarningsStream.next() == nil)
     }
     
     @Test func assertWarningsStreamNotMissedAfterWalletSessionDataGoesAway() async throws {
         let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
 
-        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteReturnsErrors() async throws -> [Error] {
             return [
                 error
             ]
@@ -154,13 +154,13 @@ struct WalletSessionDataTests {
         
         walletSessionData = nil
         
-        #expect(await warningsStream?.next() == error)
+        #expect(try await #require(warningsStream?.next() as? WalletStoreError) == error)
     }
     
     @Test func assertWarningsStreamAfterClearSessionDataCalledDeinit() async throws {
         let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
 
-        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteReturnsErrors() async throws -> [Error] {
             return [
                 error
             ]
@@ -182,7 +182,7 @@ struct WalletSessionDataTests {
     @Test func assertWarningsStreamTaskCancellation() async throws {
         let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
 
-        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteReturnsErrors() async throws -> [Error] {
             return [
                 error
             ]
@@ -202,13 +202,13 @@ struct WalletSessionDataTests {
         
         observeWarnings.cancel()
         
-        #expect(await observeWarnings.value == error)
+        #expect(try await #require(observeWarnings.value as? WalletStoreError) == error)
     }
     
     @Test func assertWarningsStreamTaskCancellationOnStreamWithoutClearSessionDataCall() async throws {
-        let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
+        let error: Error = WalletStoreError(.updateDocumentExpiryDate)
 
-        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteReturnsErrors() async throws -> [Error] {
             return [
                 error
             ]
@@ -234,7 +234,7 @@ struct WalletSessionDataTests {
     @Test func assertWarningsStreamUsingStructuredTask() async throws {
         let error: WalletStoreError = WalletStoreError(.updateDocumentExpiryDate)
 
-        func deleteReturnsErrors() async throws(WalletStoreError) -> [WalletStoreError] {
+        func deleteReturnsErrors() async throws -> [Error] {
             return [
                 error
             ]
@@ -252,6 +252,6 @@ struct WalletSessionDataTests {
             return await warningsStream.next()
         }()
         
-        #expect(await observeWarnings == error)
+        #expect(try await #require(observeWarnings as? WalletStoreError) == error)
     }
 }

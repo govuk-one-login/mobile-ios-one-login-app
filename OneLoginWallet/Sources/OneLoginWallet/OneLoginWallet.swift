@@ -10,7 +10,7 @@ public struct OneLoginWallet: WalletServiceProtocol {
         // when using its static function. Thus, using a `init` is moot.
     }
     
-    public func delete() async throws(WalletStoreError) -> [WalletStoreError] {
+    public func delete() async throws -> [Error] {
         try await WalletSDK.delete()
     }
     
