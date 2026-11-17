@@ -618,6 +618,7 @@
 		D35EF5CD3079242900A4E303 /* test_analyticsPeferenceScreen.6.png in Resources */ = {isa = PBXBuildFile; fileRef = D35EF5BB3079242900A4E303 /* test_analyticsPeferenceScreen.6.png */; };
 		D385D93830AB69A500C889B5 /* OneLoginWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D385D93730AB69A200C889B5 /* OneLoginWallet.swift */; };
 		D385D93A30AB6C1E00C889B5 /* MockWallet in Frameworks */ = {isa = PBXBuildFile; productRef = D385D93930AB6C1E00C889B5 /* MockWallet */; };
+		D3911C3530AC85C800A86B80 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D3911C3430AC85C800A86B80 /* CRIOrchestratorProtocol */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1287,6 +1288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D315459A30AB63EC0096C063 /* IDCheck in Frameworks */,
+				D3911C3530AC85C800A86B80 /* CRIOrchestratorProtocol in Frameworks */,
 				1E7F94132F153B2900CC2CF9 /* SnapshotTestingCustomDump in Frameworks */,
 				1E7F940F2F153B2900CC2CF9 /* InlineSnapshotTesting in Frameworks */,
 				1EE98D8A30092A21008AED79 /* SnapshotHelpers in Frameworks */,
@@ -2966,6 +2968,7 @@
 				1EE98D8930092A21008AED79 /* SnapshotHelpers */,
 				D315459730AB63E50096C063 /* MockCRIOrchestrator */,
 				D315459930AB63EC0096C063 /* IDCheck */,
+				D3911C3430AC85C800A86B80 /* CRIOrchestratorProtocol */,
 			);
 			productName = OneLoginSnapshotTests;
 			productReference = 1E7F93052F1538CF00CC2CF9 /* OneLoginSnapshotTests.xctest */;
@@ -5818,6 +5821,11 @@
 		D385D93930AB6C1E00C889B5 /* MockWallet */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MockWallet;
+		};
+		D3911C3430AC85C800A86B80 /* CRIOrchestratorProtocol */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D345434830AB126A0084FF27 /* XCLocalSwiftPackageReference "OneLoginCRIOrchestrator" */;
+			productName = CRIOrchestratorProtocol;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
