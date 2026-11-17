@@ -311,7 +311,7 @@ extension NetworkingSerivceTests {
             unprotectedStore: mockUnprotectedStore,
             localAuthentication: mockLocalAuthentication,
             analyticsService: MockAnalyticsService(),
-            walletSDK: MockWalletSDKWrapper(),
+            walletSDK: MockWallet(),
             tokenExchangeManager: refreshExchangeManager,
             serialTaskQueue: serialTaskQueue
         )

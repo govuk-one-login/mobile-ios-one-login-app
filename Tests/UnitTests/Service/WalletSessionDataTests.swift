@@ -9,7 +9,7 @@ struct WalletSessionDataTests {
             throw WalletStoreError(.walletUnsafeState)
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteThrowsWalletUnsafeState)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteThrowsWalletUnsafeState)
         
         let walletSessionData = WalletSessionData(walletSDK: mockWalletSDK)
         
@@ -28,7 +28,7 @@ struct WalletSessionDataTests {
             ]
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteReturnsErrors)
         
         let walletSessionData = WalletSessionData(walletSDK: mockWalletSDK)
         
@@ -48,7 +48,7 @@ struct WalletSessionDataTests {
             ]
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteReturnsErrors)
         
         let walletSessionData = WalletSessionData(walletSDK: mockWalletSDK)
         var warningsStream = await walletSessionData.streamClearSessionDataWarnings.makeAsyncIterator()
@@ -64,7 +64,7 @@ struct WalletSessionDataTests {
             return []
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteNoErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteNoErrors)
         
         let walletSessionData = WalletSessionData(walletSDK: mockWalletSDK)
         var warningsStream = await walletSessionData.streamClearSessionDataWarnings.makeAsyncIterator()
@@ -90,7 +90,7 @@ struct WalletSessionDataTests {
             }
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteReturnsErrors)
         
         let walletSessionData = WalletSessionData(walletSDK: mockWalletSDK)
         
@@ -119,7 +119,7 @@ struct WalletSessionDataTests {
             }
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteReturnsErrors)
         
         let walletSessionData = WalletSessionData(walletSDK: mockWalletSDK)
         
@@ -145,7 +145,7 @@ struct WalletSessionDataTests {
             ]
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteReturnsErrors)
         
         var walletSessionData: Optional = WalletSessionData(walletSDK: mockWalletSDK)
         var warningsStream = await walletSessionData?.streamClearSessionDataWarnings.makeAsyncIterator()
@@ -166,7 +166,7 @@ struct WalletSessionDataTests {
             ]
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteReturnsErrors)
         
         var walletSessionData: Optional = WalletSessionData(walletSDK: mockWalletSDK)
         
@@ -188,7 +188,7 @@ struct WalletSessionDataTests {
             ]
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteReturnsErrors)
         
         let walletSessionData = WalletSessionData(walletSDK: mockWalletSDK)
         
@@ -214,7 +214,7 @@ struct WalletSessionDataTests {
             ]
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteReturnsErrors)
         
         let walletSessionData = WalletSessionData(walletSDK: mockWalletSDK)
         
@@ -240,7 +240,7 @@ struct WalletSessionDataTests {
             ]
         }
         
-        let mockWalletSDK = MockWalletSDKWrapper(deleteAsFunction: deleteReturnsErrors)
+        let mockWalletSDK = MockWallet(deleteAsFunction: deleteReturnsErrors)
         
         let walletSessionData = WalletSessionData(walletSDK: mockWalletSDK)
         

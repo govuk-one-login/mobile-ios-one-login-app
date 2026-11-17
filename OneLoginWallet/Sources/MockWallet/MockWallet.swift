@@ -1,7 +1,7 @@
 import WalletProtocol
 import WalletStore
 
-public class MockWalletSDKWrapper: WalletServiceProtocol {
+public class MockWallet: WalletServiceProtocol {
     public typealias DeleteAsFunction = () async throws(WalletStoreError) -> [WalletStoreError]
 
     public var deleteAsFunction: DeleteAsFunction
