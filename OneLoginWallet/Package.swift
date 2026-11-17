@@ -24,14 +24,17 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "../mobile-wallet-ios")
+        .package(path:"../mobile-wallet-ios"),
+        .package(path:"../mobile-wallet-ios/Storage"),
+        .package(path:"../mobile-wallet-ios/Common")
     ],
     targets: [
         // Protocol
         .target(
             name: "WalletProtocol",
             dependencies: [
-                .product(name: "Wallet", package: "mobile-wallet-ios")
+                .product(name: "Storage", package: "Storage"),
+                .product(name: "Common", package: "Common")
             ]
         ),
         // Wrapper
@@ -47,15 +50,16 @@ let package = Package(
             name: "MockWallet",
             dependencies: [
                 "WalletProtocol",
-                .product(name: "Wallet", package: "mobile-wallet-ios")
+                .product(name: "Storage", package: "Storage"),
+                .product(name: "Common", package: "Common")
             ]
         ),
         .testTarget(
             name: "MockWalletTests",
             dependencies: [
-                "WalletProtocol",
                 "MockWallet",
-                .product(name: "Wallet", package: "mobile-wallet-ios")
+                .product(name: "Storage", package: "Storage"),
+                .product(name: "Common", package: "Common")
             ]
         )
     ]

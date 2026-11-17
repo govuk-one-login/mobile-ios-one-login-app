@@ -1,4 +1,4 @@
-import Wallet
+import WalletStore
 
 public protocol WalletServiceProtocol {
     func delete() async throws(WalletStoreError) -> [WalletStoreError]
