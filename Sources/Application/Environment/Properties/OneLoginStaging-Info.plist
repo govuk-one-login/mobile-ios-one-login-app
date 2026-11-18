@@ -47,6 +47,11 @@
 		<key>iProov URL</key>
 		<string>$(IPROOV_URL)</string>
 	</dict>
+	<key>Wallet</key>
+	<dict>
+		<key>Trusted Reader Certificate Name</key>
+		<string></string>
+	</dict>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>

@@ -7,6 +7,8 @@ import Networking
 import SecureStore
 import UIKit
 import Wallet
+import WalletInterface
+import WalletCryptoSupport
 
 @MainActor
 final class WalletCoordinator: NSObject,
@@ -62,7 +64,7 @@ final class WalletCoordinator: NSObject,
             environment: walletEnvironment,
             clientID: AppEnvironment.stsClientID,
             walletStoreID: walletStoreID,
-            trustedReaderCertificates: []
+            trustedReaderCertificates: trustedReaderCertificates()
         )
         let walletServices = WalletServices(
             networkClient: WalletNetworkClientWrapper(
@@ -83,6 +85,21 @@ final class WalletCoordinator: NSObject,
             services: walletServices
         )
     }
+    
+    func trustedReaderCertificates(
+         bundle: Bundle = .main,
+         resource: String? = AppEnvironment.trustedReaderCertificateName,
+         withExtension resourceExtension: String = "pem"
+     ) -> [any TrustedCertificate] {
+         guard let resource,
+               let url = bundle.url(forResource: resource, withExtension: resourceExtension),
+               let pem = try? String(contentsOf: url, encoding: .utf8)
+         else { return [] }
+
+         return TrustedReaderCertificateParser.parse(pems: [pem]) { [analyticsService] error in
+             analyticsService.logCrash(error)
+         }
+     }
     
     func didBecomeSelected() {
         let tabCoordinator = parentCoordinator as? TabManagerCoordinator
