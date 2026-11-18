@@ -50,7 +50,7 @@
 	<key>Wallet</key>
 	<dict>
 		<key>Trusted Reader Certificate Name</key>
-		<string></string>
+		<array/>
 	</dict>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
