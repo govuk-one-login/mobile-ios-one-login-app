@@ -619,6 +619,8 @@
 		D385D93830AB69A500C889B5 /* OneLoginWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D385D93730AB69A200C889B5 /* OneLoginWallet.swift */; };
 		D385D93A30AB6C1E00C889B5 /* MockWallet in Frameworks */ = {isa = PBXBuildFile; productRef = D385D93930AB6C1E00C889B5 /* MockWallet */; };
 		D3911C3530AC85C800A86B80 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D3911C3430AC85C800A86B80 /* CRIOrchestratorProtocol */; };
+		D3911C5930ADC65100A86B80 /* CertificateFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C5830ADC64400A86B80 /* CertificateFunction.swift */; };
+		D3911C5B30ADC72600A86B80 /* CertificateFunctionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C5A30ADC71B00A86B80 /* CertificateFunctionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1280,10 +1282,43 @@
 		D35EF5C03079242900A4E303 /* test_analyticsPeferenceScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.11.png; sourceTree = "<group>"; };
 		D35EF5C13079242900A4E303 /* test_analyticsPeferenceScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.12.png; sourceTree = "<group>"; };
 		D385D93730AB69A200C889B5 /* OneLoginWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginWallet.swift; sourceTree = "<group>"; };
+		D3911C5830ADC64400A86B80 /* CertificateFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateFunction.swift; sourceTree = "<group>"; };
+		D3911C5A30ADC71B00A86B80 /* CertificateFunctionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateFunctionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D3911C5430ADC3D200A86B80 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"integration/root-ca-2026-v2.pem",
+			);
+			target = 25537C4D2AF2B38E0059DCD2 /* OneLoginBuildConfigTests */;
+		};
+		D3911C5530ADC3D200A86B80 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"integration/root-ca-2026-v2.pem",
+			);
+			target = C826A7112DA814B100832E65 /* OneLoginIntegrationConfigTests */;
+		};
+		D3911C5630ADC3D200A86B80 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"integration/root-ca-2026-v2.pem",
+			);
+			target = C83E06C72DCC0944007FDE0D /* OneLoginReleaseConfigTests */;
+		};
+		D3911C5730ADC3D200A86B80 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"integration/root-ca-2026-v2.pem",
+			);
+			target = 25537C3C2AF2B2600059DCD2 /* OneLoginStagingConfigTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D3911C3630ADB9DE00A86B80 /* Certificates */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Certificates; sourceTree = "<group>"; };
+		D3911C4E30ADC2EF00A86B80 /* Certificates */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (D3911C5430ADC3D200A86B80 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, D3911C5530ADC3D200A86B80 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, D3911C5630ADC3D200A86B80 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, D3911C5730ADC3D200A86B80 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Certificates; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1773,7 +1808,6 @@
 		3BBF28EC2A9F7D3200491BB1 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				D3911C3630ADB9DE00A86B80 /* Certificates */,
 				2BB5D8772F1115370004FD40 /* GlassAppIcon.icon */,
 				C8BACAFB2B4DD92200530419 /* Environment */,
 				C86B706D2B8F5EF200F4C9BF /* Firebase */,
@@ -2731,6 +2765,7 @@
 		C8BACAFB2B4DD92200530419 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
+				D3911C4E30ADC2EF00A86B80 /* Certificates */,
 				7C0CCECD2C8A12A500F61C11 /* Configuration */,
 				C8DA2C652D73DAC300EBBE3E /* Entitlements */,
 				C3381D2C2DFAE0E50007B594 /* Properties */,
@@ -2849,6 +2884,7 @@
 		C8E6C7632AF821D2008C19C9 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				D3911C5A30ADC71B00A86B80 /* CertificateFunctionTests.swift */,
 				7C9CEA6D2EBA5ADE0074EB18 /* Extensions */,
 				C81ECB1E2B71767500AFC3A6 /* Application */,
 				C8520C2C2AE2C546006790C1 /* Login */,
@@ -2881,6 +2917,7 @@
 		C8ECA1282BB5955200722218 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
+				D3911C5830ADC64400A86B80 /* CertificateFunction.swift */,
 				D08B0B7B2BDBF82600769CEA /* Views */,
 				C8ECA1232BB4805900722218 /* HomeCoordinator.swift */,
 				C8ECA12B2BB5958000722218 /* SettingsCoordinator.swift */,
@@ -2997,7 +3034,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				D3911C3630ADB9DE00A86B80 /* Certificates */,
+				D3911C4E30ADC2EF00A86B80 /* Certificates */,
 			);
 			name = OneLogin;
 			packageProductDependencies = (
@@ -3082,6 +3119,9 @@
 			dependencies = (
 				25537C422AF2B2600059DCD2 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				D3911C4E30ADC2EF00A86B80 /* Certificates */,
+			);
 			name = OneLoginStagingConfigTests;
 			productName = OneLoginStagingTests;
 			productReference = 25537C3D2AF2B2600059DCD2 /* OneLoginStagingConfigTests.xctest */;
@@ -3100,6 +3140,9 @@
 			dependencies = (
 				25537C532AF2B38E0059DCD2 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				D3911C4E30ADC2EF00A86B80 /* Certificates */,
+			);
 			name = OneLoginBuildConfigTests;
 			productName = OneLoginBuildTests;
 			productReference = 25537C4E2AF2B38E0059DCD2 /* OneLoginBuildConfigTests.xctest */;
@@ -3117,6 +3160,9 @@
 			);
 			dependencies = (
 				C826A7172DA814B100832E65 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D3911C4E30ADC2EF00A86B80 /* Certificates */,
 			);
 			name = OneLoginIntegrationConfigTests;
 			packageProductDependencies = (
@@ -3137,6 +3183,9 @@
 			);
 			dependencies = (
 				C83E06CD2DCC0944007FDE0D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D3911C4E30ADC2EF00A86B80 /* Certificates */,
 			);
 			name = OneLoginReleaseConfigTests;
 			packageProductDependencies = (
@@ -3806,6 +3855,7 @@
 				4193D2E32C89BB6100073EB8 /* SecureTokenStore.swift in Sources */,
 				C868EF3E2EC24B9B005E6A45 /* URLRequest+OneLogin.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* SessionManager.swift in Sources */,
+				D3911C5930ADC65100A86B80 /* CertificateFunction.swift in Sources */,
 				C8ECA12C2BB5958000722218 /* SettingsCoordinator.swift in Sources */,
 				C8514F682C09E133008E1433 /* SettingsTabAnalytics.swift in Sources */,
 				C8E1090B2BEE6C4500B21038 /* SettingsTabViewModel.swift in Sources */,
@@ -3875,6 +3925,7 @@
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
 				99AEB1C52FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift in Sources */,
+				D3911C5B30ADC72600A86B80 /* CertificateFunctionTests.swift in Sources */,
 				C34BD12A2DDF229100D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
 				ABFE5EF52DBA66500093E86E /* LocalAuthSettingsErrorViewModelTests.swift in Sources */,
