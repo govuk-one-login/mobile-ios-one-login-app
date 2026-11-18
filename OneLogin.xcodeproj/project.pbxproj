@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1282,6 +1282,10 @@
 		D385D93730AB69A200C889B5 /* OneLoginWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginWallet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		D3911C3630ADB9DE00A86B80 /* Certificates */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Certificates; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		1E7F93022F1538CF00CC2CF9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -1769,6 +1773,7 @@
 		3BBF28EC2A9F7D3200491BB1 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				D3911C3630ADB9DE00A86B80 /* Certificates */,
 				2BB5D8772F1115370004FD40 /* GlassAppIcon.icon */,
 				C8BACAFB2B4DD92200530419 /* Environment */,
 				C86B706D2B8F5EF200F4C9BF /* Firebase */,
@@ -2990,6 +2995,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D3911C3630ADB9DE00A86B80 /* Certificates */,
 			);
 			name = OneLogin;
 			packageProductDependencies = (
