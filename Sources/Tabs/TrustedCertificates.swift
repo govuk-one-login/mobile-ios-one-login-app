@@ -8,6 +8,7 @@ extension Array where Element == TrustedCertificate {
     /// - SeeAlso: https://developer.apple.com/documentation/xcode/managing-assets-with-asset-catalogs
     /// - SeeAlso: https://developer.apple.com/videos/play/wwdc2018/227/?time=1997
     public struct CertificateAsset {
+        public static let current: CertificateAsset = CertificateAsset(namespace: AppEnvironment.buildConfiguration, names: AppEnvironment.self.trustedCertificateNames)
         let namespace: String
         let names: [String]
     }
@@ -27,7 +28,7 @@ extension Array where Element == TrustedCertificate {
      }
     
     public static func load(
-        _ asset: CertificateAsset
+        _ asset: CertificateAsset = .current
     ) -> [any TrustedCertificate] {
         return load(configuration: asset.namespace, names: asset.names)
     }
