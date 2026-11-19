@@ -6,16 +6,37 @@ import X509
 extension Array where Element == TrustedCertificate {
     public typealias TrustedCertificatesLoadErrorClosure = (TrustedCertificateLoadError) -> Void
 
-    /// An certificate asset found within the `Certificates.xcassets` asset catalogue
+    /// The certificate assets found within the `Certificates.xcassets` asset catalogue with an associated `namespace` and
+    /// a given `name`.
     ///
     /// - SeeAlso: https://developer.apple.com/documentation/xcode/managing-assets-with-asset-catalogs
     /// - SeeAlso: https://developer.apple.com/videos/play/wwdc2018/227/?time=1997
-    public struct CertificateAsset {
-        public static let current: CertificateAsset = CertificateAsset(namespace: AppEnvironment.buildConfiguration, names: AppEnvironment.self.trustedCertificateNames)
+    public struct CertificateAssets {
+        /// The ``CertificateAssets`` for the "current" build configuration as returned by ``AppEnvironment/buildConfiguration``.
+        public static let current: CertificateAssets = CertificateAssets(namespace: AppEnvironment.buildConfiguration, names: AppEnvironment.self.trustedCertificateNames)
         let namespace: String
+
+        /// The names for each of the certificate under the associated ``namespace``
         let names: [String]
     }
     
+    /// Returns an array of ``TrustedCertificate`` for the given `configuration` and `names`.
+    ///
+    /// The load operation is resiliant and will not abort the load operation when it encounters an error loading one of the certificates.
+    /// Any error encountered when loading a certificate, will be reported on the given `onError` closure. The load operation will
+    /// continue loading and returns every certificate that it **succesfully** loaded.
+    ///
+    /// In case you opt-in to error handling, you should ensure that your handling is fast or otherwise or done asyncrhonously
+    /// so as not to block the load operation.
+    ///
+    /// The certificates are **expected** to be encoded in UTF-8 using the **PEM** format.
+    ///
+    /// - Parameters:
+    ///     - bundle: the bundle where the asset catalogue is available in; default ``Bundle.main``.
+    ///     - configuration: the configuration the certificates are associated with, e.g. `staging`.
+    ///     - names: the file name of the certificate e.g. `foo.pem`.
+    ///     - onError: _optional_ a closure that reports an ``TrustedCertificateLoadError`` error in case load fails for a one of the certificates attempted to load.
+    /// - SeeAlso: ``TrustedCertificateLoadErrorKind`` on the kind of errors reported while attempting to load a certificate.
     static func load(
          bundle: Bundle = .main,
          configuration namespace: String = AppEnvironment.buildConfiguration.lowercased(),
@@ -47,7 +68,7 @@ extension Array where Element == TrustedCertificate {
      }
     
     public static func load(
-        _ asset: CertificateAsset = .current,
+        _ asset: CertificateAssets = .current,
         onError: TrustedCertificatesLoadErrorClosure? = nil
     ) -> [any TrustedCertificate] {
         return load(configuration: asset.namespace,

@@ -2,7 +2,7 @@
 import Testing
 import WalletInterface
 
-extension [TrustedCertificate].CertificateAsset {
+extension [TrustedCertificate].CertificateAssets {
     public static func integration(names: String...) -> Self {
         return Self(namespace: "integration", names: names)
     }
