@@ -209,6 +209,10 @@ extension AppEnvironment {
     static var trustedCertificateNames: [String] {
         stringArray(for: .trustedCertificateNames, in: .wallet)
     }
+
+    static var featureFlags: [String] {
+        stringArray(for: .featureFlags, in: .wallet)
+    }
 }
 
 // MARK: - External Info Plist values as Type properties
