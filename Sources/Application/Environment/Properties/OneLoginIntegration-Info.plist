@@ -50,7 +50,9 @@
 	<key>Wallet</key>
 	<dict>
 		<key>Trusted Reader Certificate Name</key>
-		<array/>
+		<array>
+			<string>root-ca-2026-v2.pem</string>
+		</array>
 	</dict>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
