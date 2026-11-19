@@ -12,12 +12,15 @@ extension Array where Element == TrustedCertificate {
     /// - SeeAlso: https://developer.apple.com/documentation/xcode/managing-assets-with-asset-catalogs
     /// - SeeAlso: https://developer.apple.com/videos/play/wwdc2018/227/?time=1997
     public struct CertificateAssets {
-        /// The ``CertificateAssets`` for the "current" build configuration as returned by ``AppEnvironment/buildConfiguration``.
-        public static let current: CertificateAssets = CertificateAssets(namespace: AppEnvironment.buildConfiguration, names: AppEnvironment.self.trustedCertificateNames)
         let namespace: String
-
         /// The names for each of the certificate under the associated ``namespace``
         let names: [String]
+        
+        /// The ``CertificateAssets`` for the "current" build configuration as returned by ``AppEnvironment/buildConfiguration``.
+        public static let current: CertificateAssets = CertificateAssets(
+            namespace: AppEnvironment.buildConfiguration,
+            names: AppEnvironment.self.trustedCertificateNames
+        )
     }
     
     /// Returns an array of ``TrustedCertificate`` for the given `configuration` and `names`.
@@ -71,9 +74,11 @@ extension Array where Element == TrustedCertificate {
         _ asset: CertificateAssets = .current,
         onError: TrustedCertificatesLoadErrorClosure? = nil
     ) -> [any TrustedCertificate] {
-        return load(configuration: asset.namespace,
-                    names: asset.names,
-                    onError: onError)
+        return load(
+            configuration: asset.namespace,
+            names: asset.names,
+            onError: onError
+        )
     }
 }
 
