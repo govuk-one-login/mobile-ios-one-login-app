@@ -60,11 +60,10 @@ final class WalletCoordinator: NSObject,
             return
         }
         
-        let walletConfig = WalletConfigV4(
+        let walletConfig: WalletConfigV4 = .make(
             environment: walletEnvironment,
             clientID: AppEnvironment.stsClientID,
-            walletStoreID: walletStoreID,
-            trustedReaderCertificates: []
+            walletStoreID: walletStoreID
         )
         let walletServices = WalletServices(
             networkClient: WalletNetworkClientWrapper(
@@ -82,7 +81,7 @@ final class WalletCoordinator: NSObject,
         WalletSDK.start(
             in: root,
             config: walletConfig,
-            services: walletServices
+            services: walletServices,
         )
     }
     

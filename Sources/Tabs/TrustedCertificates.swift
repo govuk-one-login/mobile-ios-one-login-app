@@ -16,19 +16,19 @@ extension Array where Element == TrustedCertificate {
          bundle: Bundle = .main,
          configuration namespace: String = AppEnvironment.buildConfiguration.lowercased(),
          names: [String] = []
-    ) throws -> [any TrustedCertificate] {
-         return try names.compactMap { name in
+    ) -> [any TrustedCertificate] {
+         return names.compactMap { name in
              NSDataAsset(name: "\(namespace.lowercased())/\(name)", bundle: bundle)
          }.compactMap { certificate in
              String(data: certificate.data, encoding: .utf8)
          }.compactMap { pem in
-             try Certificate(pemEncoded: pem)
+             try? Certificate(pemEncoded: pem)
          }
      }
     
     public static func load(
         _ asset: CertificateAsset
-    ) throws -> [any TrustedCertificate] {
-        return try load(configuration: asset.namespace, names: asset.names)
+    ) -> [any TrustedCertificate] {
+        return load(configuration: asset.namespace, names: asset.names)
     }
 }
