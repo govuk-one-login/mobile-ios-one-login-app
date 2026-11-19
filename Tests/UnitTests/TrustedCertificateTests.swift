@@ -14,7 +14,7 @@ extension [TrustedCertificate].CertificateAsset {
 
 struct TrustedCertificateTests {
     @Test
-    func test() throws {
+    func givenCertificatePresentAssertCount() {
         let certificates: [TrustedCertificate] = .load(
             .integration(names: "root-ca-2026-v2.pem")
         )
@@ -23,7 +23,7 @@ struct TrustedCertificateTests {
     }
     
     @Test
-    func test0() throws {
+    func givenMissingCertificateNameAssertRemainingCount() {
         let certificates: [TrustedCertificate] = .load(
             .integration(names: "root-ca-2026-v2.pem", "")
         )
@@ -32,7 +32,7 @@ struct TrustedCertificateTests {
     }
     
     @Test
-    func test2() throws {
+    func givenMissingCertificateNameAssertCount() {
         let certificates: [TrustedCertificate] = .load(
             .integration(names: "")
         )
@@ -41,7 +41,7 @@ struct TrustedCertificateTests {
     }
     
     @Test
-    func test3() throws {
+    func givenEmptyNameAssertZeroCount() {
         let certificates: [TrustedCertificate] = .load(
             .integration(names: [])
         )

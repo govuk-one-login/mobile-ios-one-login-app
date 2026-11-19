@@ -63,7 +63,10 @@ final class WalletCoordinator: NSObject,
         let walletConfig: WalletConfigV4 = .make(
             environment: walletEnvironment,
             clientID: AppEnvironment.stsClientID,
-            walletStoreID: walletStoreID
+            walletStoreID: walletStoreID,
+            trustedReaderCertificates: .load { error in
+                self.analyticsService.logCrash(error)
+            }
         )
         let walletServices = WalletServices(
             networkClient: WalletNetworkClientWrapper(
