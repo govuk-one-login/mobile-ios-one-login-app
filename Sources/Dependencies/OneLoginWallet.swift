@@ -18,14 +18,14 @@ extension AppEnvironment {
     static func walletFeatureFlags() -> Set<WalletFeatureFlag> {
         let enabledFlags = Set(featureFlags)
 
-        return Set(OneLoginWallet.FeatureFlag.allCases).map { featureFlag in
-            let enables = enabledFlags.contains(flag)
+        return Set(OneLoginWallet.FeatureFlag.allCases.map { featureFlag in
+            let enabled = enabledFlags.contains(featureFlag.rawValue)
 
             switch featureFlag {
             case .sharing:
                 return .sharing(enabled)
             }
-        }
+        })
     }
 }
 
