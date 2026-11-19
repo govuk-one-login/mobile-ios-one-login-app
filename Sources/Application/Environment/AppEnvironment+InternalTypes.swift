@@ -40,6 +40,6 @@ extension AppEnvironment {
         case idCheckAsyncBaseURL = "ID Check Async Base URL"
         case readIDURL = "Read ID URL"
         case iProovURL = "iProov URL"
-        case trustedReaderCertificateName = "Trusted Reader Certificate Name"
+        case trustedCertificateNames = "Trusted Certificate Names"
     }
 }
