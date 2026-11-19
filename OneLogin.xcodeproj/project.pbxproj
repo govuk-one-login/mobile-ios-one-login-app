@@ -619,7 +619,7 @@
 		D385D93830AB69A500C889B5 /* OneLoginWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D385D93730AB69A200C889B5 /* OneLoginWallet.swift */; };
 		D385D93A30AB6C1E00C889B5 /* MockWallet in Frameworks */ = {isa = PBXBuildFile; productRef = D385D93930AB6C1E00C889B5 /* MockWallet */; };
 		D3911C3530AC85C800A86B80 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D3911C3430AC85C800A86B80 /* CRIOrchestratorProtocol */; };
-		D3911C5930ADC65100A86B80 /* TrustedCertificates.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C5830ADC64400A86B80 /* TrustedCertificates.swift */; };
+		D3911C5930ADC65100A86B80 /* Array+TrustedCertificates.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C5830ADC64400A86B80 /* Array+TrustedCertificates.swift */; };
 		D3911C5B30ADC72600A86B80 /* TrustedCertificateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C5A30ADC71B00A86B80 /* TrustedCertificateTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -1282,7 +1282,7 @@
 		D35EF5C03079242900A4E303 /* test_analyticsPeferenceScreen.11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.11.png; sourceTree = "<group>"; };
 		D35EF5C13079242900A4E303 /* test_analyticsPeferenceScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.12.png; sourceTree = "<group>"; };
 		D385D93730AB69A200C889B5 /* OneLoginWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginWallet.swift; sourceTree = "<group>"; };
-		D3911C5830ADC64400A86B80 /* TrustedCertificates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustedCertificates.swift; sourceTree = "<group>"; };
+		D3911C5830ADC64400A86B80 /* Array+TrustedCertificates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+TrustedCertificates.swift"; sourceTree = "<group>"; };
 		D3911C5A30ADC71B00A86B80 /* TrustedCertificateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustedCertificateTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2188,6 +2188,7 @@
 				C84302662D91677E0002B4B1 /* Dictionary+OneLogin.swift */,
 				C851C0FE2D833A8200FC8CA8 /* SDKConformances.swift */,
 				C819C78A2D0B665B00120F2D /* UserDefaults+OneLogin.swift */,
+				D3911C5830ADC64400A86B80 /* Array+TrustedCertificates.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2917,7 +2918,6 @@
 		C8ECA1282BB5955200722218 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
-				D3911C5830ADC64400A86B80 /* TrustedCertificates.swift */,
 				D08B0B7B2BDBF82600769CEA /* Views */,
 				C8ECA1232BB4805900722218 /* HomeCoordinator.swift */,
 				C8ECA12B2BB5958000722218 /* SettingsCoordinator.swift */,
@@ -3855,7 +3855,7 @@
 				4193D2E32C89BB6100073EB8 /* SecureTokenStore.swift in Sources */,
 				C868EF3E2EC24B9B005E6A45 /* URLRequest+OneLogin.swift in Sources */,
 				C8BADD292B87D89000385FE7 /* SessionManager.swift in Sources */,
-				D3911C5930ADC65100A86B80 /* TrustedCertificates.swift in Sources */,
+				D3911C5930ADC65100A86B80 /* Array+TrustedCertificates.swift in Sources */,
 				C8ECA12C2BB5958000722218 /* SettingsCoordinator.swift in Sources */,
 				C8514F682C09E133008E1433 /* SettingsTabAnalytics.swift in Sources */,
 				C8E1090B2BEE6C4500B21038 /* SettingsTabViewModel.swift in Sources */,
