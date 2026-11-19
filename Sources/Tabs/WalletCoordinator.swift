@@ -7,8 +7,6 @@ import Networking
 import SecureStore
 import UIKit
 import Wallet
-import WalletInterface
-import WalletCryptoSupport
 
 @MainActor
 final class WalletCoordinator: NSObject,
