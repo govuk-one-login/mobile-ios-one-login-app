@@ -196,8 +196,8 @@ extension AppEnvironment {
 
 // MARK: - Wallet Info Plist values as Type properties
 extension AppEnvironment {
-    static var trustedReaderCertificateName: String {
-        string(for: .trustedReaderCertificateName, in: .wallet)
+    static var trustedCertificateNames: String {
+        string(for: .trustedCertificateNames, in: .wallet)
     }
 }
 
