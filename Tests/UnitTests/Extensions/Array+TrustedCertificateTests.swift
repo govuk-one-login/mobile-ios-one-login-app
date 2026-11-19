@@ -69,7 +69,7 @@ struct TrustedCertificateLoadErrorTests {
             error: TrustedCertificateLoadError(.invalidPEM),
             debugDescription: "Error Domain=TrustedCertificateLoadErrorKind Code=1003 \"invalidPEM\"",
             kind: "invalidPEM"
-        ),
+        )
     ]
    
     @Test("assert error debug description and kind",

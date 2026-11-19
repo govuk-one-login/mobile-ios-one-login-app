@@ -11,6 +11,7 @@ extension OneLoginWallet {
 
 extension WalletConfigV4 {
 
+    // swiftlint:disable line_length
     /// Returns a configuration to be used by the ``WalletSDK``.
     ///
     /// - Parameters:
@@ -21,6 +22,7 @@ extension WalletConfigV4 {
     /// - SeeAlso: ``[TrustedCertificate].load()`` on loading the certificates bundled within the application
     /// - Note: This function uses conditional compilation to "enable sharing" in case the `SHARING_ENABLED` is present. Enabling sharing is **opt-in**. In which case, the certificates will be used in the returned wallet configuration.
     /// - SeeAlso: https://developer.apple.com/documentation/xcode/build-settings-reference#Active-Compilation-Conditions
+    // swiftlint:enable line_length
     static func make(
         environment: WalletEnvironment,
         clientID: String = AppEnvironment.stsClientID,
