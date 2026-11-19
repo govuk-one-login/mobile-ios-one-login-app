@@ -2,50 +2,80 @@
 import Testing
 import WalletInterface
 
-extension [TrustedCertificate].CertificateAssets {
-    public static func integration(names: String...) -> Self {
-        return Self(namespace: "integration", names: names)
+struct TrustedCertificateTests {
+    @Test("Checks a certificate name is present in asset catalogue for a configuration",
+          arguments: [
+            ("build", [""], 0),
+            ("debug", [""], 0),
+            ("staging", [""], 0),
+            ("integration", ["root-ca-2026-v2.pem"], 1),
+            ("integration", ["root-ca-2026-v2.pem", ""], 1),
+            ("integration", [""], 0),
+            ("integration", [], 0)
+          ]
+    )
+    func givenCertificatePresent(configuration: String, names: [String], count: Int) {
+        let certificates: [TrustedCertificate] = .load(
+            configuration: configuration,
+            names: names
+        )
+        #expect(certificates.count == count)
     }
-
-    public static func integration(names: [String]) -> Self {
-        return Self(namespace: "integration", names: names)
+    
+    @Test("Checks correct error is thrown for a missing asset",
+          arguments: [
+            ("build", ["root-ca-2026-v2.pem"]),
+            ("debug", ["root-ca-2026-v2.pem"]),
+            ("staging", ["root-ca-2026-v2.pem"]),
+            ("integration", ["root-ca-2026-v3.pem"])
+          ]
+    )
+    func missingAssetThrowsError(configuration: String, names: [String]) {
+        var errorsThrown: [TrustedCertificateLoadError] = []
+        
+        let certficates: [TrustedCertificate] = .load(
+            configuration: configuration,
+            names: names,
+            onError: { error in
+                errorsThrown.append(error)
+            }
+        )
+        
+        #expect(certficates.isEmpty)
+        #expect(errorsThrown.count == 1)
+        #expect(errorsThrown.first?.kind == .assetNotFound)
     }
 }
 
-struct TrustedCertificateTests {
-    @Test
-    func givenCertificatePresentAssertCount() {
-        let certificates: [TrustedCertificate] = .load(
-            .integration(names: "root-ca-2026-v2.pem")
-        )
-        
-        #expect(certificates.count == 1)
+struct TrustedCertificateLoadErrorTests {
+    struct Case: Sendable {
+        let error: TrustedCertificateLoadError
+        let debugDescription: String
+        let kind: String
     }
-    
-    @Test
-    func givenMissingCertificateNameAssertRemainingCount() {
-        let certificates: [TrustedCertificate] = .load(
-            .integration(names: "root-ca-2026-v2.pem", "")
-        )
-        
-        #expect(certificates.count == 1)
-    }
-    
-    @Test
-    func givenMissingCertificateNameAssertCount() {
-        let certificates: [TrustedCertificate] = .load(
-            .integration(names: "")
-        )
-        
-        #expect(certificates.count == 0)
-    }
-    
-    @Test
-    func givenEmptyNameAssertZeroCount() {
-        let certificates: [TrustedCertificate] = .load(
-            .integration(names: [])
-        )
-        
-        #expect(certificates.count == 0)
+     
+    static let allTrustedCertificateLoadErrorCases: [Case] = [
+        Case(
+            error: TrustedCertificateLoadError(.assetNotFound),
+            debugDescription: "Error Domain=TrustedCertificateLoadErrorKind Code=1001 \"assetNotFound\"",
+            kind: "assetNotFound"
+        ),
+        Case(
+            error: TrustedCertificateLoadError(.invalidEncoding),
+            debugDescription: "Error Domain=TrustedCertificateLoadErrorKind Code=1002 \"invalidEncoding\"",
+            kind: "invalidEncoding"
+        ),
+        Case(
+            error: TrustedCertificateLoadError(.invalidPEM),
+            debugDescription: "Error Domain=TrustedCertificateLoadErrorKind Code=1003 \"invalidPEM\"",
+            kind: "invalidPEM"
+        ),
+    ]
+   
+    @Test("assert error debug description and kind",
+          arguments: TrustedCertificateLoadErrorTests.allTrustedCertificateLoadErrorCases)
+    func errorDetails(errorCase: Case) {
+        #expect(errorCase.error.debugDescription == errorCase.debugDescription)
+        #expect(errorCase.error.errorUserInfo["kind"] as? String == errorCase.kind)
     }
 }
