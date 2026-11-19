@@ -2,7 +2,7 @@
 import Testing
 import WalletInterface
 
-struct CertificateFunctionTests {    
+struct TrustedCertificateTests {
     @Test
     func test() throws {
         let certificates: [TrustedCertificate] = try .load(

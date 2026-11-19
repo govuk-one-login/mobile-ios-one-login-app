@@ -620,7 +620,7 @@
 		D385D93A30AB6C1E00C889B5 /* MockWallet in Frameworks */ = {isa = PBXBuildFile; productRef = D385D93930AB6C1E00C889B5 /* MockWallet */; };
 		D3911C3530AC85C800A86B80 /* CRIOrchestratorProtocol in Frameworks */ = {isa = PBXBuildFile; productRef = D3911C3430AC85C800A86B80 /* CRIOrchestratorProtocol */; };
 		D3911C5930ADC65100A86B80 /* TrustedCertificates.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C5830ADC64400A86B80 /* TrustedCertificates.swift */; };
-		D3911C5B30ADC72600A86B80 /* CertificateFunctionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C5A30ADC71B00A86B80 /* CertificateFunctionTests.swift */; };
+		D3911C5B30ADC72600A86B80 /* TrustedCertificateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3911C5A30ADC71B00A86B80 /* TrustedCertificateTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1283,7 +1283,7 @@
 		D35EF5C13079242900A4E303 /* test_analyticsPeferenceScreen.12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_analyticsPeferenceScreen.12.png; sourceTree = "<group>"; };
 		D385D93730AB69A200C889B5 /* OneLoginWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneLoginWallet.swift; sourceTree = "<group>"; };
 		D3911C5830ADC64400A86B80 /* TrustedCertificates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustedCertificates.swift; sourceTree = "<group>"; };
-		D3911C5A30ADC71B00A86B80 /* CertificateFunctionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateFunctionTests.swift; sourceTree = "<group>"; };
+		D3911C5A30ADC71B00A86B80 /* TrustedCertificateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustedCertificateTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -2884,7 +2884,7 @@
 		C8E6C7632AF821D2008C19C9 /* UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				D3911C5A30ADC71B00A86B80 /* CertificateFunctionTests.swift */,
+				D3911C5A30ADC71B00A86B80 /* TrustedCertificateTests.swift */,
 				7C9CEA6D2EBA5ADE0074EB18 /* Extensions */,
 				C81ECB1E2B71767500AFC3A6 /* Application */,
 				C8520C2C2AE2C546006790C1 /* Login */,
@@ -3925,7 +3925,7 @@
 				413C58762BF261D300171C06 /* HomeViewControllerTests.swift in Sources */,
 				D0BE24452BEBCB5000759529 /* JWTVerifierTests.swift in Sources */,
 				99AEB1C52FFCFB2E00F834BB /* PersistentSessionManager+Mocks.swift in Sources */,
-				D3911C5B30ADC72600A86B80 /* CertificateFunctionTests.swift in Sources */,
+				D3911C5B30ADC72600A86B80 /* TrustedCertificateTests.swift in Sources */,
 				C34BD12A2DDF229100D379C8 /* LocalAuthBiometricsErrorViewModelTests.swift in Sources */,
 				C8486FE72C60E66400DE514C /* LocalAuthServiceWalletTests.swift in Sources */,
 				ABFE5EF52DBA66500093E86E /* LocalAuthSettingsErrorViewModelTests.swift in Sources */,
@@ -4358,7 +4358,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
