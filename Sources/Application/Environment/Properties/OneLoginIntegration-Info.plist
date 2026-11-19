@@ -49,6 +49,10 @@
 	</dict>
 	<key>Wallet</key>
 	<dict>
+		<key>Feature Flags</key>
+		<array>
+			<string>sharing</string>
+		</array>
 		<key>Trusted Certificate Names</key>
 		<array>
 			<string>root-ca-2026-v2.pem</string>

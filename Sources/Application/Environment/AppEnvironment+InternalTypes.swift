@@ -41,5 +41,6 @@ extension AppEnvironment {
         case readIDURL = "Read ID URL"
         case iProovURL = "iProov URL"
         case trustedCertificateNames = "Trusted Certificate Names"
+        case featureFlags = "Feature Flags"
     }
 }

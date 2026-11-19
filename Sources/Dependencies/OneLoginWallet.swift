@@ -4,8 +4,27 @@ import WalletInterface
 import WalletProtocol
 
 extension OneLoginWallet {
+    public enum FeatureFlag: String, CaseIterable {
+        case sharing
+    }
+
     static func make() -> WalletServiceProtocol {
         return OneLoginWallet()
+    }
+}
+
+extension AppEnvironment {
+    static func walletFeatureFlags() -> Set<WalletFeatureFlag> {
+        let enabledFlags = Set(featureFlags)
+
+        return Set(OneLoginWallet.FeatureFlag.allCases.map { featureFlag in
+            let enabled = enabledFlags.contains(featureFlag.rawValue)
+
+            switch featureFlag {
+            case .sharing:
+                return .sharing(enabled)
+            }
+        })
     }
 }
 
@@ -28,11 +47,13 @@ extension WalletConfigV4 {
         trustedReaderCertificates: @autoclosure () -> [any TrustedCertificate]
     ) -> WalletConfigV4 {
         #if SHARING_ENABLED
+
         return WalletConfigV4(
             environment: environment,
             clientID: clientID,
             walletStoreID: walletStoreID,
-            trustedReaderCertificates: trustedReaderCertificates()
+            trustedReaderCertificates: trustedReaderCertificates(),
+            featureFlags: AppEnvironment.walletFeatureFlags()
         )
         #else
         return WalletConfigV4(

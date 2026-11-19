@@ -1,11 +1,11 @@
 @testable import OneLogin
 import Testing
+import WalletInterface
 
 struct AppEnvironmentTests {
-    let sut = AppEnvironment.self
-    
     @Test
     func test_appEnvironment_helpers() {
+        let sut = AppEnvironment.self
         // Helpers
         #expect(sut.buildConfiguration == "Debug")
         #expect(sut.isLocaleWelsh == false)
@@ -14,6 +14,7 @@ struct AppEnvironmentTests {
     
     @Test
     func test_appEnvironment_stsURLs() {
+        let sut = AppEnvironment.self
         // STS
         #expect(sut.stsClientID == "bYrcuRVvnylvEgYSSbBjwXzHrwJ")
         #expect(sut.stsBaseURLString == "token.build.account.gov.uk")
@@ -26,6 +27,7 @@ struct AppEnvironmentTests {
     
     @Test
     func test_appEnvironment_mobileBEURLs() {
+        let sut = AppEnvironment.self
         // Mobile BE
         #expect(sut.mobileBaseURLString == "mobile.build.account.gov.uk")
         #expect(sut.mobileBaseURL.absoluteString == "https://mobile.build.account.gov.uk")
@@ -36,6 +38,7 @@ struct AppEnvironmentTests {
     
     @Test
     func test_appEnvironment_idCheckURLs() {
+        let sut = AppEnvironment.self
         // ID Check
         #expect(sut.idCheckDomainURL.absoluteString == "https://review-b.build.account.gov.uk")
         #expect(sut.idCheckBaseURL.absoluteString == "https://api-backend-api.review-b.build.account.gov.uk")
@@ -46,13 +49,20 @@ struct AppEnvironmentTests {
     }
     
     @Test
-    func test_appEnvironment_wallet() {
+    func test_appEnvironment_wallet() throws {
         let sut = AppEnvironment.self
         #expect(sut.trustedCertificateNames.count == 0)
+        let walletFeatureFlags = sut.walletFeatureFlags()
+        // Wallet
+        #expect(walletFeatureFlags.count == 1)
+        let walletFeatureFlag = try #require(walletFeatureFlags.first as WalletFeatureFlag?)
+        #expect(walletFeatureFlag.id == WalletFeature.sharing.rawValue)
+        #expect(walletFeatureFlag.enabled == false)
     }
 
     @Test
     func test_appEnvironment_externalURLs() {
+        let sut = AppEnvironment.self
         // External
         #expect(sut.govURLString == "gov.uk")
         #expect(sut.yourServicesLink == "home.account.gov.uk")
@@ -61,6 +71,7 @@ struct AppEnvironmentTests {
     
     @Test
     func test_appEnvironment_settingsURLs() {
+        let sut = AppEnvironment.self
         // Settings Page
         #expect(sut.manageAccountURL.absoluteString == "https://home.account.gov.uk/security")
         #expect(sut.govURL.absoluteString == "https://gov.uk")
@@ -74,6 +85,7 @@ struct AppEnvironmentTests {
     
     @Test
     func test_appEnvironment_appStoreURLs() {
+        let sut = AppEnvironment.self
         // App Store
         #expect(sut.appStoreURL.absoluteString == "https://apps.apple.com")
         #expect(sut.appStore.absoluteString == "https://apps.apple.com/app/gov-uk-one-login/id6737119425")
