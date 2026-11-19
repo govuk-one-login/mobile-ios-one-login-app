@@ -1,14 +1,45 @@
 @testable import OneLogin
 import Testing
+import WalletInterface
 
-struct CertificateFunctionTests {
+struct CertificateFunctionTests {    
     @Test
-    func test() {
-        let analyticsService: OneLoginAnalyticsService = MockAnalyticsService()
-        
-        let sut = CertificateFunction(analyticsService: analyticsService)
-        let certificates = sut.trustedReaderCertificates()
+    func test() throws {
+        let certificates: [TrustedCertificate] = try .load(
+            configuration: "integration",
+            names: ["root-ca-2026-v2.pem"]
+        )
         
         #expect(certificates.count == 1)
+    }
+    
+    @Test
+    func test0() throws {
+        let certificates: [TrustedCertificate] = try .load(
+            configuration: "integration",
+            names: ["root-ca-2026-v2.pem", ""]
+        )
+        
+        #expect(certificates.count == 1)
+    }
+    
+    @Test
+    func test2() throws {
+        let certificates: [TrustedCertificate] = try .load(
+            configuration: "integration",
+            names: [""]
+        )
+        
+        #expect(certificates.count == 0)
+    }
+    
+    @Test
+    func test3() throws {
+        let certificates: [TrustedCertificate] = try .load(
+            configuration: "integration",
+            names: []
+        )
+        
+        #expect(certificates.count == 0)
     }
 }
