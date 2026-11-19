@@ -1,5 +1,5 @@
-import UIKit
 import GDSUtilities
+import UIKit
 import WalletInterface
 import X509
 
@@ -91,7 +91,9 @@ public enum TrustedCertificateLoadErrorKind: Int, GDSErrorKind {
     var descrption: String {
         switch self {
         case .assetNotFound:
+            // swiftlint:disable line_length
             "The certificate could not be found in the `Certificates.xcassets` asset catalog. Did you forget to put the certifcate in the asset catalog? Double check the name isn't mispelled, including the configuration used as a namespace."
+            // swiftlint:enable line_length
         case .invalidEncoding:
             "The certificate could not be read as UTF-8 encoded. Have you chanced the data is encoded in UTF-8?"
         case .invalidPEM:
