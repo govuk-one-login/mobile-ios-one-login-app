@@ -40,9 +40,9 @@ public final class AppEnvironment {
         remoteFeatureFlags.flags = featureFlags
     }
     
-    private static func infoPlistDictionary(name: PlistDictionaryKey) -> [String: String] {
+    private static func infoPlistDictionary(name: PlistDictionaryKey) -> [String: Any] {
         guard let plist = Bundle.main.infoDictionary,
-              let appConfiguration = plist[name.rawValue] as? [String: String] else {
+              let appConfiguration = plist[name.rawValue] as? [String: Any] else {
             fatalError("Info.plist doesn't contain a dictionary named '\(name.rawValue)'")
         }
         return appConfiguration
@@ -52,10 +52,20 @@ public final class AppEnvironment {
         for key: PlistRowKey,
         in dictionary: PlistDictionaryKey
     ) -> String {
-        guard let string = infoPlistDictionary(name: dictionary)[key.rawValue] else {
+        guard let string = infoPlistDictionary(name: dictionary)[key.rawValue] as? String else {
             preconditionFailure("'\(key.rawValue)' not found in Info.plist dictionary '\(dictionary.rawValue)")
         }
         return string
+    }
+    
+    private static func stringArray(
+        for key: PlistRowKey,
+        in dictionary: PlistDictionaryKey
+    ) -> [String] {
+        guard let stringArray = infoPlistDictionary(name: dictionary)[key.rawValue] as? [String] else {
+            preconditionFailure("'\(key.rawValue)' not found in Info.plist dictionary '\(dictionary.rawValue)")
+        }
+        return stringArray
     }
 }
 
@@ -191,6 +201,13 @@ extension AppEnvironment {
     
     static var iProovURLString: String {
         string(for: .iProovURL, in: .idCheck)
+    }
+}
+
+// MARK: - Wallet Info Plist values as Type properties
+extension AppEnvironment {
+    static var trustedCertificateNames: [String] {
+        stringArray(for: .trustedCertificateNames, in: .wallet)
     }
 }
 

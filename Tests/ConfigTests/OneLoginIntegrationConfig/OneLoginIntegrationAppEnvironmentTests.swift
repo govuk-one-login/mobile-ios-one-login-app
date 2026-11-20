@@ -53,6 +53,12 @@ struct OneLoginIntegrationAppEnvironmentTests {
     }
     
     @Test
+    func test_appEnvironment_wallet() {
+        // Wallet
+        #expect(sut.trustedCertificateNames == ["root-ca-2026-v2.pem"])
+    }
+    
+    @Test
     func test_appEnvironment_externalURLs() {
         // External
         #expect(sut.govURLString == "gov.uk")
