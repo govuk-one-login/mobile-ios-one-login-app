@@ -51,7 +51,7 @@ jobs:
           role-skip-session-tagging: true
 
       - name: Store Secrets from AWS SecretManager
-        uses: aws-actions/aws-secretsmanager-get-secrets@2297f9a879480a9e3af9b293ed15c70caf8e1c88 # pin@v3.0.2
+        uses: aws-actions/aws-secretsmanager-get-secrets@e952bd7125c27e5be0060e50955b90a7e5addd99 # pin@v4.0.0
         with:
           secret-ids: |
             di-ipv-dca-mob-ios/github-actions-v2
