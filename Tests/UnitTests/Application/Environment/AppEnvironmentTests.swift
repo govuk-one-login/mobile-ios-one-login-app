@@ -46,6 +46,12 @@ struct AppEnvironmentTests {
     }
     
     @Test
+    func test_appEnvironment_wallet() {
+        let sut = AppEnvironment.self
+        #expect(sut.trustedCertificateNames.count == 0)
+    }
+
+    @Test
     func test_appEnvironment_externalURLs() {
         // External
         #expect(sut.govURLString == "gov.uk")
