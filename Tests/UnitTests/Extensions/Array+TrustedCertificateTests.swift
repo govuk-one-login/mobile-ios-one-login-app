@@ -1,7 +1,7 @@
 @testable import OneLogin
+import SwiftASN1
 import Testing
 import WalletInterface
-import SwiftASN1
 
 struct TrustedCertificateTests {
     @Test("Checks a certificate name is present in asset catalogue for a configuration",
