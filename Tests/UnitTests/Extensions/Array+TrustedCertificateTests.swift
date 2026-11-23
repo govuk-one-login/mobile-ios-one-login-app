@@ -1,6 +1,7 @@
 @testable import OneLogin
 import Testing
 import WalletInterface
+import SwiftASN1
 
 struct TrustedCertificateTests {
     @Test("Checks a certificate name is present in asset catalogue for a configuration",
@@ -40,7 +41,7 @@ struct TrustedCertificateTests {
                 errorsThrown.append(error)
             }
         )
-        
+
         #expect(certficates.isEmpty)
         #expect(errorsThrown.count == 1)
         #expect(errorsThrown.first?.kind == .assetNotFound)
@@ -71,7 +72,42 @@ struct TrustedCertificateLoadErrorTests {
             kind: "invalidPEM"
         )
     ]
-   
+
+    @Test
+    func assetNotFound() {
+        let namespace = "any"
+        let name = "any"
+        let error = TrustedCertificateLoadError.assetNotFound(namespace: namespace, name: name)
+
+        #expect(error.kind == .assetNotFound)
+        #expect(error.additionalParameters["namespace"] as? String == namespace)
+        #expect(error.additionalParameters["name"] as? String == name)
+    }
+
+    @Test
+    func invalidEncoding() {
+        let namespace = "any"
+        let name = "any"
+        let error = TrustedCertificateLoadError.invalidEncoding(namespace: namespace, name: name)
+
+        #expect(error.kind == .invalidEncoding)
+        #expect(error.additionalParameters["namespace"] as? String == namespace)
+        #expect(error.additionalParameters["name"] as? String == name)
+    }
+
+    @Test
+    func invalidPEM() {
+        let namespace = "any"
+        let name = "any"
+        let underlyingError = ASN1Error.invalidPEMDocument(reason: "could not find PEM start marker")
+        let error = TrustedCertificateLoadError.invalidPEM(namespace: namespace, name: name, underlyingError: underlyingError)
+
+        #expect(error.kind == .invalidPEM)
+        #expect(error.originalError as? ASN1Error == underlyingError)
+        #expect(error.additionalParameters["namespace"] as? String == namespace)
+        #expect(error.additionalParameters["name"] as? String == name)
+    }
+
     @Test("assert error debug description and kind",
           arguments: TrustedCertificateLoadErrorTests.allTrustedCertificateLoadErrorCases)
     func errorDetails(errorCase: Case) {

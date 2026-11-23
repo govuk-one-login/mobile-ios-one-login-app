@@ -10,7 +10,6 @@ extension OneLoginWallet {
 }
 
 extension WalletConfigV4 {
-
     // swiftlint:disable line_length
     /// Returns a configuration to be used by the ``WalletSDK``.
     ///

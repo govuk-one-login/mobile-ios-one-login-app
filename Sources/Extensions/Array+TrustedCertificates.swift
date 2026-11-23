@@ -94,14 +94,14 @@ extension TrustedCertificateLoadError {
 
     static func invalidEncoding(namespace: String, name: String) -> Self {
         .init(
-            .assetNotFound,
+            .invalidEncoding,
             additionalParameters: ["namespace": namespace, "name": name]
         )
     }
 
     static func invalidPEM(namespace: String, name: String, underlyingError: any Error) -> Self {
         .init(
-            .assetNotFound,
+            .invalidPEM,
             originalError: underlyingError,
             additionalParameters: ["namespace": namespace, "name": name]
         )
