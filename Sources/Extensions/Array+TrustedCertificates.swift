@@ -7,7 +7,7 @@ extension Array where Element == TrustedCertificate {
     public typealias TrustedCertificatesLoadErrorClosure = (TrustedCertificateLoadError) -> Void
 
     /// The certificate assets found within the `Certificates.xcassets` asset catalogue with an associated `namespace` and
-    /// a given `name`.
+    /// a given `names`.
     ///
     /// - SeeAlso: https://developer.apple.com/documentation/xcode/managing-assets-with-asset-catalogs
     /// - SeeAlso: https://developer.apple.com/videos/play/wwdc2018/227/?time=1997
@@ -71,12 +71,12 @@ extension Array where Element == TrustedCertificate {
      }
     
     public static func load(
-        _ asset: CertificateAssets = .current,
+        _ assets: CertificateAssets = .current,
         onError: TrustedCertificatesLoadErrorClosure? = nil
     ) -> [any TrustedCertificate] {
         return load(
-            configuration: asset.namespace,
-            names: asset.names,
+            configuration: assets.namespace,
+            names: assets.names,
             onError: onError
         )
     }

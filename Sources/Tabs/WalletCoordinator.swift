@@ -82,7 +82,7 @@ final class WalletCoordinator: NSObject,
         WalletSDK.start(
             in: root,
             config: walletConfig,
-            services: walletServices,
+            services: walletServices
         )
     }
     
