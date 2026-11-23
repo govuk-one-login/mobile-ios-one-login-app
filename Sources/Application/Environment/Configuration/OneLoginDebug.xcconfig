@@ -20,4 +20,4 @@ IPROOV_URL = wss:/$()/gds.rp.secure.iproov.me/ws
 STS_CLIENT_ID = bYrcuRVvnylvEgYSSbBjwXzHrwJ
 
 CODE_SIGN_ENTITLEMENTS = Sources/Application/Environment/Entitlements/OneLoginDebug.entitlements
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG SHARING_ENABLED
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) DEBUG
