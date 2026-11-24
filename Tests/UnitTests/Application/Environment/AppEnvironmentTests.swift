@@ -51,13 +51,13 @@ struct AppEnvironmentTests {
     @Test
     func test_appEnvironment_wallet() throws {
         let sut = AppEnvironment.self
-        #expect(sut.trustedCertificateNames.count == 0)
+        #expect(sut.trustedCertificateNames.count == 1)
         let walletFeatureFlags = sut.walletFeatureFlags()
         // Wallet
         #expect(walletFeatureFlags.count == 1)
         let walletFeatureFlag = try #require(walletFeatureFlags.first as WalletFeatureFlag?)
         #expect(walletFeatureFlag.id == WalletFeature.sharing.rawValue)
-        #expect(walletFeatureFlag.enabled == false)
+        #expect(walletFeatureFlag.enabled)
     }
 
     @Test
