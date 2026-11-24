@@ -1,0 +1,13 @@
+{
+  "data" : [
+    {
+      "filename" : "root-ca-2026-v1.pem",
+      "idiom" : "universal",
+      "universal-type-identifier" : "public.x509-certificate"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
