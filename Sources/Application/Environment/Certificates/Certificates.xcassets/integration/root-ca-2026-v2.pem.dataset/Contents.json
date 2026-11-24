@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "root-ca-2026-v2.pem",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

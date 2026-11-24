@@ -55,6 +55,24 @@ struct WalletCoordinatorTests {
     }
     
     @Test
+    func test_trustedCertificatesLoadedWithoutErrors() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockSessionManager = MockSessionManager()
+        mockSessionManager.walletStoreID = "12345"
+        let sut: WalletCoordinator = .make(
+            mockAnalyticsService: mockAnalyticsService,
+            mockSessionManager: mockSessionManager
+        )
+        
+        // GIVEN no errors have been logged
+        #expect(mockAnalyticsService.crashesLogged.count == 0)
+        // WHEN the WalletCoordinator has started
+        sut.start()
+        // THEN no certificate load errors are logged
+        #expect(mockAnalyticsService.crashesLogged.count == 0)
+    }
+    
+    @Test
     func test_walletInitFailed() throws {
         let mockSessionManager = MockSessionManager()
         mockSessionManager.walletStoreID = nil

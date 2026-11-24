@@ -21,6 +21,7 @@ extension AppEnvironment {
         case mobileBE = "Mobile BE"
         case external = "External"
         case idCheck = "ID Check"
+        case wallet = "Wallet"
     }
     
     enum PlistRowKey: String {
@@ -39,5 +40,6 @@ extension AppEnvironment {
         case idCheckAsyncBaseURL = "ID Check Async Base URL"
         case readIDURL = "Read ID URL"
         case iProovURL = "iProov URL"
+        case trustedCertificateNames = "Trusted Certificate Names"
     }
 }
