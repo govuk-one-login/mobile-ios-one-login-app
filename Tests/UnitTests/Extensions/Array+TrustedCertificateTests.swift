@@ -12,7 +12,8 @@ struct TrustedCertificateTests {
             ("integration", ["root-ca-2026-v2.pem"], 1),
             ("integration", ["root-ca-2026-v2.pem", ""], 1),
             ("integration", [""], 0),
-            ("integration", [], 0)
+            ("integration", [], 0),
+            ("production", [], 0)
           ]
     )
     func givenCertificatePresent(configuration: String, names: [String], count: Int) {
@@ -75,8 +76,8 @@ struct TrustedCertificateLoadErrorTests {
 
     @Test
     func assetNotFound() {
-        let namespace = "any"
-        let name = "any"
+        let namespace = "anyNamespace"
+        let name = "anyName"
         let error = TrustedCertificateLoadError.assetNotFound(namespace: namespace, name: name)
 
         #expect(error.kind == .assetNotFound)
@@ -120,7 +121,7 @@ struct TrustedCertificateLoadErrorKindTests {
     static let descriptions: [(TrustedCertificateLoadErrorKind, String)] = [
         // swiftlint:disable:next line_length
         (.assetNotFound, "The certificate could not be found in the `Certificates.xcassets` asset catalog. Did you forget to put the certifcate in the asset catalog? Double check the name isn't mispelled, including the configuration used as a namespace."),
-        (.invalidEncoding, "The certificate could not be read as UTF-8 encoded. Have you chanced the data is encoded in UTF-8?"),
+        (.invalidEncoding, "The certificate could not be read as UTF-8 encoded. Have you checked the data is encoded in UTF-8?"),
         (.invalidPEM, "The certificate could not be parsed in a PEM format. Have you checked that the certificate is not malformed?")
     ]
 
