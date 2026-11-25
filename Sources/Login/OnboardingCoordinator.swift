@@ -20,16 +20,16 @@ final class OnboardingCoordinator: NSObject,
     }
     
     func start() {
-        let viewModel = AnalyticsPreferenceViewModel { [unowned self] in
-            analyticsPreferenceStore.hasAcceptedAnalytics = true
-            root.dismiss(animated: true)
-            finish()
-        } secondaryButtonAction: { [unowned self] in
-            analyticsPreferenceStore.hasAcceptedAnalytics = false
-            root.dismiss(animated: true)
-            finish()
-        } textButtonAction: { [unowned self] in
-            urlOpener.open(url: AppEnvironment.privacyPolicyURL)
+        let viewModel = AnalyticsPreferenceViewModel { [weak self] in
+            self?.analyticsPreferenceStore.hasAcceptedAnalytics = true
+            self?.root.dismiss(animated: true)
+            self?.finish()
+        } secondaryButtonAction: { [weak self] in
+            self?.analyticsPreferenceStore.hasAcceptedAnalytics = false
+            self?.root.dismiss(animated: true)
+            self?.finish()
+        } textButtonAction: { [weak self] in
+            self?.urlOpener.open(url: AppEnvironment.privacyPolicyURL)
         }
         let analyticsPreferenceScreen = GDSScreen(viewModel: viewModel)
         root.isModalInPresentation = true
