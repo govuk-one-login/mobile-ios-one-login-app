@@ -42,10 +42,10 @@ final class EnrolmentCoordinator: NSObject,
             switch biometricsType {
             case .touchID, .faceID:
                 let viewModel = BiometricsEnrolmentViewModel(analyticsService: analyticsService,
-                                                             biometricsType: biometricsType) { [unowned self] in
-                    await localAuthManager.saveSession()
-                } secondaryButtonAction: { [unowned self] in
-                    localAuthManager.completeEnrolment()
+                                                             biometricsType: biometricsType) { [weak self] in
+                    await self?.localAuthManager.saveSession()
+                } secondaryButtonAction: { [weak self] in
+                    self?.localAuthManager.completeEnrolment()
                 }
                 let biometricsEnrolmentScreen = GDSScreen(viewModel: viewModel)
                 root.pushViewController(biometricsEnrolmentScreen, animated: true)
