@@ -49,6 +49,8 @@
 	</dict>
 	<key>Wallet</key>
 	<dict>
+		<key>Feature Flags</key>
+		<array/>
 		<key>Trusted Certificate Names</key>
 		<array/>
 	</dict>

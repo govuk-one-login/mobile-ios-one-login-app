@@ -56,6 +56,7 @@ struct OneLoginIntegrationAppEnvironmentTests {
     func test_appEnvironment_wallet() {
         // Wallet
         #expect(sut.trustedCertificateNames == ["root-ca-2026-v2.pem"])
+        #expect(sut.featureFlags.count == 1)
     }
     
     @Test

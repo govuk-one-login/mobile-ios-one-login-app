@@ -56,6 +56,7 @@ struct OneLoginStagingAppEnvironmentTests {
     func test_appEnvironment_wallet() {
         // Wallet
         #expect(sut.trustedCertificateNames.count == 0)
+        #expect(sut.featureFlags.count == 0)
     }
     
     @Test
