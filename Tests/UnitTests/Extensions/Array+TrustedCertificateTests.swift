@@ -6,17 +6,32 @@ import WalletInterface
 struct TrustedCertificateTests {
     @Test("Checks a certificate name is present in asset catalogue for a configuration",
           arguments: [
+            ("debug", ["root-ca-2026-v1.pem"], 1),
+            ("build", ["root-ca-2026-v1.pem"], 1),
+            ("staging", ["root-ca-2026-v1.pem"], 1),
+            ("integration", ["root-ca-2026-v2.pem"], 1)
+          ]
+    )
+    func givenCertificatePresent(configuration: String, names: [String], count: Int) {
+        let certificates: [TrustedCertificate] = .load(
+            configuration: configuration,
+            names: names
+        )
+        #expect(certificates.count == count)
+    }
+
+    @Test("Assert edge cases when for values of name; e.g. empty array, empty name, count for only names that match",
+          arguments: [
             ("build", [""], 0),
             ("debug", [""], 0),
             ("staging", [""], 0),
-            ("integration", ["root-ca-2026-v2.pem"], 1),
             ("integration", ["root-ca-2026-v2.pem", ""], 1),
             ("integration", [""], 0),
             ("integration", [], 0),
             ("production", [], 0)
           ]
     )
-    func givenCertificatePresent(configuration: String, names: [String], count: Int) {
+    func assertCertificateCountForEdgeCases(configuration: String, names: [String], count: Int) {
         let certificates: [TrustedCertificate] = .load(
             configuration: configuration,
             names: names

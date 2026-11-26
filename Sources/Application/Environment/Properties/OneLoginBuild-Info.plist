@@ -50,9 +50,13 @@
 	<key>Wallet</key>
 	<dict>
 		<key>Feature Flags</key>
-		<array/>
+		<array>
+			<string>sharing</string>
+		</array>
 		<key>Trusted Certificate Names</key>
-		<array/>
+		<array>
+			<string>root-ca-2026-v1.pem</string>
+		</array>
 	</dict>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
